@@ -1,8 +1,14 @@
 #!/usr/bin/bash
 
-dest=env
+tmp=`mktemp env_XXX`
+echo saving old env files to $tmp.tgz
+tar -czf $tmp.tgz .vimrc .bashrc .vim bash
+
+dest=`realpath $0`
+dest=${dest%/*}
+
 cd
-ln -s .vimrc 	$dest/vimrc
-ln -s .vim		$dest/vim
-ln -s .bashrc	$dest/vimrc
-ln -s  bash		$dest/bash
+ln -sf $dest/vimrc .vimrc
+ln -sf $dest/vim .vim
+ln -sf $dest/bashrc .bashrc
+ln -sf $dest/bash bash
