@@ -1,13 +1,16 @@
 #!/usr/bin/bash
 
-tmp=`mktemp env_XXX`
-echo saving old env files to $tmp.tgz
-tar -czf $tmp.tgz .vimrc .bashrc .vim bash
 
 dest=`realpath $0`
 dest=${dest%/*}
 
 cd
+tmp=`mktemp -u env_XXX`
+echo saving old env files to $tmp.tgz
+tar -czf $tmp.tgz .vimrc .bashrc .vim bash
+rm .vim .vimrc .bashrc bash #if bash is a symlink
+rmdir bash                  #if not
+
 ln -sf $dest/vimrc .vimrc
 ln -sf $dest/vim .vim
 ln -sf $dest/bashrc .bashrc
