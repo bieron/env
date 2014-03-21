@@ -1,0 +1,11 @@
+#!/bin/bash
+#zamienia \s+ w _ w nazwie pliku
+
+if [[ -z $1 ]]; then
+   echo usage: rr filename '[...]'
+   exit
+fi
+
+for f in "$@"; do
+   mv "$f" "`echo $f | tr ' ' '_'`" 2>/dev/null
+done

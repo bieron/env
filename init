@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+dest=env
+cd
+ln -s .vimrc 	$dest/vimrc
+ln -s .vim		$dest/vim
+ln -s .bashrc	$dest/vimrc
+ln -s  bash		$dest/bash

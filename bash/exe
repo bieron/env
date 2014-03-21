@@ -1,0 +1,8 @@
+#!/bin/bash
+#makes executable
+if [[ -z $1 ]]; then
+	echo exe [program] [filename]
+	exit
+fi
+echo -e '#!'`which $1`"\n" > $2
+chmod +x $2

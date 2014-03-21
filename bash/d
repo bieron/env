@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -z $1 ]]; then
+	echo d [instruction]
+	exit
+fi
+
+"$@" &>/dev/null

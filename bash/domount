@@ -1,0 +1,24 @@
+#!/usr/bin/sh
+
+MYUID=1000
+MYGID=100 
+MYLOGIN=jb
+
+USERSCRIPT="/usr/lib/udev/domount_user";
+
+BASE='/media'
+DIR=`basename $*`;
+i=0;
+while [ -d "$BASE/$DIR" ]; do
+  DIR="`basename $*`.$i";
+  i=$((i+1));
+done
+
+mkdir -p "$BASE/$DIR" && /bin/mount -o uid=$MYUID,gid=$MYGID "$*" "$BASE/$DIR"
+
+if [ -z "`su $MYLOGIN -c 'screen -ls | grep AUTOMOUNT'`" ]; then
+  su $MYLOGIN -c "screen -dm -S AUTOMOUNT -t $DIR $USERSCRIPT $* $BASE $DIR";
+  exit;
+fi
+su $MYLOGIN -c "screen -S AUTOMOUNT -X screen -t $DIR $USERSCRIPT $* $BASE $DIR";
+
