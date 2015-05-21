@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo Otwiera plik na podstawie rozszerzenia
+	echo x [file]
+	exit
+fi
+
+#if [ $1 = "-b" ]; then
+##	application/pdf image/jpeg audio/mpeg3 video/mpeg text/html application/msword
+#
+##	libreoffice-writer.desktop
+#	img=`xdg-mime query default image/jpeg`
+#	img=${img%.*}
+#	echo $img
+#	exit
+#fi
+
+if [ -e "$1" ]; then
+	path=`readlink -f "$1"`
+	ext=${1##*.} #tar.gz bedzie jako gz
+	ext=`echo $ext| tr '[:upper:]' '[:lower:]' ` #tolower
+	echo $path $ext
+
+	case $ext in
+		txt) cat "$path"
+		;;
+#		pdf) evince "$path" 2>/dev/null &
+		pdf) epdfview "$path" 2>/dev/null &
+		;;
+#		jpg|jpeg|gif|png) eog "$path" 2>/dev/null &
+		jpg|jpeg|gif|png) gpicview "$path" 2>/dev/null &
+		;;
+		mp3) mpg123 "$path" 2>/dev/null &
+		;;
+		html|htm) chromium "$path" 2>/dev/null &
+		;;
+		odt|ods|doc|docx|xls|xlsx) libreoffice "$path" 2>/dev/null &
+		;;
+		avi|mkv|mpg|mp4|mov) exec vlc "$path" 2>/dev/null &
+		;;
+		*) if [ -x "$path" ]; then
+                `pwd`/$path;
+           else
+                echo dunno which
+           fi
+		;;
+	esac
+    ERRNO=$?
+    [ -z $ERRNO ] && echo $ERRNO
+else
+    echo $1 nie istnieje
+fi

@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+if [ -z $1 ]; then
+    echo usuwa spacje z nazwy pliku
+fi
+mv "$1" `echo "$1" | sed 's/[ -]\+/_/g'`

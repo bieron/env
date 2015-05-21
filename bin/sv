@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ -e "$2" ]; then
+  vim "$2"
+  exit
+elif [ -z "$2" ]; then
+  vim "$1"
+  exit
+fi
+echo -e '#!'`which $1`'\n' > "$2"
+chmod +x "$2"
+vim +2 "$2" 
