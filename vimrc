@@ -68,6 +68,7 @@ set nowrap
 set autoindent
 set smartindent
 set virtualedit=all
+set cindent
 syntax on
 noremap Y y$
 autocmd BufWritePre * :%s/\s\+$//e "trim whitespaces
@@ -99,21 +100,22 @@ autocmd BufNewFile * call NewFile()
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 colo herald
 
-set cindent
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-fugitive'
 Plug 'wincent/command-t', {'do' : 'rake make'}
 Plug 'scrooloose/syntastic'
+Plug 'msanders/snipmate.vim'
+Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 "Plug 'scrooloose/nerdtree'
 "Plug 'jistr/vim-nerdtree-tabs'
 "Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
-Plug 'airblade/vim-gitgutter'
 call plug#end()
 
+" SYNTASTIC
 augroup mySyntastic
   au!
   au FileType tex let b:syntastic_mode = "passive"
