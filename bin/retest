@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bin/run-tests.pl -- `tail -n+2 `bin/bamboo-failed``

@@ -1,0 +1,126 @@
+#!/bin/bash
+
+# config
+started_check_interval=10 # in seconds
+check_interval=60 # in seconds
+notify_approx_left_interval_m=10 # in minutes!
+
+# icons
+tod_not_started="gnome-run"
+tod_started="appointment-new"
+tod_in_progress="stock_timer"
+tod_success="stock_yes"
+tod_fail="stop"
+
+# messages
+tod_not_started_msg="The TOD is not yet running. Waiting..."
+tod_success_msg="All tests have *Passed*."
+tod_fail_msg="Some of the tests *Failed*."
+
+
+
+
+## if you don't want HEAD->branch name translation, you can disable the following part
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+current_branch=`echo $(__git_ps1) | perl -we 'my ($branch) = <> =~ m{\(([A-Za-z0-9\-\_\\\/]+).*?\)}; if ($branch) { print $branch }'`;
+if [ -z $current_branch ]; then
+    echo "No branch found, you must run this script from within a git repo (also check __git_ps1 output)."
+    exit 0;
+fi
+##
+
+branch=$1;
+plan=$2;
+if [[ -z $branch || $branch == '-' ]]; then # fallback to HEAD
+    branch="$current_branch";
+fi
+if [ -z $branch ]; then # final check
+    echo "Branch name missing. Cannot continue!"
+    exit 0;
+fi
+if [ -z $plan ]; then
+    plan='SEM-TOD'
+fi
+
+getstatus() {
+    echo `git tod-status -k $plan $branch`
+}
+
+check_tod_status=`git tod-status 2>&1 | grep -c 'not a git command'`;
+if [[ $check_tod_status == 1 ]]; then
+    echo "You must have the tod-status alias configured in your git repo."
+    echo "See http://lh5053.sempro.hurra/configure-git-tod-status.txt for details"
+    exit 0;
+fi
+
+
+
+running=1;
+tod_data=$(getstatus);
+
+# the tod may be:
+# - not yet running (wait for bamboo)
+# - already running (show short summary and start working)
+# - already finished (just show the result)
+
+not_yet_running=`echo $tod_data | grep -cE '(No plan|Unknown)'`;
+running=`echo $tod_data | grep -c 'In progress'`;
+if [[ $not_yet_running == 1 ]]; then
+    running=0;
+    notify-send -i "$tod_not_started" "$branch" "$tod_not_started_msg"
+    # first wait for tod to start
+    while [[ $running == 0 ]]; do
+	running=`echo $(getstatus) | grep -c 'In progress'`;
+        sleep $started_check_interval;
+    done;
+
+    tod_data=$(getstatus);
+    key=`echo $tod_data | perl -we 'my ($key) = <> =~ m{Key:\s+(.+?)\s+}; if ($key) { print $key; }'`;
+    msg="The TOD has just been started. Checkout tod $key for details."
+    time_left=`perl -we 'use strict; my ($left) = $ARGV[0] =~ m{Approximately\s+(.+?)\s+minutes}; if ($left) { print $left; }' "$tod_data"`
+    if [ -n "$time_left" ]; then
+	msg="$msg\nApproximately $time_left minutes remaining.";
+    fi
+    notify-send -i "$tod_started" "$branch" "$msg"
+elif [[ $running == 1 ]]; then
+    tod_data=$(getstatus);
+    key=`echo $tod_data | perl -we 'my ($key) = <> =~ m{Key:\s+(.+?)\s+}; if ($key) { print $key; }'`;
+    msg="The TOD is in progress."
+    time_left=`perl -we 'use strict; my ($left) = $ARGV[0] =~ m{Approximately\s+(.+?)\s+minutes}; if ($left) { print $left; }' "$tod_data"`
+    if [ -n "$time_left" ]; then
+	msg="$msg\nApproximately $time_left minutes remaining.";
+    fi
+    msg="$msg\nCheckout tod $key for details."
+    notify-send -i "$tod_in_progress" "$branch" "$msg"
+fi
+
+running=`echo $tod_data | grep -c 'In progress'`;
+
+if [[ $running == 1 ]]; then
+    # now wait for it to finish
+    while [[ $running == 1 ]]; do
+	tod_data=$(getstatus);
+	running=`echo $tod_data | grep -c 'In progress'`;
+        time_left=`perl -we 'use strict; my ($left) = $ARGV[0] =~ m{Approximately\s+(.+?)\s+minutes}; if ($left and ((not $left % $ARGV[1]) or ($left == 1))) { print $left; }' "$tod_data" $notify_approx_left_interval_m`
+        if [ -n "$time_left" ]; then
+            notify-send -i "$tod_in_progress" "$branch" "Approximately $time_left minutes remaining."
+        fi
+        sleep $check_interval; # check status once per minute
+    done;
+fi
+
+key=`echo $tod_data | perl -we 'my ($key) = <> =~ m{Key:\s+(.+?)\s+}; if ($key) { print $key; }'`;
+result=`echo $tod_data | perl -we 'my ($res) = <> =~ m{State:\s+(.+?)\s+}; if ($res) { print $res; }'`;
+emblem="$tod_success";
+msg="$tod_success_msg";
+if [ "$result" = "Failed" ]; then
+    emblem="$tod_fail";
+    msg="$tod_fail_msg";
+fi
+msg="$msg Checkout tod: $key for details.";
+
+# the additional -t param should keep the final result visible for 15s
+notify-send -t 0 -i "$emblem" "$branch" "$msg"

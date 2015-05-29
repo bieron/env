@@ -166,6 +166,8 @@ nmap <silent> <leader>g :GitGutterToggle<CR>
 nmap <silent> <leader>s :GitGutterSignsToggle<CR>
 nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
 
+nnoremap <C-j> :r! issue<CR>
+
 let g:gitgutter_max_signs=500  " default value
 "You can jump between hunks:
 "   jump to next hunk (change): ]c

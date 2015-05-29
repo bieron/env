@@ -1,0 +1,44 @@
+#!/bin/bash
+#pings repositories to show current branch and state of git's working directory
+#made for i3bar in mind
+
+#divining change in wd by stating directory is lame only works for added/removed files, not modified
+
+old_git_modify=(0 0)
+old_dir_modify=(0 0)
+status=('' '')
+branch=('' '')
+dir=(/home/jb5195/workspace/SEMPro /home/jb5195/workspace/sempor)
+
+echo 'initializing...'
+
+while [ 1 ]; do
+
+    for i in 0 1; do
+        #check modification date to see if bother with updating git_status
+        git_modify=`stat ${dir[$i]}/.git --printf %Y`
+        dir_modify=`stat ${dir[$i]} --printf %Y`
+        if [ $dir_modify -gt ${old_dir_modify[$i]} ] || [ $git_modify -gt ${old_git_modify[$i]} ]; then
+            cd ${dir[$i]}
+            branch[$i]=`git symbolic-ref HEAD --short`
+
+            if [ "`git status -s`" ]; then 
+                status[$i]='+'
+            else
+                status[$i]=' ' 
+            fi
+
+            old_dir_modify[$i]=$dir_modify
+
+            #cannot use $git_modify because fetching $branch and $status changed it
+            old_git_modify[$i]=`stat .git --printf %Y`
+        fi
+    done
+
+    date=`date +'%a %d/%m/%Y %H:%M:%S'`
+
+    #echo "\[1;32m\]"${BRANCH}${STATUS}'"\[\033m\]" | '$DATE
+    echo ${branch[0]}${status[0]}' (SEMPro) | '${branch[1]}${status[1]}' (sempor) | '$date
+
+    sleep 2
+done
