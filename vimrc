@@ -13,9 +13,14 @@ set nocompatible	" Use Vim defaults (much better!)
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=200
 set undolevels=400
-set nobackup
+set backup
+set backupdir=~/.vim/backup,/var/tmp
+set directory=~/.vim/swap,/var/tmp
+
 set complete=.,w,k,t " .currentWin, otherWins, dicKtionary, Tlist
 set autoindent		" default autoindenting
+set smartindent
+"set cindent
 
 set pastetoggle=<Insert>
 set mouse=a
@@ -54,6 +59,7 @@ set statusline+=\ \ \
 "set statusline+=0x%B/%-8b\                      " current char
 set statusline+=%v,
 set statusline+=%(%l/%L%)
+set shortmess+=I
 
 filetype plugin indent on
 set foldenable
@@ -65,13 +71,16 @@ set shiftround
 set expandtab
 set tabstop=4
 set nowrap
-set autoindent
-set smartindent
 set virtualedit=all
-set cindent
+
+"split resize on <C-w>
+"set winwidth=118
+"set winminwidth=24
+
 syntax on
 noremap Y y$
-autocmd BufWritePre * :%s/\s\+$//e "trim whitespaces
+"autocmd BufWritePre * :%s/\s\+$//e "trim whitespaces
+autocmd BufNewFile * call functions#NewFile()
 
 "commands
 cmap W w
@@ -79,11 +88,26 @@ cmap Q q
 cmap Wq wq
 cmap WQ wq
 
-map <F2> :call LocalDoc()<CR>
-map <F3> :call Wiki()<CR>
-map <F4> :call OnlineDoc()<CR>
-map <F5> :call SwitchHls()<CR>
-autocmd BufNewFile * call NewFile()
+noremap <c-LEFT> <C-W><LEFT>
+noremap <c-RIGHT> <C-W><RIGHT>
+noremap <c-DOWN> <C-W><DOWN>
+noremap <c-UP> <C-W><UP>
+
+"-----------------------------------------------------------
+"abbreviations
+"-----------------------------------------------------------
+map! [ []<LEFT>
+map! { {}<LEFT>
+map! ( ()<LEFT>
+
+"map <F2> :call LocalDoc()<CR>
+"map <F3> :call Wiki()<CR>
+"map <F4> :call OnlineDoc()<CR>
+map <F4> :Gblame
+"map <F5> :call SwitchHls()<CR>
+
+iab ddd use Data::Dump 'pp';<ESC>F%s<C-o>:call getchar()<CR><ESC>i
+iab ddw warn pp;<LEFT>
 
 "let perl_fold=1
 "let sh_fold_enabled=1
@@ -98,8 +122,6 @@ autocmd BufNewFile * call NewFile()
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
-colo herald
-
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-fugitive'
@@ -108,6 +130,10 @@ Plug 'scrooloose/syntastic'
 Plug 'msanders/snipmate.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
+Plug 'vim-scripts/genutils'
+Plug 'vim-scripts/SelectBuf'
+Plug 'altercation/vim-colors-solarized'
+Plug 'bogado/file-line'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 "Plug 'scrooloose/nerdtree'
@@ -149,8 +175,6 @@ let g:gitgutter_max_signs=500  " default value
 "   stage the hunk with <Leader>hs or
 "   revert it with <Leader>hr.
 
-
-
 "" ----- xolox/vim-easytags settings -----
 "" Where to look for tags files
 "set tags=./tags;,~/.vimtags
@@ -181,3 +205,4 @@ let g:gitgutter_max_signs=500  " default value
 "let g:netrw_banner = 0
 "nmap <silent> <leader>t :Lex<CR>
 "autocmd VimEnter * Lexplore
+colo herald

@@ -3,7 +3,7 @@
 "-------------------------------------------------
 " NewFile
 "-------------------------------------------------
-fu! NewFile()
+fu! functions#NewFile()
     1d
 	silent! 0r ~/.vim/templates/tpl.%:e
 	silent! %s/FILENAME/\=expand("%:t:r")
@@ -17,7 +17,7 @@ endfunction
 "-------------------------------------------------
 " LocalDoc (F2)
 "-------------------------------------------------
-fu! LocalDoc()
+fu! functions#LocalDoc()
 	if &ft =~ "perl"
 		let s:browser="perldoc"
 	else
@@ -31,7 +31,7 @@ endfunction
 "-------------------------------------------------
 " Wiki (F3)
 "-------------------------------------------------
-fu! Wiki()
+fu! functions#Wiki()
 	let s:browser="chromium"
 	let s:word=expand("<cword>")
 	let s:url="http://wikipedia.org/wiki/".s:word
@@ -43,7 +43,7 @@ endfunction
 "-------------------------------------------------
 " OnlineDoc (F4)
 "-------------------------------------------------
-fu! OnlineDoc()
+fu! functions#OnlineDoc()
 	if &ft=~"cpp" || &ft=~"c"
 		let s:urltpl="http://www.cplusplus.com/search.do?q=%"
 	elseif &ft=~"ruby"
@@ -60,12 +60,12 @@ fu! OnlineDoc()
 	execute s:cmd
 	redraw!
 endfunction
-	
+
 "-------------------------------------------------
 " TidyIt (F5)
 "-------------------------------------------------
 fu! TidyIt()
-    :%!perltidy -ce --continuation-indentation=4 -cti=0 -cpi=0 -l=350 --line-up-parentheses -pt=0 -sbt=1 -bt=0 -bbt=0 -nsbl -vt=0 -vtc=0 -sot -isbc -nolq -msc=4 -hsc -csc -csci=1 -cscp="+ end of:" -cscb -fsb='\#\<notidy' -fse='\#notidy\>' -bbs 
+    :%!perltidy -ce --continuation-indentation=4 -cti=0 -cpi=0 -l=350 --line-up-parentheses -pt=0 -sbt=1 -bt=0 -bbt=0 -nsbl -vt=0 -vtc=0 -sot -isbc -nolq -msc=4 -hsc -csc -csci=1 -cscp="+ end of:" -cscb -fsb='\#\<notidy' -fse='\#notidy\>' -bbs
 "    if (search('__ @_'))
         :%s/__ @_/__@_/g
 "    endif
