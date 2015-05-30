@@ -1,13 +1,4 @@
-"set guioptions+=c
-"set guioptions=agimrLtT
 set guioptions=cagt
-"set guioptions-=b
-"set guioptions-=R
-"set guioptions-=e
-"set guioptions-=m  "remove menu bar
-"set guioptions-=T  "remove toolbar
-"set guioptions-=r  "remove right-hand scroll bar
-"set guioptions-=L  "remove left-hand scroll bar
 
 set nocompatible	" Use Vim defaults (much better!)
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
@@ -18,8 +9,7 @@ set backupdir=~/.vim/backup,/var/tmp
 set directory=~/.vim/swap,/var/tmp
 
 set complete=.,w,k,t " .currentWin, otherWins, dicKtionary, Tlist
-set autoindent		" default autoindenting
-set smartindent
+set autoindent smartindent
 "set cindent
 
 set pastetoggle=<Insert>
@@ -38,9 +28,17 @@ set showmatch     "highlight corresponding bracket
 set ignorecase
 set smartcase     "do not ignore case when pattern has Mixed cAsE
 set gdefault      "all search /g by default
-set hlsearch
-set incsearch
+set hlsearch incsearch
 set showmode
+
+"With these mappings, if 'smartcase' is on and you press * while on the word "The",
+" you will only find "The" (case sensitive),
+" but if you press * while on the word "the", the search will not be case sensitive.
+nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
+nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
+
+" search using visually selected text
+vnoremap // y/<C-R>"<CR>
 
 set nu
 set ruler
@@ -65,11 +63,10 @@ filetype plugin indent on
 set foldenable
 set foldmethod=marker
 "set foldmethod=syntax
-set foldlevelstart=1
+"set foldlevelstart=1
 set shiftwidth=4
 set shiftround
-set expandtab
-set tabstop=4
+set expandtab smarttab tabstop=4
 set nowrap
 set virtualedit=all
 
@@ -124,16 +121,24 @@ iab ddw warn pp;<LEFT>
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-fugitive'
-Plug 'wincent/command-t', {'do' : 'rake make'}
-Plug 'scrooloose/syntastic'
-Plug 'msanders/snipmate.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'majutsushi/tagbar'
-Plug 'vim-scripts/genutils'
-Plug 'vim-scripts/SelectBuf'
-Plug 'altercation/vim-colors-solarized'
+"Plug 'altercation/vim-colors-solarized'
 Plug 'bogado/file-line'
+"Plug 'chrisbra/csv.vim'
+"Plug 'henrik/vim-indexed-search'
+"Plug 'luochen1990/rainbow'
+Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
+Plug 'tpope/vim-repeat'
+Plug 'majutsushi/tagbar'
+Plug 'msanders/snipmate.vim'
+Plug 'pjcj/vim-hl-var'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/SelectBuf'
+Plug 'vim-scripts/genutils'
+Plug 'wincent/command-t', {'do' : 'rake make'}
+Plug 'tpope/vim-commentary'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 "Plug 'scrooloose/nerdtree'
@@ -141,11 +146,14 @@ Plug 'bogado/file-line'
 "Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
 call plug#end()
 
+let g:rainbow_active=0
+nnoremap <silent> <leader>r :RainbowToggle<CR>
+
 " SYNTASTIC
-augroup mySyntastic
-  au!
-  au FileType tex let b:syntastic_mode = "passive"
-augroup END
+"augroup mySyntastic
+"  au!
+"  au FileType tex let b:syntastic_mode = "passive"
+"augroup END
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -165,8 +173,6 @@ nmap <silent> <leader>c :SyntasticCheck<CR>
 nmap <silent> <leader>g :GitGutterToggle<CR>
 nmap <silent> <leader>s :GitGutterSignsToggle<CR>
 nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
-
-nnoremap <C-j> :r! issue<CR>
 
 let g:gitgutter_max_signs=500  " default value
 "You can jump between hunks:
@@ -208,3 +214,8 @@ let g:gitgutter_max_signs=500  " default value
 "nmap <silent> <leader>t :Lex<CR>
 "autocmd VimEnter * Lexplore
 colo herald
+
+let s:host_vimrc = $HOME .'/.'. hostname() .'.vimrc'
+if filereadable(s:host_vimrc)
+    execute 'source '. s:host_vimrc
+endif

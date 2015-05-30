@@ -6,7 +6,7 @@
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias gr='grep -Isnr'
+alias gr="grep -Isnr --exclude='*~'"
 alias pgr="grep -P --exclude='*~' -Isnr"
 
 alias ls='ls --color=auto'
@@ -48,14 +48,14 @@ else
     export TERM='xterm-color'
 fi
 
-HOST_SPECIFIC=.bash_`hostname`
+HOST_BASHRC=.`hostname`.bashrc
 [ -x $HOST_SPECIFIC ] && . $HOST_SPECIFIC
 
 if [ `whoami` = root ]; then
     #export PS1='%B%~%b$%#'
     export PS1="\w# "
 else
-    [ $DISPLAY ] && export PS1='\w ' #PS1 is set in bash_profile 
+    [ $DISPLAY ] && export PS1='\w ' #PS1 is set in bash_profile
 fi
 
 #color in man

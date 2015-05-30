@@ -1,3 +1,0 @@
-#!/bin/bash
-KEY=`git rev-parse --abbrev-ref HEAD | perl -ne 'm@/(\w+-\d+)@; print $1'`
-echo https://jira.hurra.com/browse/$KEY
