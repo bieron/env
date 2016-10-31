@@ -27,12 +27,26 @@ alias ..='cd ..'
 alias wget='wget -c' #resume last download
 alias ports='netstat -tulanp'
 
+alias perlsyn='for f in `git diff --name-only|grep pm$`; do echo; echo $f; perl -cIlib $f; done'
+alias pe=perl
+alias py=python
+
+#grep for files
+function gf {
+    DIR=${2:-.}
+    find $DIR -ipath "*$1*" 
+}
+
 EDITOR=vim
 VISUAL=vim
 
-export n='--name-only'
+export n='--name-status'
+export u=@{upstream}
+alias xrandr='qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock #'
 
-. /usr/share/bash-completion/bash_completion
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+fi
 #if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 #    . /etc/bash_completion
 #fi
@@ -48,8 +62,10 @@ else
     export TERM='xterm-color'
 fi
 
-HOST_BASHRC=.`hostname`.bashrc
-[ -x $HOST_SPECIFIC ] && . $HOST_SPECIFIC
+export PATH=$PATH:$HOME/bin:$HOME/perl/bin:$HOME/`hostname`_bin
+
+HOST_BASHRC=~/.`hostname`.bashrc
+[ -f $HOST_BASHRC ] && . $HOST_BASHRC
 
 if [ `whoami` = root ]; then
     #export PS1='%B%~%b$%#'
@@ -57,27 +73,3 @@ if [ `whoami` = root ]; then
 else
     [ $DISPLAY ] && export PS1='\w ' #PS1 is set in bash_profile
 fi
-
-#color in man
-#LESS_TERMCAP_mb='E[01;31m'
-#LESS_TERMCAP_md='E[01;38;5;74m'
-#LESS_TERMCAP_me='E[0m'
-#LESS_TERMCAP_se='E[0m'
-#LESS_TERMCAP_so='E[38;5;246m'
-#LESS_TERMCAP_ue='E[0m'
-#LESS_TERMCAP_us='E[04;38;5;146m'
-#
-##because root links ~jb/.bashrc
-##if [ $USER = jb ]; then
-##
-##fi
-#man() {
-#    env LESS_TERMCAP_mb=$'\E[01;31m' \
-#        LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-#        LESS_TERMCAP_me=$'\E[0m' \
-#        LESS_TERMCAP_se=$'\E[0m' \
-#        LESS_TERMCAP_so=$'\E[38;5;246m' \
-#        LESS_TERMCAP_ue=$'\E[0m' \
-#        LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-#        man "$@"
-#}

@@ -80,10 +80,10 @@ noremap Y y$
 autocmd BufNewFile * call functions#NewFile()
 
 "commands
-cmap W w
-cmap Q q
-cmap Wq wq
-cmap WQ wq
+"cmap W w
+"cmap Q q
+"cmap Wq wq
+"cmap WQ wq
 
 noremap <c-LEFT> <C-W><LEFT>
 noremap <c-RIGHT> <C-W><RIGHT>
@@ -100,8 +100,11 @@ map! ( ()<LEFT>
 "map <F2> :call LocalDoc()<CR>
 "map <F3> :call Wiki()<CR>
 "map <F4> :call OnlineDoc()<CR>
-map <F4> :Gblame
+noremap <F4> :Gblame
 "map <F5> :call SwitchHls()<CR>
+noremap <F5> :!perl -cIlib %<CR>
+noremap <F6> :!perlcritic -3 %<CR>
+noremap <F7> :!perl -Ilib %<CR>
 
 iab ddd use Data::Dump 'pp';<ESC>F%s<C-o>:call getchar()<CR><ESC>i
 iab ddw warn pp;<LEFT>
@@ -127,27 +130,29 @@ Plug 'bogado/file-line'
 "Plug 'chrisbra/csv.vim'
 "Plug 'henrik/vim-indexed-search'
 "Plug 'luochen1990/rainbow'
-Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
+"Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
 Plug 'msanders/snipmate.vim'
 Plug 'pjcj/vim-hl-var'
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
 Plug 'vim-scripts/genutils'
 Plug 'wincent/command-t', {'do' : 'rake make'}
 Plug 'tpope/vim-commentary'
+Plug 'vim-perl/vim-perl'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 "Plug 'scrooloose/nerdtree'
 "Plug 'jistr/vim-nerdtree-tabs'
 "Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
 call plug#end()
+let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 
-let g:rainbow_active=0
-nnoremap <silent> <leader>r :RainbowToggle<CR>
+"let g:rainbow_active=0
+"nnoremap <silent> <leader>r :RainbowToggle<CR>
 
 " SYNTASTIC
 "augroup mySyntastic
@@ -155,18 +160,18 @@ nnoremap <silent> <leader>r :RainbowToggle<CR>
 "  au FileType tex let b:syntastic_mode = "passive"
 "augroup END
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=0
-let g:syntastic_check_on_wq=0
-let g:syntastic_aggregate_errors=1
-let g:syntastic_enable_perl_checker=1
-let g:syntastic_perl_checkers='perl'
-nmap <silent> <leader>c :SyntasticCheck<CR>
+"let g:syntastic_always_populate_loc_list=1
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_check_on_open=0
+"let g:syntastic_check_on_wq=0
+"let g:syntastic_aggregate_errors=1
+"let g:syntastic_enable_perl_checker=1
+"let g:syntastic_perl_checkers='perl'
+"nmap <silent> <leader>c :SyntasticCheck<CR>
 "nmap <silent> <leader>c :!perl -c -Ilib %<CR>
 
 " GIT GUTTER
@@ -219,3 +224,23 @@ let s:host_vimrc = $HOME .'/.'. hostname() .'.vimrc'
 if filereadable(s:host_vimrc)
     execute 'source '. s:host_vimrc
 endif
+
+highlight TabLine ctermbg=gray
+
+" Highlight a column in csv text.
+" :Csv 1    " highlight first column
+" :Csv 12   " highlight twelfth column
+" :Csv 0    " switch off highlight
+function! CSVH(colnr)
+  if a:colnr > 1
+    let n = a:colnr - 1
+    execute 'match Keyword /^\([^,]*,\)\{'.n.'}\zs[^,]*/'
+    execute 'normal! 0'.n.'f,'
+  elseif a:colnr == 1
+    match Keyword /^[^,]*/
+    normal! 0
+  else
+    match
+  endif
+endfunction
+command! -nargs=1 Csv :call CSVH(<args>)
