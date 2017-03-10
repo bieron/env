@@ -22,7 +22,7 @@ alias pms='sudo pm-suspend --quirks-dpms-on'
 
 alias mk='mkdir'
 alias mkd='mkdir -pv' #creates dir
-alias diff='colordiff'
+#alias diff='colordiff'
 alias ..='cd ..'
 alias wget='wget -c' #resume last download
 alias ports='netstat -tulanp'
