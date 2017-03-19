@@ -34,7 +34,7 @@ alias py=python
 #grep for files
 function gf {
     DIR=${2:-.}
-    find $DIR -ipath "*$1*" 
+    find $DIR -ipath "*$1*"
 }
 
 EDITOR=vim

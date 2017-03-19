@@ -1,4 +1,10 @@
+let mapleader="\<Space>"
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>s :mksession<CR>
+"nnoremap <Leader>a :Ack<Space>
+
 set guioptions=cagt
+
 
 set nocompatible	" Use Vim defaults (much better!)
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
@@ -30,6 +36,7 @@ set smartcase     "do not ignore case when pattern has Mixed cAsE
 set gdefault      "all search /g by default
 set hlsearch incsearch
 set showmode
+set cursorline   "highlight line with cursor
 
 "With these mappings, if 'smartcase' is on and you press * while on the word "The",
 " you will only find "The" (case sensitive),
@@ -37,8 +44,26 @@ set showmode
 nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
 nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 
+nnoremap j gj "move to next physical line, do not get fooled by wraps
+nnoremap k gk
+nnoremap + <C-a>
+"nnoremap - <C-d> " does not work
+nnoremap <C-a> ^
+nnoremap <C-e> $
+
 " search using visually selected text
 vnoremap // y/<C-R>"<CR>
+
+" copy/paste to system clipboard
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
+"nnoremap <BS> gg "backspace to beginning
+"nnoremap <CR> G  "ENTER to eof (or line number)
 
 set nu
 set ruler
@@ -133,7 +158,7 @@ Plug 'bogado/file-line'
 "Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
-Plug 'msanders/snipmate.vim'
+"Plug 'msanders/snipmate.vim'
 Plug 'pjcj/vim-hl-var'
 "Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive'
@@ -143,6 +168,8 @@ Plug 'vim-scripts/genutils'
 Plug 'wincent/command-t', {'do' : 'rake make'}
 Plug 'tpope/vim-commentary'
 Plug 'vim-perl/vim-perl'
+Plug 'ap/vim-css-color'
+"Plug 'mileszs/ack.vim'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 "Plug 'scrooloose/nerdtree'
@@ -173,6 +200,8 @@ let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 "let g:syntastic_perl_checkers='perl'
 "nmap <silent> <leader>c :SyntasticCheck<CR>
 "nmap <silent> <leader>c :!perl -c -Ilib %<CR>
+
+"let g:cssColorVimDoNotMessMyUpdatetime = 1
 
 " GIT GUTTER
 nmap <silent> <leader>g :GitGutterToggle<CR>
