@@ -5,8 +5,7 @@ nnoremap <Leader>s :mksession<CR>
 
 set guioptions=cagt
 
-
-set nocompatible	" Use Vim defaults (much better!)
+set nocompatible  " Use Vim defaults (much better!)
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=200
 set undolevels=400
@@ -16,20 +15,20 @@ set directory=~/.vim/swap,/var/tmp
 
 set complete=.,w,k,t " .currentWin, otherWins, dicKtionary, Tlist
 set autoindent smartindent
-"set cindent
+set cindent
 
 set pastetoggle=<Insert>
 set mouse=a
 
-set wildmenu		" use completion menu
+set wildmenu      " use completion menu
 set wildmode=longest:list
 set wildignore=*.bak,*.o,*.e,*~
 set wildignorecase
 
-set smartcase 		" do not ignore case if pattern has mixed case (see ignorecase)
-set autowrite 		" automatically save before commands like :next and :make
-set lazyredraw		" do not update screen while executing macros etc.
-set title 		" shows the current filename and path in the term title.
+set smartcase     " do not ignore case if pattern has mixed case (see ignorecase)
+set autowrite     " automatically save before commands like :next and :make
+"set lazyredraw   " do not update screen while executing macros etc.
+set title         " shows the current filename and path in the term title.
 set showmatch     "highlight corresponding bracket
 set ignorecase
 set smartcase     "do not ignore case when pattern has Mixed cAsE
@@ -67,6 +66,7 @@ vmap <Leader>P "+P
 
 set nu
 set ruler
+set list
 
 set laststatus=2    "always show status
 set statusline=
@@ -118,9 +118,11 @@ noremap <c-UP> <C-W><UP>
 "-----------------------------------------------------------
 "abbreviations
 "-----------------------------------------------------------
-map! [ []<LEFT>
-map! { {}<LEFT>
-map! ( ()<LEFT>
+noremap! [ []<LEFT>
+noremap! { {}<LEFT>
+noremap! ( ()<LEFT>
+noremap! " ""<LEFT>
+noremap! ' ''<LEFT>
 
 "map <F2> :call LocalDoc()<CR>
 "map <F3> :call Wiki()<CR>
@@ -130,14 +132,17 @@ noremap <F4> :Gblame
 noremap <F5> :!perl -cIlib %<CR>
 noremap <F6> :!perlcritic -3 %<CR>
 noremap <F7> :!perl -Ilib %<CR>
+noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
+noremap <F9> :tabe term:///home/jb/.pyenv/shims/pylint %<CR>
 
+iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
 iab ddd use Data::Dump 'pp';<ESC>F%s<C-o>:call getchar()<CR><ESC>i
 iab ddw warn pp;<LEFT>
 
-"let perl_fold=1
-"let sh_fold_enabled=1
-"let perl_extended_vars=1
-"let perl_sync_dist=250
+let perl_fold=1
+let sh_fold_enabled=1
+let perl_extended_vars=1
+let perl_sync_dist=250
 
 "map <F3> "jyiw:<C-r>j
 "map <F7> ^"jyf;:! echo '\x \\ '"<C-r>j" \| psql tutsi<CR>
@@ -175,6 +180,8 @@ Plug 'ap/vim-css-color'
 "Plug 'scrooloose/nerdtree'
 "Plug 'jistr/vim-nerdtree-tabs'
 "Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
+"Plug 'mileszs/ack.vim'
+Plug 'rking/ag.vim'
 call plug#end()
 let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 
@@ -198,15 +205,16 @@ let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 "let g:syntastic_aggregate_errors=1
 "let g:syntastic_enable_perl_checker=1
 "let g:syntastic_perl_checkers='perl'
-"nmap <silent> <leader>c :SyntasticCheck<CR>
+"nmap <silent> <leader>c :apostropheSyntasticCheck<CR>
 "nmap <silent> <leader>c :!perl -c -Ilib %<CR>
 
-"let g:cssColorVimDoNotMessMyUpdatetime = 1
+map <space> \
 
 " GIT GUTTER
 nmap <silent> <leader>g :GitGutterToggle<CR>
 nmap <silent> <leader>s :GitGutterSignsToggle<CR>
 nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
+nmap <silent> <leader>a :Ag 
 
 let g:gitgutter_max_signs=500  " default value
 "You can jump between hunks:
@@ -247,7 +255,7 @@ let g:gitgutter_max_signs=500  " default value
 "let g:netrw_banner = 0
 "nmap <silent> <leader>t :Lex<CR>
 "autocmd VimEnter * Lexplore
-colo herald
+colo Monokai
 
 let s:host_vimrc = $HOME .'/.'. hostname() .'.vimrc'
 if filereadable(s:host_vimrc)
@@ -273,3 +281,39 @@ function! CSVH(colnr)
   endif
 endfunction
 command! -nargs=1 Csv :call CSVH(<args>)
+hi TabLine ctermfg=Grey ctermbg=Black
+hi TabLineSel ctermfg=Yellow ctermbg=Black
+set cc=80
+
+highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen   gui=none guifg=bg guibg=DarkGreen
+highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed     gui=none guifg=bg guibg=DarkRed
+highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow  gui=none guifg=bg guibg=Yellow
+highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue   gui=none guifg=bg guibg=Magenta
+
+"nnoremap <F3> :make -C build/clang<CR>
+"inoremap <F3> <ESC>:make -C build/clang<CR>
+"nnoremap <F4> :make dd<CR>
+"inoremap <F4> <ESC>:make dd<CR>
+"nnoremap <F5> :make release<CR>
+"inoremap <F5> <ESC>:make release<CR>
+"nnoremap <F6> :make test<CR>
+"inoremap <F6> <ESC>:make test<CR>
+"nnoremap <F2> :wa<CR>
+"inoremap <F2> <ESC>:wa<CR>a
+"
+"nnoremap <F7> :botright cw<CR>:set colorcolumn=0<CR>
+"inoremap <F7> <ESC>:botright cw<CR>:set colorcolumn=0<CR>
+"nnoremap <F8> :ccl<CR>
+"inoremap <F8> <ESC>:ccl<CR>
+"
+"nnoremap <F9> :cprev<CR>
+"inoremap <F9> <ESC>:cprev<CR>
+"nnoremap <F10> :cnext<CR>
+"inoremap <F10> <ESC>:cnext<CR>
+"
+"fun! <SID>StripTrailingWhitespaces()
+"    let l = line(".")
+"    let c = col(".")
+"    %s/\s\+$//e
+"    call cursor(l, c)
+"endfun

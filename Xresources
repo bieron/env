@@ -1,32 +1,29 @@
-! xterm ----------------------------------------------------------------------
-!xterm*VT100.cutNewLine: false
-!xterm*VT100.cutToBeginningOfLine: false
-xterm*VT100.charClass: 33:48,35:48,37:48,42:48,45-47:48,64:48,95:48,126:48
+! urxvt. ----------------------------------------------------------------------
+!urxvt.*VT100.cutNewLine: false
+!urxvt.*VT100.cutToBeginningOfLine: false
+*URxvt.VT100.charClass: 33:48,35:48,37:48,42:48,45-47:48,64:48,95:48,126:48
+*URxvt.VT100*translations: #override Shift <Btn1Up>: exec-formatted("chromium '%t'", PRIMARY)
 
-xterm*VT100*translations: #override Shift <Btn1Up>: exec-formatted("chromium '%t'", PRIMARY)
+!*URxvt.*customization:        -color
+!*URxvt.termName:	       urxvt.-256color
+*URxvt.locale: 	       true
+*URxvt.borderWidth:     0
+*URxvt.letterSpace:     -1px
+*URxvt.*dynamicColors:   true
+*URxvt.*utf8:            2
+*URxvt.*eightBitInput:   true
+*URxvt.*saveLines:       2048
+*URxvt.*scrollKey:       true
+*URxvt.*scrollTtyOutput: false
+*URxvt.*toolBar:         false
 
-xterm.customization:        -color
-xterm*termName:	       xterm-256color
-xterm*locale: 	       true
-xterm*borderWidth:     0
-xterm*letterSpace:     200
-!xterm*faceName:        Liberation Mono:size=10
-xterm*faceName:	       Ubuntu Mono:size=10
-xterm*dynamicColors:   true
-xterm*utf8:            2
-xterm*eightBitInput:   true
-xterm*saveLines:       2048
-xterm*scrollKey:       true
-xterm*scrollTtyOutput: false
-xterm*toolBar:         false
-
-!xterm.scrollBar:      true
-!xterm.rightScrollBar: true
-!xterm.jumpScroll:     true
-!xterm.multiScroll:    true
-!xterm.VT100.geometry: 80x25
-!xterm.faceName:       Terminus:style=Regular:size=9
-!xterm.font:           -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
+*URxvt.*scrollBar:      false
+!urxvt..rightScrollBar: true
+!urxvt..jumpScroll:     true
+!urxvt..multiScroll:    true
+!urxvt..VT100.geometry: 80x25
+!urxvt..faceName:       Terminus:style=Regular:size=9
+!urxvt..font:           -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
 
 ! Xft settings ---------------------------------------------------------------
 
@@ -39,7 +36,7 @@ Xft.hintstyle:  hintslight
 ! terminal colors ------------------------------------------------------------
 
 !! tangoesque scheme
-xterm*background: #000000
+*background: #000000
 !*foreground: #babdb6
 *foreground: #ffffff
 !! Black (not tango) + DarkGrey
@@ -50,6 +47,7 @@ xterm*background: #000000
 !*color9:  #ff8d8d
 !! DarkGreen + Green
 !*color2:  #93d44f
+!*color2:  #93ff4f
 !*color10: #c8e7a8
 !! DarkYellow + Yellow
 !*color3:  #eab93d
@@ -66,3 +64,104 @@ xterm*background: #000000
 !! LightGrey + White
 !*color7:  #cccccc
 !*color15: #ffffff
+!
+!! special
+!*.foreground:   #c5c8c6
+!!*.background:   #1d1f21
+!*.cursorColor:  #c5c8c6
+!
+!! black
+!*.color0:       #282a2e
+!*.color8:       #373b41
+!
+!! red
+!*.color1:       #a54242
+!*.color9:       #cc6666
+!
+!! green
+!*.color2:       #8c9440
+!*.color10:      #b5bd68
+!
+!! yellow
+!*.color3:       #de935f
+!*.color11:      #f0c674
+!
+!! blue
+!*.color4:       #5f819d
+!*.color12:      #81a2be
+!
+!! magenta
+!*.color5:       #85678f
+!*.color13:      #b294bb
+!
+!! cyan
+!*.color6:       #5e8d87
+!*.color14:      #8abeb7
+!
+!! white
+!*.color7:       #707880
+!*.color15:      #c5c8c6
+!
+!Xft.autohint: 1
+!Xft.lcdfilter: lcddefault
+!Xft.hintstyle: hintslight
+!Xft.hinting: 1
+!Xft.antialias: 1
+!Xft.rgba: rgb
+
+#define base00 #1f2022
+#define base01 #282828
+#define base02 #444155
+#define base03 #585858
+#define base04 #b8b8b8
+#define base05 #a3a3a3
+#define base06 #e8e8e8
+#define base07 #f8f8f8
+#define base08 #f2241f
+#define base09 #ffa500
+#define base0A #b1951d
+#define base0B #67b11d
+#define base0C #2d9574
+#define base0D #4f97d7
+#define base0E #a31db1
+#define base0F #b03060
+
+*.foreground:   base05
+#ifdef background_opacity
+*.background:   [background_opacity]base00
+#else
+*.background:   base00
+#endif
+*.cursorColor:  base05
+
+*.color0:       base00
+*.color1:       base08
+*.color2:       base0B
+*.color3:       base0A
+*.color4:       base0D
+*.color5:       base0E
+*.color6:       base0C
+*.color7:       base05
+
+*.color8:       base03
+*.color9:       base08
+*.color10:      base0B
+*.color11:      base0A
+*.color12:      base0D
+*.color13:      base0E
+*.color14:      base0C
+*.color15:      base07
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*.color16:      base09
+*.color17:      base0F
+*.color18:      base01
+*.color19:      base02
+*.color20:      base04
+*.color21:      base06
+
+! Fonts
+URxvt.allow_bold:           true
+URxvt.font: xft:Ubuntu Mono:size=10
+URxvt.boldFont: xft:Ubuntu Mono:size=10
