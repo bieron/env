@@ -1,24 +1,45 @@
 [user]
-	email = jbieron+github@gmail.com
-	name = Jan Bieron
+    email = jbieron+github@gmail.com
+    name = Jan Bieron
 
 [alias]
     co = checkout
+    cp=cherry-pick
 #    ci = commit
     s = status -sb
+    st = status
     di = diff --ignore-all-space
-    f = fetch
+    d = diff --ignore-all-space
+    f = fetch -p
     #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
     l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)'
     lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim)(%an, %cr)'
-    br = branch
+    b = branch
+    br = branch -r
     p  = pull --rebase
     pul = pull
     sss = stash
+    sh=show
+    resup=reset --hard @{u}
+    pb=!git push origin --set-upstream `git rev-parse --abbrev-ref HEAD`
+    mt=mergetool
+    recon=rebase --continue
+    mm=merge --no-ff
+    c=!git checkout `git branch|peco`
+    cr=!git checkout `git branch -r|peco`
+
 
 [core]
-    editor = vim
+    editor = nvim
     #whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = /home/jb/.gitignore
+    excludesfile = /home/jb/.gitignore
 [push]
     default = simple
+[diff]
+    noprefix = true
+[merge]
+    tool=vimdiff
+[mergetool.vimdiff]
+    path=nvim
+[log]
+	mailmap = true
