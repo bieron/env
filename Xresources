@@ -1,11 +1,7 @@
 ! urxvt. ----------------------------------------------------------------------
-!urxvt.*VT100.cutNewLine: false
-!urxvt.*VT100.cutToBeginningOfLine: false
 *URxvt.VT100.charClass: 33:48,35:48,37:48,42:48,45-47:48,64:48,95:48,126:48
-*URxvt.VT100*translations: #override Shift <Btn1Up>: exec-formatted("chromium '%t'", PRIMARY)
+*URxvt.VT100*translations: #override Shift <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
 
-!*URxvt.*customization:        -color
-!*URxvt.termName:	       urxvt.-256color
 *URxvt.locale: 	       true
 *URxvt.borderWidth:     0
 *URxvt.letterSpace:     -1px
@@ -18,97 +14,15 @@
 *URxvt.*toolBar:         false
 
 *URxvt.*scrollBar:      false
-!urxvt..rightScrollBar: true
-!urxvt..jumpScroll:     true
-!urxvt..multiScroll:    true
-!urxvt..VT100.geometry: 80x25
-!urxvt..faceName:       Terminus:style=Regular:size=9
-!urxvt..font:           -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
-
-! Xft settings ---------------------------------------------------------------
-
 Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
-! terminal colors ------------------------------------------------------------
-
 !! tangoesque scheme
 *background: #000000
-!*foreground: #babdb6
 *foreground: #ffffff
-!! Black (not tango) + DarkGrey
-!*color0:  #000000
-!*color8:  #555753
-!! DarkRed + Red
-!*color1:  #ff6565
-!*color9:  #ff8d8d
-!! DarkGreen + Green
-!*color2:  #93d44f
-!*color2:  #93ff4f
-!*color10: #c8e7a8
-!! DarkYellow + Yellow
-!*color3:  #eab93d
-!*color11: #ffc123
-!! DarkBlue + Blue
-!*color4:  #204a87
-!*color12: #3465a4
-!! DarkMagenta + Magenta
-!*color5:  #ce5c00
-!*color13: #f57900
-!!DarkCyan + Cyan (both not tango)
-!*color6:  #89b6e2
-!*color14: #46a4ff
-!! LightGrey + White
-!*color7:  #cccccc
-!*color15: #ffffff
-!
-!! special
-!*.foreground:   #c5c8c6
-!!*.background:   #1d1f21
-!*.cursorColor:  #c5c8c6
-!
-!! black
-!*.color0:       #282a2e
-!*.color8:       #373b41
-!
-!! red
-!*.color1:       #a54242
-!*.color9:       #cc6666
-!
-!! green
-!*.color2:       #8c9440
-!*.color10:      #b5bd68
-!
-!! yellow
-!*.color3:       #de935f
-!*.color11:      #f0c674
-!
-!! blue
-!*.color4:       #5f819d
-!*.color12:      #81a2be
-!
-!! magenta
-!*.color5:       #85678f
-!*.color13:      #b294bb
-!
-!! cyan
-!*.color6:       #5e8d87
-!*.color14:      #8abeb7
-!
-!! white
-!*.color7:       #707880
-!*.color15:      #c5c8c6
-!
-!Xft.autohint: 1
-!Xft.lcdfilter: lcddefault
-!Xft.hintstyle: hintslight
-!Xft.hinting: 1
-!Xft.antialias: 1
-!Xft.rgba: rgb
-
 #define base00 #1f2022
 #define base01 #282828
 #define base02 #444155
