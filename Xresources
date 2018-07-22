@@ -163,5 +163,5 @@ Xft.hintstyle:  hintslight
 
 ! Fonts
 URxvt.allow_bold:           true
-URxvt.font: xft:Ubuntu Mono:size=10
-URxvt.boldFont: xft:Ubuntu Mono:size=10
+URxvt.font: xft:Ubuntu Mono:size=11
+URxvt.boldFont: xft:Ubuntu Mono:size=11

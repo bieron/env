@@ -15,13 +15,19 @@ fi
 # ...or the Window Manager of your choice
 #################################################################################3
 
+eval `ssh-agent`
+ssh-add
+
+export TZ=`cat /etc/timezone`
+
 sudo loadkeys pl
-sudo setfont Lat2-Terminus16
+sudo setfont Ubuntu
 sudo setfont -m 8859-2
 sudo localectl set-x11-keymap pl
 
-[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
+[[ -f ~/.Xresources ]] && xrdb ~/.Xresources
 #/usr/bin/xcompmgr -n >/dev/null 2>.i3/xcompmgr_error &
 
-feh --bg-scale /usr/share/wallpapers/Nature-Wallpapers-Beautiful-Sunset.jpg 2>>~/.i3/error
+feh --bg-scale /usr/share/wallpapers/bird_persons_big_day.jpg 2>/dev/null
+mkdir ~/.i3 2>/dev/null
 exec i3 >~/.i3/log 2>~/.i3/error

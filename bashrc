@@ -1,13 +1,5 @@
 # If not running interactively, don't do anything
-#[[ $- != *i* ]] && return
 [[ -z "$PS1" ]] && return
-#transset-df -a .9 &>/dev/null
-
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias gr="grep -Isnr --exclude='*~'"
-alias pgr="grep -P --exclude='*~' -Isnr"
 
 alias ls='ls --color=auto'
 alias ll='ls -AlF'
@@ -16,8 +8,19 @@ alias l='ls -l'
 
 alias s=ssh
 alias v='nvim -p'
-alias vim=v
-alias g=git
+alias vim='nvim -p'
+alias dv='docker volume'
+alias dn='docker network'
+alias dps='docker ps -a'
+alias dr="docker run"
+alias dl="docker ps -lq"
+
+[ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
+_completion_loader _docker
+complete -F _docker d
+alias d=docker
+_completion_loader git
+complete -o bashdefault -o default -o nospace -F _git g
 
 alias mk='mkdir'
 alias mkd='mkdir -pv' #creates dir
@@ -31,6 +34,7 @@ alias py=python
 alias hin='sudo hamachi login'
 alias hout='sudo hamachi logout'
 alias hh='hout; sleep 1; hin'
+alias resolv='getent hosts'
 
 # arch / centos
 alias pms='sudo pm-suspend --quirks-dpms-on'
@@ -40,9 +44,11 @@ alias sus='systemctl suspend'
 alias apd='sudo apt update'
 alias apg='sudo apt upgrade'
 alias api='sudo apt install'
-
-# "tamperproof"
-alias xrandr='qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock #'
+alias apr='sudo apt remove'
+alias apu='sudo apt autoremove'
+function aps {
+    apt show $@ 2>/dev/null|perl -ne '/Description/ .. /^$/ and print'
+}
 
 #grep for files
 function gf {
@@ -58,11 +64,14 @@ EDITOR=nvim
 VISUAL=nvim
 
 # git goodies
+alias g=git
+od=origin/devel
+ot=origin/testing
+os=origin/staging
+om=origin/master
+j="--author $USER"
 export n='--name-status'
 export u=@{u}
-
-
-[ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000
@@ -89,35 +98,18 @@ else
     [ $DISPLAY ] && export PS1='\w ' #PS1 is set in bash_profile
 fi
 
-alias llz='sudo tail -f /var/log/logzilla/logzilla.log'
-alias ssl='sudo tail -f /var/log/supervisor/*'
-alias kaboom='sudo bin/lz5setup --armageddon kaboom --db-root-pass LZ.007f0101'
-
 alias gg='cd ~/dev/ticket'
+export PATH=$PATH:$HOME/dev/ticket/scripts
+alias tt=ticket
 
-function hurravpn {
-    echo "domain hurra
-search hurra
-nameserver 10.42.8.1
-nameserver 8.8.8.8
-nameserver 8.8.4.4
-" | sudo tee /etc/resolv.conf >/dev/null
-    #chattr +i /etc/resolv.conf
-    sudo openvpn ~jb/hurra/vpn.pl.hurra.com.conf
-    #chattr -i /etc/resolv.conf
-    echo "nameserver 8.8.8.8
-nameserver 8.8.4.4
-" | sudo tee /etc/resolv.conf >/dev/null 
-    #chattr +i /etc/resolv.conf
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'''
+function din {
+    docker exec -it $1 ${2:-/bin/bash}
+}
+function did {
+    docker ps -a | ag ${1:-' '} | cut -f1 -d' '
 }
 
-function ji {
-    #FIXME handle many args
-    keys=${1:-`ticket -k`}
-    [ -n "$keys" ] || return
-    for k in $keys; do
-        xdg-open http://jira.lzil.la:8080/browse/$k
-    done
-}
-
-export PYTHONPATH=$PYTHONPATH:~jb/dev/lz/lib
+alias encrypt='openssl enc -aes-256-cbc -salt -in'
+alias decrypt='openssl enc -d -aes-256-cbc -salt -in'

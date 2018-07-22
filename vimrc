@@ -166,6 +166,7 @@ Plug 'majutsushi/tagbar'
 "Plug 'msanders/snipmate.vim'
 Plug 'pjcj/vim-hl-var'
 "Plug 'scrooloose/syntastic'
+"Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
@@ -194,9 +195,9 @@ let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 "  au FileType tex let b:syntastic_mode = "passive"
 "augroup END
 
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+""set statusline+=%#warningmsg#
+""set statusline+=%{SyntasticStatuslineFlag()}
+""set statusline+=%*
 
 "let g:syntastic_always_populate_loc_list=1
 "let g:syntastic_auto_loc_list=1
@@ -207,6 +208,10 @@ let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 "let g:syntastic_perl_checkers='perl'
 "nmap <silent> <leader>c :apostropheSyntasticCheck<CR>
 "nmap <silent> <leader>c :!perl -c -Ilib %<CR>
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 map <space> \
 
