@@ -1,7 +1,6 @@
 let mapleader="\<Space>"
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>s :mksession<CR>
-"nnoremap <Leader>a :Ack<Space>
 
 set guioptions=cagt
 
@@ -45,8 +44,8 @@ nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 
 nnoremap j gj "move to next physical line, do not get fooled by wraps
 nnoremap k gk
-nnoremap + <C-a>
-"nnoremap - <C-d> " does not work
+nnoremap + <C-a> " increment/decrement done sensibly
+nnoremap - <C-x>
 nnoremap <C-a> ^
 nnoremap <C-e> $
 
@@ -60,9 +59,6 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
-
-"nnoremap <BS> gg "backspace to beginning
-"nnoremap <CR> G  "ENTER to eof (or line number)
 
 set nu
 set ruler
@@ -79,7 +75,7 @@ set statusline+=%{&fileformat}]              " file format
 set statusline+=%=                           " right align
 "set statusline+=%#perlInfo#%{CurrentFunction()}%*
 set statusline+=\ \ \
-"set statusline+=0x%B/%-8b\                      " current char
+set statusline+=0x%B/%-8b\                      " current char
 set statusline+=%v,
 set statusline+=%(%l/%L%)
 set shortmess+=I
@@ -95,20 +91,9 @@ set expandtab smarttab tabstop=4
 set nowrap
 set virtualedit=all
 
-"split resize on <C-w>
-"set winwidth=118
-"set winminwidth=24
-
 syntax on
 noremap Y y$
-"autocmd BufWritePre * :%s/\s\+$//e "trim whitespaces
 autocmd BufNewFile * call functions#NewFile()
-
-"commands
-"cmap W w
-"cmap Q q
-"cmap Wq wq
-"cmap WQ wq
 
 noremap <c-LEFT> <C-W><LEFT>
 noremap <c-RIGHT> <C-W><RIGHT>
@@ -124,16 +109,15 @@ noremap! ( ()<LEFT>
 noremap! " ""<LEFT>
 noremap! ' ''<LEFT>
 
-"map <F2> :call LocalDoc()<CR>
-"map <F3> :call Wiki()<CR>
-"map <F4> :call OnlineDoc()<CR>
 noremap <F4> :Gblame
-"map <F5> :call SwitchHls()<CR>
 noremap <F5> :!perl -cIlib %<CR>
 noremap <F6> :!perlcritic -3 %<CR>
 noremap <F7> :!perl -Ilib %<CR>
-noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
-noremap <F9> :tabe term:///home/jb/.pyenv/shims/pylint %<CR>
+""noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
+noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
+" noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
+nmap <silent> <leader>a :Ag
+nmap <silent> <C-s> :%s/\s\+$//e<CR> "trim whitespaces
 
 iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
 iab ddd use Data::Dump 'pp';<ESC>F%s<C-o>:call getchar()<CR><ESC>i
@@ -165,8 +149,7 @@ Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
 "Plug 'msanders/snipmate.vim'
 Plug 'pjcj/vim-hl-var'
-"Plug 'scrooloose/syntastic'
-"Plug 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
@@ -186,40 +169,26 @@ Plug 'rking/ag.vim'
 call plug#end()
 let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 
-"let g:rainbow_active=0
-"nnoremap <silent> <leader>r :RainbowToggle<CR>
-
 " SYNTASTIC
-"augroup mySyntastic
-"  au!
-"  au FileType tex let b:syntastic_mode = "passive"
-"augroup END
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+let g:syntastic_aggregate_errors=1
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs=0
+let g:syntastic_mode="passive"
+let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': []}
+nnoremap <leader>c :SyntasticCheck<CR> :lopen<CR>
 
-""set statusline+=%#warningmsg#
-""set statusline+=%{SyntasticStatuslineFlag()}
-""set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list=1
-"let g:syntastic_auto_loc_list=1
-"let g:syntastic_check_on_open=0
-"let g:syntastic_check_on_wq=0
-"let g:syntastic_aggregate_errors=1
-"let g:syntastic_enable_perl_checker=1
-"let g:syntastic_perl_checkers='perl'
-"nmap <silent> <leader>c :apostropheSyntasticCheck<CR>
-"nmap <silent> <leader>c :!perl -c -Ilib %<CR>
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-map <space> \
+" map <space> \
 
 " GIT GUTTER
 nmap <silent> <leader>g :GitGutterToggle<CR>
 nmap <silent> <leader>s :GitGutterSignsToggle<CR>
 nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
-nmap <silent> <leader>a :Ag 
 
 let g:gitgutter_max_signs=500  " default value
 "You can jump between hunks:
@@ -290,10 +259,10 @@ hi TabLine ctermfg=Grey ctermbg=Black
 hi TabLineSel ctermfg=Yellow ctermbg=Black
 set cc=80
 
-highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen   gui=none guifg=bg guibg=DarkGreen
-highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed     gui=none guifg=bg guibg=DarkRed
-highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow  gui=none guifg=bg guibg=Yellow
-highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue   gui=none guifg=bg guibg=Magenta
+highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen  gui=none guifg=bg guibg=DarkGreen
+highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed    gui=none guifg=bg guibg=DarkRed
+highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
+highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
 
 "nnoremap <F3> :make -C build/clang<CR>
 "inoremap <F3> <ESC>:make -C build/clang<CR>
@@ -315,10 +284,3 @@ highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue   gui=none guifg
 "inoremap <F9> <ESC>:cprev<CR>
 "nnoremap <F10> :cnext<CR>
 "inoremap <F10> <ESC>:cnext<CR>
-"
-"fun! <SID>StripTrailingWhitespaces()
-"    let l = line(".")
-"    let c = col(".")
-"    %s/\s\+$//e
-"    call cursor(l, c)
-"endfun

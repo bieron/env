@@ -5,11 +5,11 @@
 [alias]
     co = checkout
     cp=cherry-pick
-#    ci = commit
+    ci = commit
     s = status -sb
     st = status
-    di = diff --ignore-all-space
     d = diff --ignore-all-space
+    di = diff --ignore-all-space --word-diff=color --word-diff-regex=.
     f = fetch -p
     #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
     l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
@@ -24,6 +24,7 @@
     pb=!git push origin --set-upstream `git rev-parse --abbrev-ref HEAD`
     mt=mergetool
     recon=rebase --continue
+    rebor=rebase --abort
     mm=merge --no-ff
     c=!git checkout `git branch|peco`
     cr=!git checkout `git branch -r|peco`
