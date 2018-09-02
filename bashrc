@@ -12,7 +12,7 @@ alias vim='nvim -p'
 alias dv='docker volume'
 alias dn='docker network'
 alias dps='docker ps -a'
-alias dr="docker run"
+alias dr="docker run --rm -ti"
 alias dl="docker ps -lq"
 
 [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
@@ -80,36 +80,36 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 
 shopt -s histappend
 
-if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-    export TERM='xterm-256color'
-else
-    export TERM='xterm-color'
-fi
+# if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+#     export TERM='xterm-256color'
+# else
+#     export TERM='xterm-color'
+# fi
 
-export PATH=$PATH:$HOME/bin:$HOME/perl/bin:$HOME/`hostname`_bin
 
 HOST_BASHRC=~/.`hostname`.bashrc
 [ -f $HOST_BASHRC ] && . $HOST_BASHRC
 
-if [ `whoami` = root ]; then
+if [ $UID -eq 0 ]; then
     #export PS1='%B%~%b$%#'
     export PS1="\w# "
 else
-    [ $DISPLAY ] && export PS1='\w ' #PS1 is set in bash_profile
+    [ $DISPLAY ] && export PS1='\w '
 fi
 
 alias gg='cd ~/dev/ticket'
-export PATH=$PATH:$HOME/dev/ticket/scripts
 alias tt=ticket
 
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'''
-function din {
-    docker exec -it $1 ${2:-/bin/bash}
-}
-function did {
-    docker ps -a | ag ${1:-' '} | cut -f1 -d' '
-}
+# function din {
+#     docker exec -it $1 ${2:-/bin/bash}
+# }
+# function did {
+#     docker ps -a | ag ${1:-' '} | cut -f1 -d' '
+# }
 
 alias encrypt='openssl enc -aes-256-cbc -salt -in'
 alias decrypt='openssl enc -d -aes-256-cbc -salt -in'
+
+export PATH=$PATH:~/bin:~/dev/ticket/scripts

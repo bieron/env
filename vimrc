@@ -36,6 +36,9 @@ set hlsearch incsearch
 set showmode
 set cursorline   "highlight line with cursor
 
+set undofile " Maintain undo history between sessions
+set undodir=~/.vim/undodir
+
 "With these mappings, if 'smartcase' is on and you press * while on the word "The",
 " you will only find "The" (case sensitive),
 " but if you press * while on the word "the", the search will not be case sensitive.
@@ -44,10 +47,10 @@ nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 
 nnoremap j gj "move to next physical line, do not get fooled by wraps
 nnoremap k gk
-nnoremap + <C-a> " increment/decrement done sensibly
-nnoremap - <C-x>
 nnoremap <C-a> ^
 nnoremap <C-e> $
+nnoremap + <C-a>h " increment/decrement done sensibly
+nnoremap - <C-x>
 
 " search using visually selected text
 vnoremap // y/<C-R>"<CR>
@@ -116,8 +119,9 @@ noremap <F7> :!perl -Ilib %<CR>
 ""noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
 noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
 " noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
-nmap <silent> <leader>a :Ag
-nmap <silent> <C-s> :%s/\s\+$//e<CR> "trim whitespaces
+noremap <F9> :!python -m py_compile %<CR>
+nmap <silent> <leader>a :Ag<space>
+nmap <silent> <C-s> :%s/\s\+$//e<CR> " trim whitespaces
 
 iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
 iab ddd use Data::Dump 'pp';<ESC>F%s<C-o>:call getchar()<CR><ESC>i
