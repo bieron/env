@@ -4,13 +4,13 @@
 
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
   for f in /etc/X11/xinit/xinitrc.d/*; do
-    [ -x "$f" ] && . "$f"
+    [ -r "$f" ] && . "$f"
   done
   unset f
 fi
 
-eval `ssh-agent`
-ssh-add
+# eval `ssh-agent`
+# ssh-add
 
 export TZ=`cat /etc/timezone`
 
@@ -19,9 +19,7 @@ sudo setfont Ubuntu
 sudo setfont -m 8859-2
 sudo localectl set-x11-keymap pl
 
-feh --bg-scale /usr/share/wallpapers/bird_persons_big_day.jpg 2>/dev/null
+# feh --bg-scale /usr/share/wallpapers/bird_persons_big_day.jpg 2>/dev/null
 mkdir ~/.i3 2>/dev/null
 
-[[ -f ~/.Xresources ]] && xrdb ~/.Xresources
-
-exec i3 >~/.i3/log 2>~/.i3/error
+exec i3 -c ~/.i3/config >~/.i3/log 2>~/.i3/error

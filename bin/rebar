@@ -8,7 +8,7 @@ old_git_modify=(0 0)
 old_dir_modify=(0 0)
 status=('' '')
 branch=('' '')
-dir=(/home/jb5195/workspace/SEMPro /home/jb5195/workspace/sempor)
+dir=(/home/jb/dev/lz5)
 
 echo 'initializing...'
 

@@ -6,7 +6,8 @@ alias ll='ls -AlF'
 alias la='ls -A'
 alias l='ls -l'
 
-alias s=ssh
+alias a=ag
+alias s='ssh -A'
 alias v='nvim -p'
 alias vim='nvim -p'
 alias dv='docker volume'
@@ -57,7 +58,9 @@ function gf {
 }
 #alias dienotest='perl -i -pe "s/(?=use Test::Deep::NoTest)/die;/" `git ls-files`'
 function inplace {
-    perl -i -pe "$1" `git ls-files $2`
+    subst=$1
+    shift
+    perl -i -pe "$subst" $@
 }
 
 EDITOR=nvim
@@ -92,7 +95,7 @@ HOST_BASHRC=~/.`hostname`.bashrc
 
 if [ $UID -eq 0 ]; then
     #export PS1='%B%~%b$%#'
-    export PS1="\w# "
+    export PS1='\w# '
 else
     [ $DISPLAY ] && export PS1='\w '
 fi
@@ -113,3 +116,23 @@ alias encrypt='openssl enc -aes-256-cbc -salt -in'
 alias decrypt='openssl enc -d -aes-256-cbc -salt -in'
 
 export PATH=$PATH:~/bin:~/dev/ticket/scripts
+
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
+export PYTHONSTARTUP=~/.pystartup
+alias work="jql 'assignee=jb and status not in (done, \"qa passed\", \"qa ready\")'"
+alias rejected="jql 'assignee=jb and status=\"QA/Review Failed\"'"
+
+# Run 'fff' with 'f' or whatever you decide to name the function.
+f() {
+    fff "$@"
+    cd "$(cat "${XDG_CACHE_HOME:=${HOME}/.cache}/fff/.fff_d")"
+}
+
+alias vs='v $(g status -suno --porcelain|awk "{print \$2}")'
+
+PATH="/home/jb/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/jb/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/jb/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/jb/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/jb/perl5"; export PERL_MM_OPT;

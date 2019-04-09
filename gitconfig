@@ -9,7 +9,9 @@
     s = status -sb
     st = status
     d = diff --ignore-all-space
+    dc = diff --ignore-all-space --cached
     di = diff --ignore-all-space --word-diff=color --word-diff-regex=.
+    dic = diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
     f = fetch -p
     #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
     l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
@@ -22,6 +24,7 @@
     sh=show --ignore-all-space
     resup=reset --hard @{u}
     pb=!git push origin --set-upstream `git rev-parse --abbrev-ref HEAD`
+    ph=!git push http --set-upstream `git rev-parse --abbrev-ref HEAD`
     mt=mergetool
     recon=rebase --continue
     rebor=rebase --abort
@@ -44,3 +47,5 @@
     path=nvim
 [log]
     mailmap=true
+[rerere]
+	enabled = true

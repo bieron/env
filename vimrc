@@ -45,7 +45,8 @@ set undodir=~/.vim/undodir
 nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
 nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 
-nnoremap j gj "move to next physical line, do not get fooled by wraps
+"move to next physical line, do not get fooled by wraps
+nnoremap j gj
 nnoremap k gk
 nnoremap <C-a> ^
 nnoremap <C-e> $
@@ -118,6 +119,7 @@ noremap <F6> :!perlcritic -3 %<CR>
 noremap <F7> :!perl -Ilib %<CR>
 ""noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
 noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
+noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>
 " noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
 noremap <F9> :!python -m py_compile %<CR>
 nmap <silent> <leader>a :Ag<space>
@@ -142,16 +144,24 @@ let perl_sync_dist=250
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 call plug#begin('~/.vim/plugged')
-Plug 'airblade/vim-gitgutter'
 "Plug 'altercation/vim-colors-solarized'
-Plug 'bogado/file-line'
 "Plug 'chrisbra/csv.vim'
 "Plug 'henrik/vim-indexed-search'
 "Plug 'luochen1990/rainbow'
 "Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
+"Plug 'msanders/snipmate.vim'
+"Plug 'mileszs/ack.vim'
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-easytags'
+"Plug 'scrooloose/nerdtree'
+"Plug 'jistr/vim-nerdtree-tabs'
+"Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
+"Plug 'mileszs/ack.vim'
+
+Plug 'airblade/vim-gitgutter'
+Plug 'bogado/file-line'
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
-"Plug 'msanders/snipmate.vim'
 Plug 'pjcj/vim-hl-var'
 Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'
@@ -160,15 +170,8 @@ Plug 'vim-scripts/SelectBuf'
 Plug 'vim-scripts/genutils'
 Plug 'wincent/command-t', {'do' : 'rake make'}
 Plug 'tpope/vim-commentary'
-Plug 'vim-perl/vim-perl'
+" Plug 'vim-perl/vim-perl'
 Plug 'ap/vim-css-color'
-"Plug 'mileszs/ack.vim'
-"Plug 'xolox/vim-misc'
-"Plug 'xolox/vim-easytags'
-"Plug 'scrooloose/nerdtree'
-"Plug 'jistr/vim-nerdtree-tabs'
-"Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
-"Plug 'mileszs/ack.vim'
 Plug 'rking/ag.vim'
 call plug#end()
 let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
@@ -288,3 +291,13 @@ highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=
 "inoremap <F9> <ESC>:cprev<CR>
 "nnoremap <F10> :cnext<CR>
 "inoremap <F10> <ESC>:cnext<CR>
+
+" function! Test() range
+"     echo system('echo '.shellescape(join(getline(a:firstline, a:lastline), "\n")))
+" endfunction
+
+" https://sanctum.geek.nz/arabesque/vim-anti-patterns/
+" noremap <Up> <nop>
+" noremap <Down> <nop>
+" noremap <Left> <nop>
+" noremap <Right> <nop>

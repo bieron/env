@@ -1,28 +1,30 @@
-! urxvt. ----------------------------------------------------------------------
-*URxvt.VT100.charClass: 33:48,35:48,37:48,42:48,45-47:48,64:48,95:48,126:48
-*URxvt.VT100*translations: #override Shift <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
+/* *URxvt.VT100.charClass: 33:48,35:48,37:48,42:48,45-47:48,64:48,95:48,126:48 */
+/* *URxvt.VT100*translations: #override Shift <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY) */
+URxvt.perl-ext-common:	default,matcher
+URxvt.url-launcher:		/usr/bin/xdg-open
+URxvt.matcher.button:	1
 
-*URxvt.locale: 	       true
-*URxvt.borderWidth:     0
-*URxvt.letterSpace:     -1px
-*URxvt.*dynamicColors:   true
-*URxvt.*utf8:            2
-*URxvt.*eightBitInput:   true
-*URxvt.*saveLines:       2048
-*URxvt.*scrollKey:       true
-*URxvt.*scrollTtyOutput: false
-*URxvt.*toolBar:         false
+*URxvt.locale:				true
+*URxvt.borderWidth:			0
+*URxvt.letterSpace:			-1px
+*URxvt.*dynamicColors:		true
+*URxvt.*utf8:				2
+*URxvt.*eightBitInput:		true
+*URxvt.*saveLines:			2048
+*URxvt.*scrollKey:			true
+*URxvt.*scrollTtyOutput:	false
+*URxvt.*toolBar:			false
 
-*URxvt.*scrollBar:      false
-Xft.dpi:        96
-Xft.antialias:  true
-Xft.rgba:       rgb
-Xft.hinting:    true
-Xft.hintstyle:  hintslight
+*URxvt.*scrollBar:			false
+Xft.dpi:		96
+Xft.antialias:	true
+Xft.rgba:		rgb
+Xft.hinting:	true
+Xft.hintstyle:	hintslight
 
-!! tangoesque scheme
-*background: #000000
-*foreground: #ffffff
+! tangoesque scheme
+! *background: #000000
+! *foreground: #ffffff
 #define base00 #1f2022
 #define base01 #282828
 #define base02 #444155
@@ -48,34 +50,34 @@ Xft.hintstyle:  hintslight
 #endif
 *.cursorColor:  base05
 
-*.color0:       base00
-*.color1:       base08
-*.color2:       base0B
-*.color3:       base0A
-*.color4:       base0D
-*.color5:       base0E
-*.color6:       base0C
-*.color7:       base05
+*.color0:	base00
+*.color1:	base08
+*.color2:	base0B
+*.color3:	base0A
+*.color4:	base0D
+*.color5:	base0E
+*.color6:	base0C
+*.color7:	base05
 
-*.color8:       base03
-*.color9:       base08
-*.color10:      base0B
-*.color11:      base0A
-*.color12:      base0D
-*.color13:      base0E
-*.color14:      base0C
-*.color15:      base07
+*.color8:	base03
+*.color9:	base08
+*.color10:	base0B
+*.color11:	base0A
+*.color12:	base0D
+*.color13:	base0E
+*.color14:	base0C
+*.color15:	base07
 
 ! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
 ! use 'shell' template to set these if necessary
-*.color16:      base09
-*.color17:      base0F
-*.color18:      base01
-*.color19:      base02
-*.color20:      base04
-*.color21:      base06
+*.color16:	base09
+*.color17:	base0F
+*.color18:	base01
+*.color19:	base02
+*.color20:	base04
+*.color21:	base06
 
 ! Fonts
-URxvt.allow_bold:           true
-URxvt.font: xft:Ubuntu Mono:size=11
-URxvt.boldFont: xft:Ubuntu Mono:size=11
+URxvt.allow_bold:	true
+URxvt.font:			xft:Ubuntu Mono:size=11
+URxvt.boldFont:		xft:Ubuntu Mono:size=11

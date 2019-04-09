@@ -1,7 +1,15 @@
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
-
+# 
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+#
+# This config file uses keycodes (bindsym) and was written for the QWERTY
+# layout.
+#
+# To get a config file with the same key positions, but for your current
+# layout, use the i3-config-wizard
+#
+# font pango:DejaVu Sans Mono 8
+font pango:Ubuntu Mono 8
+#
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
 set $up l
@@ -15,8 +23,14 @@ floating_modifier Mod1
 # start a terminal
 bindsym Mod1+Return exec i3-sensible-terminal
 
-# lock screen
-bindsym Mod1+q exec i3lock -c000000
+# everyday usage goodies
+bindsym Mod1+Escape exec i3lock -c000000
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +6%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -7%
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 4
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
+bindsym --release Mod1+q exec --no-startup-id scrot -s /tmp/ss.png && xclip -t image/png -selection clipboard /tmp/ss.png
 
 # kill focused window
 bindsym Mod1+Shift+q kill
@@ -127,7 +141,7 @@ bindsym Mod1+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym Mod1+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -159,7 +173,7 @@ bindsym Mod1+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+    status_command i3status | ~/env/statusbar
 }
 
 new_window 1pixel

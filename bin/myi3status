@@ -5,10 +5,10 @@ l=0
 /usr/bin/i3status | while :
 do
         read line
-	if [ $l -gt 2 ]; then
-		line=',[{"full_text":"'`/home/jb/bin/git_status`'"}',${line:2}
-	else
-		l=$(($l+1))
-	fi
-	echo $line || exit 1
+    if [ $l -gt 2 ]; then
+        line=',[{"full_text":"'`/home/jb/bin/git_status`'"}',${line:2}
+    else
+        l=$(($l+1))
+    fi
+    echo $line || exit 1
 done

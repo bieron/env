@@ -21,4 +21,3 @@ if [ -z "`su $MYLOGIN -c 'screen -ls | grep AUTOMOUNT'`" ]; then
   exit;
 fi
 su $MYLOGIN -c "screen -S AUTOMOUNT -X screen -t $DIR $USERSCRIPT $* $BASE $DIR";
-
