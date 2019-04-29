@@ -1,17 +1,20 @@
-#!/usr/bin/bash
-
+#!/bin/sh
 
 dest=`realpath $0`
 dest=${dest%/*}
 
 cd
-tmp=`mktemp -u env_XXX`
-echo saving old env files to $tmp.tgz
-tar -czf $tmp.tgz .vimrc .bashrc .vim bash
-rm .vim .vimrc .bashrc bash #if bash is a symlink
-rmdir bash                  #if not
+tmp=`mktemp -d env-XXXX.bak`
 
-ln -sf $dest/vimrc .vimrc
-ln -sf $dest/vim .vim
-ln -sf $dest/bashrc .bashrc
-ln -sf $dest/bash bash
+for t in `ls -A $dest/targets`; do
+    mv $t $tmp 2>/dev/null
+    ln -sf $dest/targets/$t $t
+done
+
+if [ -z "`ls -A $tmp`" ]; then
+    rmdir $tmp
+else
+    echo saving old env files to $tmp.tgz
+    tar -czf $tmp.tgz $tmp
+    rm -r $tmp
+fi

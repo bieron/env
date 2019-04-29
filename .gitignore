@@ -1,2 +1,3 @@
 *~
-vim/plugged/*
+/targets/.vim/plugged/*
+/targets/.vim/undodir/*
