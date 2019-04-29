@@ -122,6 +122,7 @@ noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
 noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>
 " noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
 noremap <F9> :!python -m py_compile %<CR>
+noremap <F11> :!python3 -m py_compile %<CR>
 nmap <silent> <leader>a :Ag<space>
 nmap <silent> <C-s> :%s/\s\+$//e<CR> " trim whitespaces
 

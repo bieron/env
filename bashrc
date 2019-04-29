@@ -32,6 +32,7 @@ alias ports='netstat -tulanp'
 alias perlsyn='for f in `git diff --name-only|grep pm$`; do echo; echo $f; perl -cIlib $f; done'
 alias pe=perl
 alias py=python
+alias py3=python3
 alias hin='sudo hamachi login'
 alias hout='sudo hamachi logout'
 alias hh='hout; sleep 1; hin'
@@ -68,13 +69,8 @@ VISUAL=nvim
 
 # git goodies
 alias g=git
-od=origin/devel
-ot=origin/testing
-os=origin/staging
-om=origin/master
 j="--author $USER"
 export n='--name-status'
-export u=@{u}
 
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000
@@ -103,6 +99,7 @@ fi
 alias gg='cd ~/dev/ticket'
 alias tt=ticket
 
+alias T='tput reset'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'''
 # function din {
@@ -120,8 +117,6 @@ export PATH=$PATH:~/bin:~/dev/ticket/scripts
 # eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
 export PYTHONSTARTUP=~/.pystartup
-alias work="jql 'assignee=jb and status not in (done, \"qa passed\", \"qa ready\")'"
-alias rejected="jql 'assignee=jb and status=\"QA/Review Failed\"'"
 
 # Run 'fff' with 'f' or whatever you decide to name the function.
 f() {
@@ -136,3 +131,5 @@ PERL5LIB="/home/jb/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/jb/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/jb/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/jb/perl5"; export PERL_MM_OPT;
+
+[ -e ~/.dircolors ] && eval `dircolors ~/.dircolors`
