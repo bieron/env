@@ -9,9 +9,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
-# eval `ssh-agent`
-# ssh-add
-
 export TZ=`cat /etc/timezone`
 
 sudo loadkeys pl
@@ -19,7 +16,10 @@ sudo setfont Ubuntu
 sudo setfont -m 8859-2
 sudo localectl set-x11-keymap pl
 
-# feh --bg-scale /usr/share/wallpapers/bird_persons_big_day.jpg 2>/dev/null
-mkdir ~/.i3 2>/dev/null
+mkdir .i3 2>/dev/null
+feh --bg-fill `find /usr/share/wallpapers/ -type f|shuf -n 1`
+[ -f .Xresources ] && xrdb .Xresources
+eval `ssh-agent`
+ssh-add
 
-exec i3 -c ~/.i3/config >~/.i3/log 2>~/.i3/error
+exec i3 -c .i3/config >.i3/log 2>.i3/error

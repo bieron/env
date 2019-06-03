@@ -28,10 +28,11 @@
     mt=mergetool
     recon=rebase --continue
     rebor=rebase --abort
-    mm=merge --no-ff
-    c=!git checkout `git branch|peco`
-    cr=!git checkout `git branch -r|peco`
+    mm=merge --no-ff --no-edit
+    c = !git checkout `git branch|peco`
+    cr = !git checkout `git branch -r|peco`
     fpr = !sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
+    cam = commit --amend
 
 [core]
     editor=nvim
@@ -48,4 +49,4 @@
 [log]
     mailmap=true
 [rerere]
-	enabled = true
+    enabled=true

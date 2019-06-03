@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This script wraps i3status output and inject mail status, or just reports
 # status on command line.  It is based on 'wrapper.py' script by Valentin
@@ -19,7 +19,7 @@ import sys
 
 def print_line(l):
     """ Non-buffered printing to stdout. """
-    sys.stdout.write(l + '\n')
+    sys.stdout.write(f'{l}\n')
     sys.stdout.flush()
 
 def read_line():
@@ -42,26 +42,31 @@ def get_git_state_cached(path):
     return path_cache[path][1]
 
 def get_git_state(path):
-    s = subprocess.check_output(['git', '--git-dir', path, 'status', '-szbuno', '--porcelain'])
+    s = subprocess.check_output(['git', '--git-dir', path, 'status', '-szbuno', '--porcelain']).decode()
     s = s[3:s.index('\0')]
-    if '..origin/' in s:
-        s = s.split('..origin/')[1]
-    return path.split('/')[-2] + ': ' + s
+    try:
+        s = s[s.index('..origin/')+9:]
+    except ValueError:
+        pass
+    return f'{path.split("/")[-2]}: {s}'
 
-# Skip the first line which contains the version header.
-print_line(read_line())
+def main():
+    # Skip the first line which contains the version header.
+    print_line(read_line())
 
-# The second line contains the start of the infinite array.
-print_line(read_line())
+    # The second line contains the start of the infinite array.
+    print_line(read_line())
 
-prefix = ''
-while True:
-    line = read_line()
-    # ignore comma at start of lines
-    if line.startswith(','):
-        line = line[1:]
+    prefix = ''
+    while True:
+        line = read_line()
+        # ignore comma at start of lines
+        if line.startswith(','):
+            line = line[1:]
 
-    j = json.loads(line)
-    j.insert(0, dict(full_text=get_git_state_cached('/home/jb/dev/lz5/.git')))
-    print_line(prefix+json.dumps(j))
-    prefix = ','
+        j = json.loads(line)
+        j.insert(0, {'full_text': get_git_state_cached('/home/jb/dev/lz5/.git')})
+        print_line(prefix+json.dumps(j))
+        prefix = ','
+
+main()
