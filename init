@@ -6,15 +6,15 @@ dest=${dest%/*}
 cd
 tmp=`mktemp -d env-XXXX.bak`
 
-for t in `ls -A $dest/targets`; do
+for t in `ls -A $dest/home-env`; do
     mv $t $tmp 2>/dev/null
-    ln -sf $dest/targets/$t $t
+    ln -sf $dest/home-env/$t $t
 done
 
 if [ -z "`ls -A $tmp`" ]; then
     rmdir $tmp
 else
-    echo saving old env files to $tmp.tgz
+    echo saving old env files to `pwd`/$tmp.tgz
     tar -czf $tmp.tgz $tmp
     rm -r $tmp
 fi

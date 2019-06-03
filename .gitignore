@@ -1,3 +1,5 @@
 *~
-/targets/.vim/plugged/*
-/targets/.vim/undodir/*
+/home-env/.vim/plugged/*
+/home-env/.vim/undodir/*
+/home-env/.i3/error
+/home-env/.i3/log
