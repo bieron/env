@@ -135,3 +135,12 @@ PERL_MM_OPT="INSTALL_BASE=/home/jb/perl5"; export PERL_MM_OPT;
 [ -e ~/.dircolors ] && eval `dircolors ~/.dircolors`
 alias fd=fdfind
 alias c=cd
+alias r='rm -r'
+
+
+function blamer {
+    grep $@ -R --line-number 2>/dev/null|cut -d: -f1,2|tr ':' ' ' \
+        |while read f l; do
+            git blame $f -L$l,$l --porcelain 2>/dev/null|sed -n 's/^author //p';
+        done|sort|uniq -c|sort -rn
+}

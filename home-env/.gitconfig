@@ -16,23 +16,32 @@
     #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
     l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
     lg = log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
+
     b = branch
+    bc = branch --show-current
     br = branch -r
     p  = pull --rebase
     pul = pull
+
     sss = stash
     sh=show --ignore-all-space
     resup=reset --hard @{u}
-    pb=!git push origin --set-upstream `git rev-parse --abbrev-ref HEAD`
-    ph=!git push http --set-upstream `git rev-parse --abbrev-ref HEAD`
+    pb=!git push origin --set-upstream `git branch --show-current`
+    ph=!git push http --set-upstream `git branch --show-current`
+    null=!git push origin :`git branch --show-current`
+
     mt=mergetool
+
     recon=rebase --continue
     rebor=rebase --abort
+
     mm=merge --no-ff --no-edit
+
     c = !git checkout `git branch|peco`
     cr = !git checkout `git branch -r|peco`
-    fpr = !sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
     cam = commit --amend
+
+    fpr = !sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
 
 [core]
     editor=nvim
