@@ -21,3 +21,5 @@ set completion-query-items 100
 "\e[A":history-search-backward
 ## arrow down
 "\e[B":history-search-forward
+
+"\e[24~":"tput reset\n" # clear terminal log (not history)

@@ -18,3 +18,6 @@ else
     tar -czf $tmp.tgz $tmp
     rm -r $tmp
 fi
+
+cd env
+go build statusbar
