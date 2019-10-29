@@ -30,7 +30,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -7%
 bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute 0 toggle
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 4
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
-bindsym --release Mod1+q exec --no-startup-id scrot -s /tmp/ss.png && xclip -t image/png -selection clipboard /tmp/ss.png
+bindsym --release Mod1+q exec --no-startup-id scrot -so /tmp/ss.png && xclip -t image/png -selection clipboard /tmp/ss.png
 
 # kill focused window
 bindsym Mod1+Shift+q kill

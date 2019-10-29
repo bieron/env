@@ -35,7 +35,7 @@ alias py=python
 alias py3=python3
 alias hin='sudo hamachi login'
 alias hout='sudo hamachi logout'
-alias hh='hout; sleep 1; hin'
+alias hh='for s in stop start; do sudo /etc/init.d/logmein-hamachi $s; done; sleep 1; hout; sleep 1; hin'
 alias resolv='getent hosts'
 
 # arch / centos
@@ -136,7 +136,6 @@ PERL_MM_OPT="INSTALL_BASE=/home/jb/perl5"; export PERL_MM_OPT;
 alias fd=fdfind
 alias c=cd
 alias r='rm -r'
-
 
 function blamer {
     grep $@ -R --line-number 2>/dev/null|cut -d: -f1,2|tr ':' ' ' \

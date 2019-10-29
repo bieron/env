@@ -1,0 +1,18 @@
+#!/bin/sh
+
+command=$1
+delay=${2:-1}
+format=${3:-+%H:%M:%S}
+
+if [ -z "$command" ]; then
+    2>&1 echo print timestamped COMMAND output whenever it changes
+    2>&1 echo "Usage: $0 COMMAND [DELAY] [DATE_FORMAT]"
+    exit 2
+fi
+
+while true; do
+    last=`eval "$1"`
+    [ "$last" != "$previous" ] && echo `date "$format"` "$last"
+    previous="$last"
+    sleep $delay
+done
