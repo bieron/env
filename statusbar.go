@@ -20,7 +20,10 @@ func getGitState(repo *git.Repository) string {
     if err != nil {
         panic(err)
     }
-    return head.Name().Short()
+    if head.Name().IsBranch() {
+        return head.Name().Short()
+    }
+    return head.Hash().String()[:8]
 }
 
 func main() {
