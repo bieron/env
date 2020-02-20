@@ -125,6 +125,13 @@ f() {
 }
 
 alias vs='v $(g status -suno --porcelain|awk "{print \$2}")'
+function va {
+    v `ag -wl $@`
+}
+function vag {
+    v `ag -l "$@"`
+}
+
 
 PATH=/home/jb/perl5/bin:$PATH:/home/jb/go/bin; export PATH;
 PERL5LIB="/home/jb/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
@@ -143,3 +150,5 @@ function blamer {
             git blame $f -L$l,$l --porcelain 2>/dev/null|sed -n 's/^author //p';
         done|sort|uniq -c|sort -rn
 }
+
+alias napi='napi.sh -C utf-8 -L pl'

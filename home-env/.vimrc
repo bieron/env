@@ -115,19 +115,33 @@ noremap! ' ''<LEFT>
 
 noremap <F4> :Gblame
 noremap <F5> :!perl -cIlib %<CR>
-noremap <F6> :!perlcritic -3 %<CR>
-noremap <F7> :!perl -Ilib %<CR>
+" noremap <F6> :!perlcritic -3 %<CR>
+" noremap <F7> :!perl -Ilib %<CR>
 ""noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
-noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
+" noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
 noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>
+noremap <F8> :sp term://python3 -mpyflakes %<CR>
+" --rcfile ~/.pylintrc %<CR>
 " noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
-noremap <F9> :!python -m py_compile %<CR>
+" noremap <F9> :!python -m py_compile %<CR>
 noremap <F11> :!python3 -m py_compile %<CR>
 nmap <silent> <leader>a :Ag<space>
 nmap <silent> <C-s> :%s/\s\+$//e<CR> " trim whitespaces
+" "e    to open file and close the quickfix window
+" "o    to open (same as enter)
+" "go   to preview file (open but maintain focus on ag.vim results)
+" "t    to open in new tab
+" "T    to open in new tab silently
+" "h    to open in horizontal split
+" "H    to open in horizontal split silently
+" "v    to open in vertical split
+" "gv   to open in vertical split silently
+" "q    to close the quickfix window
+autocmd FileType python noremap <buffer> <F7> :call flake8#Flake8()<CR>
+autocmd FileType perl map <buffer> <F7> :!perlcritic -3 %<CR>
 
 iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
-iab ddd use Data::Dump 'pp';<ESC>F%s<C-o>:call getchar()<CR><ESC>i
+iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i
 iab ddw warn pp;<LEFT>
 
 let perl_fold=1
@@ -174,6 +188,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'vim-perl/vim-perl'
 Plug 'ap/vim-css-color'
 Plug 'rking/ag.vim'
+Plug 'nvie/vim-flake8'
 call plug#end()
 let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 
@@ -190,6 +205,8 @@ let g:syntastic_enable_signs=0
 let g:syntastic_mode="passive"
 let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': []}
 nnoremap <leader>c :SyntasticCheck<CR> :lopen<CR>
+let g:flake8_show_in_file=1
+let g:flake8_show_in_gutter=1
 
 " map <space> \
 
@@ -271,6 +288,13 @@ highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen  gui=none guifg=
 highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed    gui=none guifg=bg guibg=DarkRed
 highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
 highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
+
+" set foldmethod=indent,marker
+set foldnestmax=10
+" set nofoldenable
+set foldlevel=2
+autocmd FileType python setlocal foldmethod=indent
+autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}
 
 "nnoremap <F3> :make -C build/clang<CR>
 "inoremap <F3> <ESC>:make -C build/clang<CR>

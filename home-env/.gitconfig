@@ -29,6 +29,7 @@
     pb=!git push origin --set-upstream `git branch --show-current`
     ph=!git push http --set-upstream `git branch --show-current`
     null=!git push origin :`git branch --show-current`
+    sub=submodule update --init --recursive
 
     mt=mergetool
 
@@ -59,3 +60,5 @@
     mailmap=true
 [rerere]
     enabled=true
+[rebase]
+	instructionFormat = (%an) %s
