@@ -1,0 +1,15 @@
+#!/bin/sh
+# https://gist.github.com/premek/6e70446cfc913d3c929d7cdbfe896fef
+# If you call mv without the second parameter it will prompt you to edit the filename on command line.
+# Original mv is called when it's called with more than one argument.
+# It's useful when you want to change just a few letters in a long name.
+
+if [ "$#" -ne 1 ]; then
+    exec mv "$@"
+fi
+if [ ! -f "$1" ]; then
+    exec file "$@"
+fi
+
+read -ei "$1" newfilename
+exec mv -v "$1" "$newfilename"

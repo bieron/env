@@ -1,0 +1,23 @@
+#!/bin/bash
+# measure work in git commits and JIRA issues
+
+echo $USER
+echo
+
+echo Assigned issues: `jql assignee=$USER|wc -l`
+tasks=`jql "assignee=$USER and status in (done,closed,'qa ready','qa passed')" -f issuetype`
+echo Issues done: `wc -l <<< "$tasks"`
+echo Issues done by type:
+sort <<< "$tasks"|uniq -c|sort -rn
+
+echo
+commits=`git log --oneline --author $USER --no-merges --pretty=%ad`
+echo All merged commits: `wc -l <<< "$commits"`
+echo First commit on `tail -n1 <<< "$commits"`
+echo Last commit on `head -n1 <<< "$commits"`
+echo Commits by timezone:
+awk '{print $NF}' <<< "$commits"|sort|uniq -c|sort -rn
+
+echo
+git log --oneline --author $USER --numstat --pretty='' \
+    |awk '{add+=$1; del+=$2} END {print "Added lines:", add, "\nRemoved lines:", del}'

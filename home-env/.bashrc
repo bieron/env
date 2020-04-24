@@ -31,8 +31,7 @@ alias wget='wget -c' #resume last download
 alias ports='netstat -tulanp'
 alias perlsyn='for f in `git diff --name-only|grep pm$`; do echo; echo $f; perl -cIlib $f; done'
 alias pe=perl
-alias py=python
-alias py3=python3
+alias py=python3
 alias hin='sudo hamachi login'
 alias hout='sudo hamachi logout'
 alias hh='for s in stop start; do sudo /etc/init.d/logmein-hamachi $s; done; sleep 1; hout; sleep 1; hin'
@@ -152,3 +151,6 @@ function blamer {
 }
 
 alias napi='napi.sh -C utf-8 -L pl'
+function pogoda {
+    curl v2.wttr.in/$1
+}

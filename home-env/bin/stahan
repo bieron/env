@@ -1,0 +1,67 @@
+#!/usr/bin/perl
+use strict; use warnings;
+use utf8;
+use Sort::Key 'rnkeysort';
+
+my @lines = `git shortlog -sn @ARGV`;
+
+my %author_map = (
+    # tom => 'Tom Damon',
+    # mczapkowicz => 'Michal Czapkowicz',
+    # pytlakow => 'Krzysztof Pytlakowski',
+    # malek => 'Kamil Małek',
+    # Clay => 'Clayton Dukes',
+    # 'Atlassian Bamboo' => 'bamboo',
+    # 'userify-Jan Biero' => 'Jan Bieron',
+    # 'Pawel Golonko' => 'Paweł Golonko',
+    # kompas => 'Piotr Piątkowski',
+    # 'Kris Pytlakowski' => 'Krzysztof Pytlakowski',
+#     'Bartosz Jakubski'       => 'bj5004',
+#     'Bartłomiej Kurek'       => 'bk5045',
+#     'Grzegorz Dzięgielewski' => 'gs5056',
+#     'Grzegorz Szpetkowski'   => 'gs5138',
+#     'Jakub Wieczorek'        => 'jw5134',
+#     'Kajetan Staszkiewicz'   => 'ks5xxx', #???
+#     'Maciej Slusarek'        => 'ms5163',
+#     'Marcin Śmieszek'        => 'ms5125', #???
+#     'Marcin Smieszek'        => 'ms5125', #???
+#     'Michal Gawlik'          => 'mg5xxx', #???
+#     'Mateusz Gruszczynski'   => 'mg5165',
+#     'Piotr Piatkowski'       => 'pp5091',
+#     'Przemysław Kościelniak' => 'pk5166',
+#     'Przemysław Sitek'       => 'ps5104',
+#     'Radoslaw Pociecha'      => 'rp5006',
+#     'Rafał Warpecha'         => 'rw5193',
+#     'Tomasz Konojacki'       => 'tk5189',
+#     'Tomasz Talowski'        => 'tt5175',
+#     'Wojciech Dłubacz'       => 'wd5170',
+#     'Yaroslav Fedevych'      => 'yf5192',
+#     'giesm'                  => 'gm5047',
+#     'kompas'                 => 'pp5091',
+#     'Łukasz Hejnak'          => 'lh5053',
+);
+
+my %author_commits;
+
+for my $l (@lines) {
+    chomp $l;
+    my ($commits,$author) = split "\t", $l;
+    # if ($author =~ m/([a-z]{2}\d{4})/i) {
+    #     $author = lc $1;
+    # } else {
+    for (keys %author_map) {
+        my $utf = $_;
+        # utf8::encode($utf);
+        if ($l =~ m/$utf/) {
+            $author = $author_map{$_};
+            utf8::encode($author);
+            last;
+        }
+    }
+    # }
+    $author_commits{$author} += $commits;
+}
+
+for (rnkeysort { $author_commits{$_} } keys %author_commits) {
+    printf '%4d %s%s', $author_commits{$_}, $_, "\n";
+}

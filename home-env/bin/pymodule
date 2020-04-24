@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+from importlib import import_module
+from sys import argv
+
+print(import_module(argv[1]).__file__)

@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+from sys import stderr
+import re
+import argparse
+
+format_expr = re.compile(r'(?<!r)(\'[^\']+\'|"[^"]+")\.format\(([^)]+)\)')
+#TODO placeholder type formatters
+#TODO placeholder ordinals
+format_placeholder = re.compile(r'(?<!{)\{\}')
+
+
+dict_expr = re.compile(r'dict\(([^)]+)\)')
+
+
+def dupa(args):
+    new_args = []
+    for a in args:
+        if not a:
+            continue
+        k, v = a.split('=', 1)
+        k = k.strip()
+        if "'" in k:
+            k = f'"{k}"'
+        else:
+            k = f"'{k}'"
+        new_args.append(f'{k}: {v.strip()}')
+    return new_args
+
+def dedictify(data):
+    for m in reversed(list(dict_expr.finditer(data))):
+        args = [v.strip() for v in m.group(1).split(',')]
+        try:
+            new_args = dupa(args)
+        except ValueError as e:
+            stderr.write(f'{e}\n')
+            continue
+
+        new_dict = '{' + ', '.join(new_args) + '}'
+        begin, end = m.span()
+        data = data[:begin] + new_dict + data[end:]
+    return data
+
+def fstringify(data):
+    for m in reversed(list(format_expr.finditer(data))):
+        fmt, variables = m.groups()
+        if '(' in variables:
+            # TODO grow right side if parens in argslist
+            continue
+
+        variables = [v.strip() for v in reversed(m.group(2).split(','))]
+        fmt = 'f' + format_placeholder.sub(lambda _: f'{{{variables.pop()}}}', fmt)
+        begin, end = m.span()
+        data = data[:begin] + fmt + data[end:]
+    return data
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument('action', choices=('fstringify', 'dedictify'), default='dedictify')
+    p.add_argument('path', help='files to transform', nargs='+')
+    p.add_argument('-i', '--inplace', action='store_true', help='transform file in place, not to stdout')
+    args = p.parse_args()
+    action = fstringify if args.action == 'fstringify' else dedictify
+
+    for p in args.path:
+        try:
+            with open(p) as f:
+                data = action(f.read())
+        except Exception as e:
+            stderr.write(f'{e}\n')
+            continue
+
+        if args.inplace:
+            with open(p, 'w') as f:
+                f.write(data)
+        else:
+            print(data)
+
+main()

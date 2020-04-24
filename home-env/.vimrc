@@ -124,7 +124,8 @@ noremap <F8> :sp term://python3 -mpyflakes %<CR>
 " --rcfile ~/.pylintrc %<CR>
 " noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
 " noremap <F9> :!python -m py_compile %<CR>
-noremap <F11> :!python3 -m py_compile %<CR>
+noremap FileType python <F11> :!python3 -m py_compile %<CR>
+noremap FileType js <F11> :!node -c %<CR>
 nmap <silent> <leader>a :Ag<space>
 nmap <silent> <C-s> :%s/\s\+$//e<CR> " trim whitespaces
 " "e    to open file and close the quickfix window

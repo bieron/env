@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#diff line count
+
+#cuenta lineas cambiadas entre intervalo de revisiones
+#primero argumento (intervalo) es obligatorio
+#sin segondo argumento muestra cambios del $USER
+
+if [ -z $1 ]; then
+    echo 'usage: dlc range [author]'
+    exit
+fi    
+
+RANGE=$1
+AUTHOR=${2-$USER}
+
+git log $RANGE --author=$AUTHOR --pretty=tformat: --numstat | gawk '
+    {add += $1; rem += $2} END {printf "+ %s\n- %s\n= %s\n", add, rem, add-rem}' -
