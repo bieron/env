@@ -28,14 +28,21 @@ func getGitState(repo *git.Repository) string {
 
 func main() {
     scanner := bufio.NewScanner(os.Stdin)
-    for i:=0; i<2; i++ {
+    // scanner.Scan()
+    // bytes := []byte(scanner.Text())
+    // text := scanner.Text()[:-1]
+    // fmt.Println(text)
+    scanner.Scan()
+    fmt.Println("{\"version\":1,\"click_events\":true}")
+
+    // for i:=0; i<2; i++ {
         // pass the first line which contains version header
         // pass the second line, the start of infinite array
         scanner.Scan()
         fmt.Println(scanner.Text())
-    }
+    // }
 
-    path := "/home/jb/dev/lz5"
+    path := "/home/jb/dev/cribl"
     repo, err := git.PlainOpen(path)
     if err != nil {
         panic(err)

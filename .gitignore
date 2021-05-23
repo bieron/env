@@ -1,5 +1,4 @@
 *~
 /home-env/.vim/plugged/*
 /home-env/.vim/undodir/*
-/home-env/.i3/error
-/home-env/.i3/log
+/home-env/.i3/*.log

@@ -3,7 +3,6 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>s :mksession<CR>
 
 set guioptions=cagt
-
 set nocompatible  " Use Vim defaults (much better!)
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=200
@@ -11,6 +10,8 @@ set undolevels=400
 set backup
 set backupdir=~/.vim/backup,/var/tmp
 set directory=~/.vim/swap,/var/tmp
+
+nnoremap <F12> :set nu!<CR>
 
 set complete=.,w,k,t " .currentWin, otherWins, dicKtionary, Tlist
 set autoindent smartindent
@@ -49,7 +50,7 @@ nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 nnoremap j gj
 nnoremap k gk
 nnoremap <C-a> ^
-nnoremap <C-e> $
+"nnoremap <C-e> $
 nnoremap + <C-a>h " increment/decrement done sensibly
 nnoremap - <C-x>
 
@@ -95,14 +96,18 @@ set expandtab smarttab tabstop=4
 set nowrap
 set virtualedit=all
 
+set splitbelow
+set splitright
+
 syntax on
 noremap Y y$
 autocmd BufNewFile * call functions#NewFile()
 
-noremap <c-LEFT> <C-W><LEFT>
-noremap <c-RIGHT> <C-W><RIGHT>
-noremap <c-DOWN> <C-W><DOWN>
-noremap <c-UP> <C-W><UP>
+"nnoremap <C-Left> <C-W><LEFT>
+"nnoremap <C-Right> <C-W><RIGHT>
+"nnoremap <C-Down> <C-W><DOWN>
+"nnoremap <C-Up> <C-W><UP>
+
 
 "-----------------------------------------------------------
 "abbreviations
@@ -113,19 +118,20 @@ noremap! ( ()<LEFT>
 noremap! " ""<LEFT>
 noremap! ' ''<LEFT>
 
-noremap <F4> :Gblame
-noremap <F5> :!perl -cIlib %<CR>
+noremap <F4> :Git blame
+autocmd FileType perl noremap <F5> :!perl -cIlib %<CR>
 " noremap <F6> :!perlcritic -3 %<CR>
 " noremap <F7> :!perl -Ilib %<CR>
 ""noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
 " noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
-noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>
-noremap <F8> :sp term://python3 -mpyflakes %<CR>
+autocmd FileType python noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>
+autocmd FileType python noremap <F8> :sp term://python3 -mpyflakes %<CR>
 " --rcfile ~/.pylintrc %<CR>
 " noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
 " noremap <F9> :!python -m py_compile %<CR>
-noremap FileType python <F11> :!python3 -m py_compile %<CR>
-noremap FileType js <F11> :!node -c %<CR>
+autocmd FileType python noremap <F11> :!python3 -m py_compile %<CR>
+" autocmd FileType js noremap <F11> :!node -c %<CR>
+autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>
 nmap <silent> <leader>a :Ag<space>
 nmap <silent> <C-s> :%s/\s\+$//e<CR> " trim whitespaces
 " "e    to open file and close the quickfix window
@@ -141,9 +147,11 @@ nmap <silent> <C-s> :%s/\s\+$//e<CR> " trim whitespaces
 autocmd FileType python noremap <buffer> <F7> :call flake8#Flake8()<CR>
 autocmd FileType perl map <buffer> <F7> :!perlcritic -3 %<CR>
 
-iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
-iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i
-iab ddw warn pp;<LEFT>
+autocmd FileType python iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
+autocmd FileType perl iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i
+autocmd FileType perl iab ddw warn pp;<LEFT>
+autocmd FileType typescript iab ddd this.dLogger.warn(<ESC>F%s:call getchar()
+autocmd FileType typescript iab aw await
 
 let perl_fold=1
 let sh_fold_enabled=1
@@ -175,37 +183,74 @@ call plug#begin('~/.vim/plugged')
 "Plug 'mileszs/ack.vim'
 
 Plug 'airblade/vim-gitgutter'
-Plug 'bogado/file-line'
+" Plug 'bogado/file-line' " https://github.com/bogado/file-line/issues/56
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
-Plug 'pjcj/vim-hl-var'
-Plug 'vim-syntastic/syntastic'
+" Plug 'pjcj/vim-hl-var'
+" Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
 Plug 'vim-scripts/genutils'
 Plug 'wincent/command-t', {'do' : 'rake make'}
 Plug 'tpope/vim-commentary'
-" Plug 'vim-perl/vim-perl'
+" " Plug 'vim-perl/vim-perl'
 Plug 'ap/vim-css-color'
 Plug 'rking/ag.vim'
-Plug 'nvie/vim-flake8'
+Plug 'leafgarland/typescript-vim'
+
+" Plug 'nvie/vim-flake8'
+" Plug 'Quramy/tsuquyomi'
+" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" For async completion
+" Plug 'Shougo/deoplete.nvim'
+" For Denite features
+" Plug 'Shougo/denite.nvim'
+Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
+let g:coc_global_extensions = [ 'coc-tsserver' ]
+" Remap keys for applying codeAction to the current line.
+nmap <leader>cc <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>cf <Plug>(coc-fix-current)
+nnoremap <leader><ESC> :call coc#util#float_hide()<CR>
+" Show autocomplete when Tab is pressed
+inoremap <silent><expr> <Tab> coc#refresh()
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <leader>e <Plug>(coc-diagnostic-next-error)
+nmap <silent> <leader>r <Plug>(coc-diagnostic-next)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 call plug#end()
 let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
+" autocmd FileType typescript setlocal completeopt-=menu
 
 " SYNTASTIC
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
-let g:syntastic_aggregate_errors=1
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs=0
-let g:syntastic_mode="passive"
-let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': []}
-nnoremap <leader>c :SyntasticCheck<CR> :lopen<CR>
+" let g:syntastic_aggregate_errors=1
+" let g:syntastic_always_populate_loc_list = 0
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_enable_signs=0
+" let g:syntastic_mode="passive"
+" let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': []}
+" nnoremap <leader>c :SyntasticCheck<CR> :lopen<CR>
 let g:flake8_show_in_file=1
 let g:flake8_show_in_gutter=1
 
@@ -213,8 +258,8 @@ let g:flake8_show_in_gutter=1
 
 " GIT GUTTER
 nmap <silent> <leader>g :GitGutterToggle<CR>
-nmap <silent> <leader>s :GitGutterSignsToggle<CR>
-nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
+" nmap <silent> <leader>s :GitGutterSignsToggle<CR>
+" nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
 
 let g:gitgutter_max_signs=500  " default value
 "You can jump between hunks:
@@ -257,11 +302,6 @@ let g:gitgutter_max_signs=500  " default value
 "autocmd VimEnter * Lexplore
 colo Monokai
 
-let s:host_vimrc = $HOME .'/.'. hostname() .'.vimrc'
-if filereadable(s:host_vimrc)
-    execute 'source '. s:host_vimrc
-endif
-
 highlight TabLine ctermbg=gray
 
 " Highlight a column in csv text.
@@ -285,10 +325,10 @@ hi TabLine ctermfg=Grey ctermbg=Black
 hi TabLineSel ctermfg=Yellow ctermbg=Black
 set cc=80
 
-highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen  gui=none guifg=bg guibg=DarkGreen
+"highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen  gui=none guifg=bg guibg=DarkGreen
 highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed    gui=none guifg=bg guibg=DarkRed
-highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
-highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
+"highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
+"highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
 
 " set foldmethod=indent,marker
 set foldnestmax=10
@@ -327,3 +367,13 @@ autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}
 " noremap <Down> <nop>
 " noremap <Left> <nop>
 " noremap <Right> <nop>
+"
+autocmd FileType typescriptreact setlocal filetype=typescript
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+let g:deoplete#enable_at_startup = 1
+
+nnoremap <C-j> :r! ticket -k 2>/dev/null<CR>
+let g:typescript_compiler_options = '--lib es6'
+
+set inccommand=nosplit

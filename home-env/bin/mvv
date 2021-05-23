@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # https://gist.github.com/premek/6e70446cfc913d3c929d7cdbfe896fef
 # If you call mv without the second parameter it will prompt you to edit the filename on command line.
 # Original mv is called when it's called with more than one argument.

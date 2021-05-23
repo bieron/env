@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 use strict; use warnings;
 use utf8;
-use Sort::Key 'rnkeysort';
 
 my @lines = `git shortlog -sn @ARGV`;
 
@@ -46,22 +45,17 @@ my %author_commits;
 for my $l (@lines) {
     chomp $l;
     my ($commits,$author) = split "\t", $l;
-    # if ($author =~ m/([a-z]{2}\d{4})/i) {
-    #     $author = lc $1;
-    # } else {
     for (keys %author_map) {
         my $utf = $_;
-        # utf8::encode($utf);
         if ($l =~ m/$utf/) {
             $author = $author_map{$_};
             utf8::encode($author);
             last;
         }
     }
-    # }
     $author_commits{$author} += $commits;
 }
 
-for (rnkeysort { $author_commits{$_} } keys %author_commits) {
+for (sort { $author_commits{$b} <=> $author_commits{$a} } keys %author_commits) {
     printf '%4d %s%s', $author_commits{$_}, $_, "\n";
 }

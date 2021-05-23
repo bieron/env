@@ -1,65 +1,73 @@
 [user]
-    email = jbieron+github@gmail.com
-    name = Jan Bieron
+  email = jbieron+github@gmail.com
+  name = Jan Bieron
+
+[pull]
+  rebase = true
 
 [alias]
-    co = checkout
-    cp=cherry-pick
-    ci = commit
-    s = status -sb
-    st = status
-    d = diff --ignore-all-space
-    dc = diff --ignore-all-space --cached
-    di = diff --ignore-all-space --word-diff=color --word-diff-regex=.
-    dic = diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
-    f = fetch -p
-    #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
-    l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
-    lg = log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
-    unpushed=log --branches --not --remotes --no-walk --decorate --oneline
+  b = branch --sort=-committerdate
+  back=reset --hard HEAD^
+  bc = branch --show-current
+  br = branch -r --sort=-committerdate
 
-    b = branch
-    bc = branch --show-current
-    br = branch -r
-    p  = pull --rebase
-    pul = pull
+  c = !git checkout `git branch --sort=-committerdate|peco`
+  cam = commit --amend
+  ci = commit
+  co = checkout
+  cp=cherry-pick
+  cr = !git checkout `git branch -r --sort=-committerdate|peco`
 
-    sss = stash
-    sh=show --ignore-all-space
-    resup=reset --hard @{u}
-    pb=!git push origin --set-upstream `git branch --show-current`
-    ph=!git push http --set-upstream `git branch --show-current`
-    null=!git push origin :`git branch --show-current`
-    sub=submodule update --init --recursive
+  d = diff --ignore-all-space
+  dc = diff --ignore-all-space --cached
+  di = diff --ignore-all-space --word-diff=color --word-diff-regex=.
+  dic = diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
 
-    mt=mergetool
+  f = fetch -p
+  #fpr = !sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
+  
+  l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
+  #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
+  lg = log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
+  mm=merge --no-ff --no-edit
+  mt=mergetool
+  null=!git push origin :`git branch --show-current`
 
-    recon=rebase --continue
-    rebor=rebase --abort
+  p  = pull --rebase
+  pb=!git push origin --set-upstream `git branch --show-current`
+  ph=!git push http --set-upstream `git branch --show-current`
+  pul = pull
 
-    mm=merge --no-ff --no-edit
+  rebor=rebase --abort
+  recon=rebase --continue
+  resup=reset --hard @{u}
 
-    c = !git checkout `git branch|peco`
-    cr = !git checkout `git branch -r|peco`
-    cam = commit --amend
+  s = status -sb
+  sh=show --ignore-all-space
+  sss = stash
+  st = status
+  sub=submodule update --init --recursive
 
-    fpr = !sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
-
+  unpushed=log --branches --not --remotes --no-walk --decorate --oneline
+  whodunit=!git shortlog -sb `git diff origin/master... --name-only`|sort -rn
+  dorig = !find -name '*.orig' -delete
 [core]
-    editor=nvim
-    #whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-    excludesfile=/home/jb/.gitignore
+  editor=nvim
+  #whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  excludesfile=/home/jb/.gitignore
 [push]
-    default=simple
+  default=simple
 [diff]
-    noprefix=true
+  noprefix=true
 [merge]
-    tool=vimdiff
+  tool=vimdiff
 [mergetool.vimdiff]
-    path=nvim
+  path=nvim
 [log]
-    mailmap=true
+  mailmap=true
 [rerere]
-    enabled=true
+  enabled=true
 [rebase]
-	instructionFormat = (%an) %s
+  instructionFormat=(%an) %s
+[color "diff"]
+  meta=blue

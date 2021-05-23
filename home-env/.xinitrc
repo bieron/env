@@ -12,14 +12,13 @@ fi
 export TZ=`cat /etc/timezone`
 
 sudo loadkeys pl
-sudo setfont Ubuntu
-sudo setfont -m 8859-2
+sudo setfont Ubuntu -m 8859-2
 sudo localectl set-x11-keymap pl
 
-mkdir .i3 2>/dev/null
-feh --bg-fill `find /usr/share/wallpapers/ -type f|shuf -n 1`
+feh --bg-fill `find Pictures/wallpapers/ -type f|shuf -n 1`
 [ -f .Xresources ] && xrdb .Xresources
 eval `ssh-agent`
 ssh-add
 
-exec i3 -c .i3/config >.i3/log 2>.i3/error
+# xrandr --output HDMI2 --auto --output eDP1 --auto --left-of HDMI2
+exec i3 -c .i3/config >>.i3/out.log 2>>.i3/err.log
