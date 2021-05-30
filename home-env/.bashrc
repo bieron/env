@@ -178,4 +178,5 @@ function pogoda {
 }
 
 alias li='shuf -n1'
-alias feh="feh --action1 'echo %F | xclip -i'"
+# alias feh="feh --action1 'echo %F | xclip -i'"
+# alias feh=imv-wayland

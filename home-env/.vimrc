@@ -209,6 +209,8 @@ Plug 'leafgarland/typescript-vim'
 " Plug 'Shougo/denite.nvim'
 Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
 let g:coc_global_extensions = [ 'coc-tsserver' ]
+" https://github.com/neoclide/coc.nvim/issues/531
+nmap <Esc> :call coc#float#close_all() <CR>
 " Remap keys for applying codeAction to the current line.
 nmap <leader>cc <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
