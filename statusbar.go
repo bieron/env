@@ -12,7 +12,7 @@ import (
     "os"
     "time"
     "encoding/json"
-    "gopkg.in/src-d/go-git.v4"
+    "github.com/go-git/go-git/v5"
 )
 
 func getGitState(repo *git.Repository) string {
@@ -20,27 +20,20 @@ func getGitState(repo *git.Repository) string {
     if err != nil {
         panic(err)
     }
+    hash := head.Hash().String()[:8]
     if head.Name().IsBranch() {
-        return head.Name().Short()
+        return fmt.Sprintf("%s (%s)", head.Name().Short(), hash)
     }
-    return head.Hash().String()[:8]
+    return hash
 }
 
 func main() {
     scanner := bufio.NewScanner(os.Stdin)
-    // scanner.Scan()
-    // bytes := []byte(scanner.Text())
-    // text := scanner.Text()[:-1]
-    // fmt.Println(text)
     scanner.Scan()
     fmt.Println("{\"version\":1,\"click_events\":true}")
-
-    // for i:=0; i<2; i++ {
-        // pass the first line which contains version header
-        // pass the second line, the start of infinite array
-        scanner.Scan()
-        fmt.Println(scanner.Text())
-    // }
+    // pass the second line, the start of infinite array
+    scanner.Scan()
+    fmt.Println(scanner.Text())
 
     path := "/home/jb/dev/cribl"
     repo, err := git.PlainOpen(path)
