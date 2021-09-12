@@ -20,5 +20,8 @@ feh --bg-fill `find Pictures/wallpapers/ -type f|shuf -n 1`
 eval `ssh-agent`
 ssh-add
 
-# xrandr --output HDMI2 --auto --output eDP1 --auto --left-of HDMI2
-exec i3 -c .i3/config >>.i3/out.log 2>>.i3/err.log
+# rotate i3 logs
+mv .i3/out.log{,.1} 2>/dev/null
+mv .i3/err.log{,.1} 2>/dev/null
+
+exec i3 -c .i3/config >.i3/out.log 2>.i3/err.log

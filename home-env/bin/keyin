@@ -1,0 +1,5 @@
+#!/bin/sh
+#function keys_from() {
+#  git log --oneline $1 --grep CRIBL|grep -o 'CRIBL-\d+'|sort -u
+#}
+echo 'key IN ('`echo $@|tr ' ' ','`')'

@@ -1,0 +1,12 @@
+#!/bin/bash
+x=0
+times=0
+pwd=$PWD
+while [ $x -eq 0 ]; do
+  bash -c "cd $PWD; shopt -s expand_aliases; . ~/.sokrates.bashrc; $@"
+  times=$(($times+1))
+  echo $times
+done
+
+echo
+echo Ran $times times.
