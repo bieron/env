@@ -1,8 +1,8 @@
 #!/bin/bash
 #zamienia \s+ w _ w nazwie pliku
 
-if [[ -z $1 ]]; then
-   echo usage: rr filename '[...]'
+if [ -z "$1" ]; then
+   echo usage: __ filename '[...]'
    exit
 fi
 

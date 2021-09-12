@@ -8,8 +8,8 @@ set backspace=indent,eol,start " allow backspacing over everything in insert mod
 set history=200
 set undolevels=400
 set backup
-set backupdir=~/.vim/backup,/var/tmp
-set directory=~/.vim/swap,/var/tmp
+set backupdir=/var/tmp
+" set directory=~/.vim/swap,/var/tmp
 
 nnoremap <F12> :set nu!<CR>
 
@@ -152,11 +152,14 @@ autocmd FileType perl iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<
 autocmd FileType perl iab ddw warn pp;<LEFT>
 autocmd FileType typescript iab ddd this.dLogger.warn(<ESC>F%s:call getchar()
 autocmd FileType typescript iab aw await
+autocmd FileType typescript inoreab insp import {inspect} from 'util';
+autocmd FileType typescript inoreab ins console.log(inspect(  , false, 42, true));
 
-let perl_fold=1
+
+" let perl_fold=1
 let sh_fold_enabled=1
-let perl_extended_vars=1
-let perl_sync_dist=250
+" let perl_extended_vars=1
+" let perl_sync_dist=250
 
 "map <F3> "jyiw:<C-r>j
 "map <F7> ^"jyf;:! echo '\x \\ '"<C-r>j" \| psql tutsi<CR>
@@ -198,6 +201,8 @@ Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
 Plug 'rking/ag.vim'
 Plug 'leafgarland/typescript-vim'
+" Plug 'jacoborus/tender.vim'
+Plug 'KeitaNakamura/neodark.vim'
 
 " Plug 'nvie/vim-flake8'
 " Plug 'Quramy/tsuquyomi'
@@ -207,7 +212,9 @@ Plug 'leafgarland/typescript-vim'
 " Plug 'Shougo/deoplete.nvim'
 " For Denite features
 " Plug 'Shougo/denite.nvim'
+" Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
 Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
+call plug#end()
 let g:coc_global_extensions = [ 'coc-tsserver' ]
 " https://github.com/neoclide/coc.nvim/issues/531
 nmap <Esc> :call coc#float#close_all() <CR>
@@ -236,7 +243,6 @@ function! s:show_documentation()
   endif
 endfunction
 
-call plug#end()
 let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
 " autocmd FileType typescript setlocal completeopt-=menu
 
@@ -302,9 +308,16 @@ let g:gitgutter_max_signs=500  " default value
 "let g:netrw_banner = 0
 "nmap <silent> <leader>t :Lex<CR>
 "autocmd VimEnter * Lexplore
-colo Monokai
+" colo Monokai
+" colo tender
+" let g:neodark#use_256color = 1
+hi Normal ctermbg=None
+hi NonText ctermfg=DarkGrey
+hi CocInfoSign ctermbg=8
+colorscheme neodark
 
-highlight TabLine ctermbg=gray
+set cc=100
+" set bg=dark
 
 " Highlight a column in csv text.
 " :Csv 1    " highlight first column
@@ -323,12 +336,12 @@ function! CSVH(colnr)
   endif
 endfunction
 command! -nargs=1 Csv :call CSVH(<args>)
-hi TabLine ctermfg=Grey ctermbg=Black
-hi TabLineSel ctermfg=Yellow ctermbg=Black
-set cc=80
+
+" hi TabLine ctermfg=Grey ctermbg=Black
+" hi TabLineSel ctermfg=Yellow ctermbg=Black
 
 "highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen  gui=none guifg=bg guibg=DarkGreen
-highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed    gui=none guifg=bg guibg=DarkRed
+"highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed    gui=none guifg=bg guibg=DarkRed
 "highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
 "highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
 

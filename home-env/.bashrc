@@ -19,6 +19,7 @@ alias dr="docker run --rm -ti"
 alias dl="docker ps -lq"
 alias cal='ncal -b'
 alias add='paste -s -d+|bc'
+alias m='PAGER=most man'
 
 [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 alias d=docker
@@ -27,6 +28,8 @@ if [ -f /usr/share/bash-completion/completions/docker ]; then
   # _completion_loader _docker
   complete -F _docker d
 fi
+
+alias k=kill
 
 alias mk='mkdir'
 alias mkd='mkdir -pv' #creates dir
@@ -65,9 +68,7 @@ function gf {
   find ${2:-.} -ipath "*$1*"
 }
 function inplace {
-  subst=$1
-  shift
-  perl -i -pe "$subst" $@
+  perl -i -pe "s/$1/$2/g" `ag -l "$1"`
 }
 
 EDITOR=nvim
@@ -152,6 +153,9 @@ function va {
 }
 function vag {
   v `ag -l "$@"`
+}
+function vsh {
+  v `git sh --name-only --pretty= "$@"`
 }
 
 PATH=/home/jb/perl5/bin:$PATH:/home/jb/go/bin; export PATH;
