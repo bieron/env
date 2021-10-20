@@ -20,6 +20,8 @@ feh --bg-fill `find Pictures/wallpapers/ -type f|shuf -n 1`
 eval `ssh-agent`
 ssh-add
 
+which blueman-applet &>/dev/null && blueman-applet &
+
 # rotate i3 logs
 mv .i3/out.log{,.1} 2>/dev/null
 mv .i3/err.log{,.1} 2>/dev/null

@@ -39,8 +39,7 @@ bindsym Mod1+Shift+q kill
 
 # bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 14"
 bindsym Mod1+d exec rofi -show run -lines 10
-# bindsym Mod1+g exec x-www-browser
-bindsym Mod1+g exec chromium
+bindsym Mod1+g exec google-chrome
 bindsym Mod1+m exec javaws ~/Downloads/sidoma_kl.jnlp
 
 # change focus
@@ -204,4 +203,4 @@ bindsym Mod1+p move workspace to output right
 workspace 1 output HDMI2
 workspace 2 output EDP1
 
-exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/chromium'
+exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/chrome'
