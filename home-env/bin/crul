@@ -1,0 +1,48 @@
+#!/bin/sh
+if [ "$1" = "-x" ]; then
+    set -x
+    shift
+fi
+
+CRIBL_PORT=${CRIBL_PORT:-9000}
+
+if [ -z "$1" ]; then
+  2>&1 echo Usage: $0 PATH [METHOD] [JSON]
+  exit 2
+fi
+
+path=$1
+method=${2:-GET}
+if [ -n "$3" ]; then
+  json="-d $3"
+fi
+
+token=`curl -X POST http://localhost:$CRIBL_PORT/api/v1/auth/login \
+  -H 'Content-Type: application/json' -H 'accept: application/json' \
+  -d '{"username":"admin","password":"admin"}' -s| jq .token -r`
+  # -d '{"username":"loser","password":"dupadupa"}' -s| jq .token -r`
+
+if [ $? != 0 ]; then
+  2>&1 echo Error logging in
+  exit 1
+fi
+
+# curl -X $method http://localhost:$CRIBL_PORT/api/v1/$path \
+#   -H 'Content-Type: application/json' -H 'accept: application/json' \
+#   -H "Authorization: Bearer $token" $json -o pack.crbl
+# exit
+
+out=`curl -X $method "http://localhost:$CRIBL_PORT/api/v1/$path" \
+  -H 'Content-Type: application/json' -H 'accept: application/json' \
+  -H "Authorization: Bearer $token" $json #\
+  # -w "%{http_code}" `
+  # -H "Authorization: Bearer $token" $json -o brave.tgz`
+
+
+# echo "$out"
+# echo -----
+if [ -t 1 ] ; then
+  echo "$out"|jq || echo "$out"
+else
+  echo "$out"
+fi

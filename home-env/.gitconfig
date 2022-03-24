@@ -25,13 +25,14 @@
 
   f = fetch -p
   #fpr = !sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
-  
+
   l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
   #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
   lg = log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
   mm=merge --no-ff --no-edit
   mt=mergetool
   null=!git push origin :`git branch --show-current`
+  pru=!git branch -d `git branch --merged master| grep -vw master| grep -v releases/3.x`
 
   p  = pull --rebase
   pb=!git push origin --set-upstream `git branch --show-current`

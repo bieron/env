@@ -15,7 +15,7 @@ sudo loadkeys pl
 sudo setfont Ubuntu -m 8859-2
 sudo localectl set-x11-keymap pl
 
-feh --bg-fill `find Pictures/wallpapers/ -type f|shuf -n 1`
+fehbg
 [ -f .Xresources ] && xrdb .Xresources
 eval `ssh-agent`
 ssh-add
