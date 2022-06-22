@@ -7,7 +7,7 @@
 # layout, use the i3-config-wizard
 #
 # font pango:DejaVu Sans Mono 8
-font pango:Ubuntu Mono 7
+font pango:Ubuntu 8
 #
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -16,15 +16,19 @@ set $down k
 set $left j
 set $right semicolon
 
-# use Mouse+Mod1 to drag floating windows to their wanted position
-floating_modifier Mod1
+# Mod1 L alt
+# Mod4 win
+set $mod Mod1
+
+# use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
 
 # start a terminal
-bindsym Mod1+Return exec urxvt
-# bindsym Mod1+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
+# bindsym $mod+Return exec i3-sensible-terminal
 
 # everyday usage goodies
-bindsym Mod1+Escape exec i3lock -c000000
+bindsym $mod+Escape exec i3lock -c000000
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo +6%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo -7%
@@ -32,72 +36,72 @@ bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute   alsa_out
 
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 4
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
-bindsym --release Mod1+q exec --no-startup-id scrot -so /tmp/ss.png && xclip -t image/png -selection clipboard /tmp/ss.png
+bindsym --release $mod+q exec --no-startup-id scrot -s --overwrite /tmp/ss.png && xclip -t image/png -selection clipboard /tmp/ss.png
 
 # kill focused window
-bindsym Mod1+Shift+q kill
+bindsym $mod+Shift+q kill
 
 # bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 14"
-bindsym Mod1+d exec rofi -show run -lines 10
-bindsym Mod1+g exec google-chrome
-bindsym Mod1+m exec javaws ~/Downloads/sidoma_kl.jnlp
+bindsym $mod+d exec rofi -show run -lines 10
+bindsym $mod+g exec google-chrome
+bindsym $mod+m exec javaws ~/Downloads/sidoma_kl.jnlp
 
 # change focus
-bindsym Mod1+$left focus left
-bindsym Mod1+$down focus down
-bindsym Mod1+$up focus up
-bindsym Mod1+$right focus right
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
 
 # alternatively, you can use the cursor keys:
-bindsym Mod1+Left focus left
-bindsym Mod1+Down focus down
-bindsym Mod1+Up focus up
-bindsym Mod1+Right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
 # move focused window
-bindsym Mod1+Shift+$left move left
-bindsym Mod1+Shift+$down move down
-bindsym Mod1+Shift+$up move up
-bindsym Mod1+Shift+$right move right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 
 # alternatively, you can use the cursor keys:
-bindsym Mod1+Shift+Left move left
-bindsym Mod1+Shift+Down move down
-bindsym Mod1+Shift+Up move up
-bindsym Mod1+Shift+Right move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym Mod1+h split h
+bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym Mod1+v split v
+bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym Mod1+f fullscreen toggle
+bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym Mod1+s layout stacking
-bindsym Mod1+w layout tabbed
-bindsym Mod1+e layout toggle split
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym Mod1+Shift+space floating toggle
+bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym Mod1+space focus mode_toggle
+bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym Mod1+a focus parent
+bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym Mod1+d focus child
+#bindsym $mod+d focus child
 
 # move the currently focused window to the scratchpad
-bindsym Mod1+Shift+minus move scratchpad
+bindsym $mod+Shift+minus move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym Mod1+minus scratchpad show
+bindsym $mod+minus scratchpad show
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -113,81 +117,81 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym Mod1+1 workspace $ws1
-bindsym Mod1+2 workspace $ws2
-bindsym Mod1+3 workspace $ws3
-bindsym Mod1+4 workspace $ws4
-bindsym Mod1+5 workspace $ws5
-bindsym Mod1+6 workspace $ws6
-bindsym Mod1+7 workspace $ws7
-bindsym Mod1+8 workspace $ws8
-bindsym Mod1+9 workspace $ws9
-bindsym Mod1+0 workspace $ws10
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym Mod1+Shift+1 move container to workspace $ws1
-bindsym Mod1+Shift+2 move container to workspace $ws2
-bindsym Mod1+Shift+3 move container to workspace $ws3
-bindsym Mod1+Shift+4 move container to workspace $ws4
-bindsym Mod1+Shift+5 move container to workspace $ws5
-bindsym Mod1+Shift+6 move container to workspace $ws6
-bindsym Mod1+Shift+7 move container to workspace $ws7
-bindsym Mod1+Shift+8 move container to workspace $ws8
-bindsym Mod1+Shift+9 move container to workspace $ws9
-bindsym Mod1+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
 
 # reload the configuration file
-bindsym Mod1+Shift+c reload
+bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym Mod1+Shift+r restart
+bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-# bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 set $mode_system 'System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown'
 mode "$mode_system" {
-    bindsym l exec --no-startup-id ~/bin/i3exit lock, mode "default"
-    bindsym e exec --no-startup-id ~/bin/i3exit logout, mode "default"
-    bindsym s exec --no-startup-id ~/bin/i3exit suspend, mode "default"
-    bindsym h exec --no-startup-id ~/bin/i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id ~/bin/i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id ~/bin/i3exit shutdown, mode "default"
+  bindsym l exec --no-startup-id ~/bin/i3exit lock, mode "default"
+  bindsym e exec --no-startup-id ~/bin/i3exit logout, mode "default"
+  bindsym s exec --no-startup-id ~/bin/i3exit suspend, mode "default"
+  bindsym h exec --no-startup-id ~/bin/i3exit hibernate, mode "default"
+  bindsym r exec --no-startup-id ~/bin/i3exit reboot, mode "default"
+  bindsym Shift+s exec --no-startup-id ~/bin/i3exit shutdown, mode "default"
 
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
-bindsym Mod1+Shift+e mode "$mode_system"
+bindsym $mod+Shift+e mode "$mode_system"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-    # These bindings trigger as soon as you enter the resize mode
+  # These bindings trigger as soon as you enter the resize mode
 
-    # Pressing left will shrink the window’s width.
-    # Pressing right will grow the window’s width.
-    # Pressing up will shrink the window’s height.
-    # Pressing down will grow the window’s height.
-    bindsym $left       resize shrink width 10 px or 10 ppt
-    bindsym $down       resize grow height 10 px or 10 ppt
-    bindsym $up         resize shrink height 10 px or 10 ppt
-    bindsym $right      resize grow width 10 px or 10 ppt
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindsym $left       resize shrink width 10 px or 10 ppt
+  bindsym $down       resize grow height 10 px or 10 ppt
+  bindsym $up         resize shrink height 10 px or 10 ppt
+  bindsym $right      resize grow width 10 px or 10 ppt
 
-    # same bindings, but for the arrow keys
-    bindsym Left        resize shrink width 10 px or 10 ppt
-    bindsym Down        resize grow height 10 px or 10 ppt
-    bindsym Up          resize shrink height 10 px or 10 ppt
-    bindsym Right       resize grow width 10 px or 10 ppt
+  # same bindings, but for the arrow keys
+  bindsym Left        resize shrink width 10 px or 10 ppt
+  bindsym Down        resize grow height 10 px or 10 ppt
+  bindsym Up          resize shrink height 10 px or 10 ppt
+  bindsym Right       resize grow width 10 px or 10 ppt
 
-    # back to normal: Enter or Escape or Mod1+r
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym Mod1+r mode "default"
+  # back to normal: Enter or Escape or $mod+r
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
 }
 
-bindsym Mod1+r mode "resize"
+bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    status_command i3status | ~/env/statusbar
+  status_command i3status | ~/env/statusbar
 }
 
 default_border pixel 1
@@ -204,9 +208,22 @@ default_border pixel 1
 
 # dual screen config for sokrates
 # TODO skip if HDMI2 not attached
-exec --no-startup-id xrandr --output HDMI2 --auto --left-of eDP1
-bindsym Mod1+p move workspace to output right
+# exec --no-startup-id xrandr --output HDMI2 --auto --left-of eDP1
+# exec --no-startup-id xrandr --output XWAYLAND0 --auto --right-of XWAYLAND1
+exec --no-startup-id xrdb -merge .Xresources
+# exec --no-startup-id sudo loadkeys pl
+# exec --no-startup-id sudo setfont Ubuntu -m 8859-2
+# exec --no-startup-id sudo localectl set-x11-keymap pl
+# exec --no-startup-id swaybg -i Pictures/wallpapers/IMG_20220305_151823.jpg &
+bindsym $mod+p move workspace to output right
+# exec --no-startup-id 'wlr-randr --output HDMI-A-2 --preferred --pos 0,0 --output eDP-1 --preferred --pos 1920,0'
 workspace 1 output HDMI2
-workspace 2 output EDP1
-
-exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/chrome'
+# workspace 1 output HDMI-A-2
+workspace 2 output eDP1
+# workspace 2 output eDP-1
+exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/google-chrome'
+#input "type:keyboard" {
+#  xkb_layout "pl"
+#  xkb_options "grp:win_space_toggle"
+#}
+exec --no-startup-id picom -b

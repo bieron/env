@@ -203,6 +203,7 @@ Plug 'rking/ag.vim'
 Plug 'leafgarland/typescript-vim'
 " Plug 'jacoborus/tender.vim'
 Plug 'KeitaNakamura/neodark.vim'
+Plug 'rust-lang/rust.vim'
 
 " Plug 'nvie/vim-flake8'
 " Plug 'Quramy/tsuquyomi'

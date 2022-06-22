@@ -4,22 +4,46 @@ if [ "$1" = "-x" ]; then
     shift
 fi
 
-CRIBL_PORT=${CRIBL_PORT:-9000}
+port=9000
+user=admin
+pass=admin
 
-if [ -z "$1" ]; then
+while getopts hxp: opt; do
+  case $opt in
+    h) echo $0: talks to cribl server HTTP API
+       echo "-p	server port, default is $port"
+       echo "-c	credentials in form user:password, default is $user:$pass"
+       echo '-x	set -x'
+       exit;;
+    x) set -x
+        shift
+       break;;
+    p) port=$OPTARG
+        shift; shift
+       break;;
+    c) user=$OPTARG; pass=$OPTARG
+        shift; shift
+       break;;
+  esac
+done
+
+echo $port $user $pass $1
+
+path=$1
+if [ -z "$path" ]; then
   2>&1 echo Usage: $0 PATH [METHOD] [JSON]
   exit 2
 fi
 
-path=$1
 method=${2:-GET}
 if [ -n "$3" ]; then
   json="-d $3"
 fi
 
-token=`curl -X POST http://localhost:$CRIBL_PORT/api/v1/auth/login \
+token=`curl -X POST http://localhost:$port/api/v1/auth/login \
   -H 'Content-Type: application/json' -H 'accept: application/json' \
-  -d '{"username":"admin","password":"admin"}' -s| jq .token -r`
+  -d '{"username":"'$user'","password":"'$pass'"}' -s| jq .token -r`
+  # -d '{"username":"noob","password":"123123123"}' -s| jq .token -r`
   # -d '{"username":"loser","password":"dupadupa"}' -s| jq .token -r`
 
 if [ $? != 0 ]; then
@@ -32,8 +56,9 @@ fi
 #   -H "Authorization: Bearer $token" $json -o pack.crbl
 # exit
 
-out=`curl -X $method "http://localhost:$CRIBL_PORT/api/v1/$path" \
-  -H 'Content-Type: application/json' -H 'accept: application/json' \
+out=`curl -X $method "http://localhost:$port/api/v1/$path" \
+  -H 'Content-Type: application/json' \
+  -H 'accept: application/json' \
   -H "Authorization: Bearer $token" $json #\
   # -w "%{http_code}" `
   # -H "Authorization: Bearer $token" $json -o brave.tgz`

@@ -39,8 +39,10 @@ alias mkd='mkdir -pv' #creates dir
 alias ..='cd ..'
 alias wget='wget -c' #resume last download
 function ports() {
-  sudo netstat -tulanp | grep ${1:-''}
+  # sudo netstat -tulanp | grep ${1:-''}
+  sudo ss -HlnpO src :$1 | awk '{print $NF}'|tr , '\t'|tr = ' '
 }
+
 # alias perlsyn='for f in `git diff --name-only|grep pm$`; do echo; echo $f; perl -cIlib $f; done'
 alias pe=perl
 alias py=python3
@@ -200,3 +202,9 @@ alias :o='echo "⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿�
 ⣿⣿⣿⣿⣿⣿⣿⣿⡀⠉⠀⠀⠀⠀⠀⢄⠀⢀⠀⠀⠀⠀⠉⠉⠁⠀⠀⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿"'
+
+function tmp() {
+    dir=`mktemp -d /tmp/${1}_XXXX`
+    echo $dir
+    cd $dir
+}

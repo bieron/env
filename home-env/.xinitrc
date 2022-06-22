@@ -15,7 +15,7 @@ sudo loadkeys pl
 sudo setfont Ubuntu -m 8859-2
 sudo localectl set-x11-keymap pl
 
-fehbg
+bin/fehbg
 [ -f .Xresources ] && xrdb .Xresources
 eval `ssh-agent`
 ssh-add
@@ -23,7 +23,8 @@ ssh-add
 which blueman-applet &>/dev/null && blueman-applet &
 
 # rotate i3 logs
-mv .i3/out.log{,.1} 2>/dev/null
-mv .i3/err.log{,.1} 2>/dev/null
+mv .i3/i3.out{,.1} 2>/dev/null
+mv .i3/i3.err{,.1} 2>/dev/null
 
-exec i3 -c .i3/config >.i3/out.log 2>.i3/err.log
+# exec sway -c .i3/config >.i3/sway.out 2>.i3/sway.err
+exec i3 -c .i3/config >.i3/i3.out 2>.i3/i3.err
