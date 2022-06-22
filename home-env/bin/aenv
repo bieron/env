@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ -z "$2" ]; then
+  >&2 echo $0: greps for NEEDLE in env vars of a PID
+  >&2 echo usage: $0 NEEDLE PID
+  exit 2
+fi
+
+grep -az "$1" /proc/$2/environ | xargs -0L1 | grep --color "$1"

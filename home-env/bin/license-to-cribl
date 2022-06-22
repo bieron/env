@@ -1,0 +1,4 @@
+#!/bin/bash
+lic=$(<~/dev/cribl/licenses/license-cribl-dev-nfr.txt)
+CRIBL_PORT=${1:-9000}
+crul -p $CRIBL_PORT system/licenses POST '{"license":"'$lic'"}'
