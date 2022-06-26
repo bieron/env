@@ -1,242 +1,448 @@
-let mapleader="\<Space>"
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>s :mksession<CR>
+lua << EOF
+vim.g.mapleader = " "
 
-set guioptions=cagt
-set nocompatible  " Use Vim defaults (much better!)
-set backspace=indent,eol,start " allow backspacing over everything in insert mode
-set history=200
-set undolevels=400
-set backup
-set backupdir=/var/tmp
-" set directory=~/.vim/swap,/var/tmp
+vim.opt.guioptions=cagt
+vim.opt.compatible=false  -- Use Vim defaults (much better!)
+vim.opt.backspace="indent,eol,start" -- allow backspacing over everything in insert mode
+vim.opt.history=200
+vim.opt.undolevels=400
+vim.opt.backup=true
+vim.opt.backupdir="/var/tmp"
 
-nnoremap <F12> :set nu!<CR>
+vim.opt.complete=".,w,k,t" -- .currentWin, otherWins, dicKtionary, Tlist
+vim.opt.autoindent=true
+vim.opt.smartindent=true
+vim.opt.cindent=true
 
-set complete=.,w,k,t " .currentWin, otherWins, dicKtionary, Tlist
-set autoindent smartindent
-set cindent
+vim.opt.pastetoggle="<Insert>"
+vim.opt.mouse=a
 
-set pastetoggle=<Insert>
-set mouse=a
+vim.opt.wildmenu=true -- use completion menu
+vim.opt.wildmode="longest:list"
+vim.opt.wildignore="*.bak,*.o,*.e,*~"
+vim.opt.wildignorecase=true
 
-set wildmenu      " use completion menu
-set wildmode=longest:list
-set wildignore=*.bak,*.o,*.e,*~
-set wildignorecase
+vim.opt.smartcase=true   -- do not ignore case if pattern has mixed case (see ignorecase)
+vim.opt.autowrite=true   -- automatically save before commands like :next and :make
+vim.opt.lazyredraw=false -- update screen while executing macros etc.
+vim.opt.title=true       -- shows the current filename and path in the term title.
+vim.opt.showmatch=true   -- highlight corresponding bracket
+vim.opt.ignorecase=true
+vim.opt.gdefault=true    -- all search /g by default
+vim.opt.hlsearch=true
+vim.opt.incsearch=true
+vim.opt.showmode=true
+vim.opt.cursorline=true  -- highlight line with cursor
 
-set smartcase     " do not ignore case if pattern has mixed case (see ignorecase)
-set autowrite     " automatically save before commands like :next and :make
-"set lazyredraw   " do not update screen while executing macros etc.
-set title         " shows the current filename and path in the term title.
-set showmatch     "highlight corresponding bracket
-set ignorecase
-set smartcase     "do not ignore case when pattern has Mixed cAsE
-set gdefault      "all search /g by default
-set hlsearch incsearch
-set showmode
-set cursorline   "highlight line with cursor
+vim.opt.undofile=true -- Maintain undo history between sessions
+vim.opt.undodir="~/.vim/undodir"
 
-set undofile " Maintain undo history between sessions
-set undodir=~/.vim/undodir
+vim.opt.nu=true
+vim.opt.ruler=true
+vim.opt.list=true
 
-"With these mappings, if 'smartcase' is on and you press * while on the word "The",
-" you will only find "The" (case sensitive),
-" but if you press * while on the word "the", the search will not be case sensitive.
-nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
-nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
+vim.opt.laststatus=2 -- always show status
 
-"move to next physical line, do not get fooled by wraps
-nnoremap j gj
-nnoremap k gk
-nnoremap <C-a> ^
-"nnoremap <C-e> $
-nnoremap + <C-a>h " increment/decrement done sensibly
-nnoremap - <C-x>
+vim.opt.foldenable=true
+-- vim.opt.foldmethod=marker
+-- vim.opt.foldmethod=syntax
+-- vim.opt.foldlevelstart=1
+vim.opt.shiftwidth=4
+vim.opt.shiftround=true
+vim.opt.expandtab=true
+vim.opt.smarttab=true
+vim.opt.tabstop=4
+vim.opt.wrap=false
+vim.opt.virtualedit=all
 
-" search using visually selected text
-vnoremap // y/<C-R>"<CR>
+vim.opt.splitbelow=true
+vim.opt.splitright=true
 
-" copy/paste to system clipboard
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
+-- vim.opt.foldmethod=indent,marker
+vim.opt.foldnestmax=10
+-- vim.opt.nofoldenable
+vim.opt.foldlevel=2
+vim.opt.inccommand=nosplit
 
-set nu
-set ruler
-set list
+vim.opt.statusline= "%-3.3n " ..    -- buffer number
+  "%f " ..
+  "%h%m%r%w" ..
+  "[%{strlen(&ft)?&ft:'none'}, " .. -- filetype
+  "%{&encoding}, " ..
+  "%{&fileformat}] " ..
+  "%=" ..                           -- right align
+  "   " ..
+  "0x%B/%-8b " ..                   -- current char
+  "%v," ..
+  "%(%l/%L%)"
 
-set laststatus=2    "always show status
-set statusline=
-set statusline+=%-3.3n\                      " buffer number
-set statusline+=%f\                          " file name
-set statusline+=%h%m%r%w                     " flags
-set statusline+=\[%{strlen(&ft)?&ft:'none'}, " filetype
-set statusline+=%{&encoding},                " encoding
-set statusline+=%{&fileformat}]              " file format
-set statusline+=%=                           " right align
-"set statusline+=%#perlInfo#%{CurrentFunction()}%*
-set statusline+=\ \ \
-set statusline+=0x%B/%-8b\                      " current char
-set statusline+=%v,
-set statusline+=%(%l/%L%)
-set shortmess+=I
+vim.opt.cc="100"
 
-filetype plugin indent on
-set foldenable
-set foldmethod=marker
-"set foldmethod=syntax
-"set foldlevelstart=1
-set shiftwidth=4
-set shiftround
-set expandtab smarttab tabstop=4
-set nowrap
-set virtualedit=all
+local map = vim.api.nvim_set_keymap
 
-set splitbelow
-set splitright
+function nnoremap(from, to) map("n", from, to, {noremap=true}) end
 
-syntax on
-noremap Y y$
-autocmd BufNewFile * call functions#NewFile()
+nnoremap("<leader>w", ":w<cr>")
+nnoremap("<leader>s", ":mksession<cr>")
+-- With these mappings, if 'smartcase' is on and you press * while on the word "The",
+--  you will only find "The" (case sensitive),
+--  but if you press * while on the word "the", the search will not be case sensitive.
+nnoremap("*", "/<<C-R>=expand('<cword>')<CR>><CR>")
+nnoremap("#", "?<<C-R>=expand('<cword>')<CR>><CR>")
+nnoremap("<F12>", ":set nu!<CR>")
+nnoremap("<C-j>", ":r! ticket -k 2>/dev/null<CR>")
 
-"nnoremap <C-Left> <C-W><LEFT>
-"nnoremap <C-Right> <C-W><RIGHT>
-"nnoremap <C-Down> <C-W><DOWN>
-"nnoremap <C-Up> <C-W><UP>
+nnoremap("j", "gj")
+nnoremap("k", "gk")
+nnoremap("<C-a>", "^")
+nnoremap("+","<C-a>h") -- increment/decrement done sensibly
+nnoremap("-","<C-x>")
+
+-- search using visually selected text
+map("n", "//", "y/<C-R>\"<CR>",{})
+
+-- copy/paste to system clipboard
+map("v", "<Leader>y", "\"+y", {})
+map("v", "<Leader>d", "\"+d", {})
+map("v", "<Leader>p", "\"+p", {})
+map("v", "<Leader>P", "\"+P", {})
+map("n", "<Leader>p", "\"+p", {})
+map("n", "<Leader>P", "\"+P", {})
+
+map("", "<F4>", ":Git blame", {noremap=true})
+map("", "Y", "y$", {noremap=true})
+
+map("n", "<leader>a", ":Ag<space>", {silent=true})
+map("", "<C-s>", ":%s/\\s\\+$//e<CR>", {silent=true}) -- trim whitespaces
+
+-- <Ctrl-l> redraws the screen and removes any search highlighting.
+map("n", "<C-l>", ":nohl<CR><C-l", {silent=true, noremap=true})
+
+local cmd = vim.api.nvim_command
+
+--local function autocmd(this, event, spec)
+--    print("this", this)
+--    print("event", event)
+--    print("spec", spec)
+--   local is_table = type(spec) == 'table'
+--    local pattern = is_table and spec[1] or '*'
+--    local action = is_table and spec[2] or spec
+--    if type(action) == 'function' then
+--        action = this.set(action)
+--    end
+--    local e = type(event) == 'table' and table.concat(event, ',') or event
+--    print('autocmd ' .. e .. ' ' .. pattern .. ' ' .. action)
+--   -- cmd('autocmd ' .. e .. ' ' .. pattern .. ' ' .. action)
+--end
+cmd("autocmd BufNewFile * call functions#NewFile()")
+
+cmd("autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}")
+cmd("autocmd FileType javascript setlocal shiftwidth=2 tabstop=2")
+cmd("autocmd FileType perl iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i")
+cmd("autocmd FileType perl iab ddw warn pp;<LEFT>")
+cmd("autocmd FileType perl map <buffer> <F7> :!perlcritic -3 %<CR>")
+cmd("autocmd FileType perl noremap <F5> :!perl -cIlib %<CR>")
+cmd("autocmd FileType python iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i")
+cmd("autocmd FileType python noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>")
+cmd("autocmd FileType python noremap <F11> :!python3 -m py_compile %<CR>")
+cmd("autocmd FileType python noremap <F8> :sp term://python3 -mpyflakes %<CR>")
+cmd("autocmd FileType python noremap <buffer> <F7> :call flake8#Flake8()<CR>")
+cmd("autocmd FileType python setlocal foldmethod=indent")
+cmd("autocmd FileType typescript iab aw await")
+cmd("autocmd FileType typescript iab ddd this.dLogger.warn(<ESC>F%s:call getchar()")
+cmd("autocmd FileType typescript inoreab ins console.log(inspect(  , false, 42, true));")
+cmd("autocmd FileType typescript inoreab insp import {inspect} from 'util';")
+cmd("autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>")
+cmd("autocmd FileType typescript setlocal shiftwidth=2 tabstop=2")
+cmd("autocmd FileType typescriptreact setlocal filetype=typescript")
+
+--move to next physical line, do not get fooled by wraps
+--nnoremap <C-e> $
+
+--filetype plugin indent on
+--syntax on
+-- autocmd BufNewFile * call functions#NewFile()
+
+--nnoremap <C-Left> <C-W><LEFT>
+--nnoremap <C-Right> <C-W><RIGHT>
+--nnoremap <C-Down> <C-W><DOWN>
+--nnoremap <C-Up> <C-W><UP>
 
 
-"-----------------------------------------------------------
-"abbreviations
-"-----------------------------------------------------------
-noremap! [ []<LEFT>
-noremap! { {}<LEFT>
-noremap! ( ()<LEFT>
-noremap! " ""<LEFT>
-noremap! ' ''<LEFT>
+-------------------------------------------------------------
+--abbreviations
+-------------------------------------------------------------
+--noremap! [ []<LEFT>
+--noremap! { {}<LEFT>
+--noremap! ( ()<LEFT>
+--noremap! " ""<LEFT>
+--noremap! ' ''<LEFT>
+map("", "[", "[]<LEFT>",{noremap=true})
+map("", "{", "{}<LEFT>",{noremap=true})
+map("", "(", "()<LEFT>",{noremap=true})
+map("", '"', '""<LEFT>',{noremap=true})
+map("", "'", "''<LEFT>",{noremap=true})
 
-noremap <F4> :Git blame
-autocmd FileType perl noremap <F5> :!perl -cIlib %<CR>
-" noremap <F6> :!perlcritic -3 %<CR>
-" noremap <F7> :!perl -Ilib %<CR>
-""noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
-" noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
-autocmd FileType python noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>
-autocmd FileType python noremap <F8> :sp term://python3 -mpyflakes %<CR>
-" --rcfile ~/.pylintrc %<CR>
-" noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
-" noremap <F9> :!python -m py_compile %<CR>
-autocmd FileType python noremap <F11> :!python3 -m py_compile %<CR>
-" autocmd FileType js noremap <F11> :!node -c %<CR>
-autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>
-nmap <silent> <leader>a :Ag<space>
-nmap <silent> <C-s> :%s/\s\+$//e<CR> " trim whitespaces
-" "e    to open file and close the quickfix window
-" "o    to open (same as enter)
-" "go   to preview file (open but maintain focus on ag.vim results)
-" "t    to open in new tab
-" "T    to open in new tab silently
-" "h    to open in horizontal split
-" "H    to open in horizontal split silently
-" "v    to open in vertical split
-" "gv   to open in vertical split silently
-" "q    to close the quickfix window
-autocmd FileType python noremap <buffer> <F7> :call flake8#Flake8()<CR>
-autocmd FileType perl map <buffer> <F7> :!perlcritic -3 %<CR>
-
-autocmd FileType python iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
-autocmd FileType perl iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i
-autocmd FileType perl iab ddw warn pp;<LEFT>
-autocmd FileType typescript iab ddd this.dLogger.warn(<ESC>F%s:call getchar()
-autocmd FileType typescript iab aw await
-autocmd FileType typescript inoreab insp import {inspect} from 'util';
-autocmd FileType typescript inoreab ins console.log(inspect(  , false, 42, true));
+-- noremap <F6> :!perlcritic -3 %<CR>
+-- noremap <F7> :!perl -Ilib %<CR>
+-- noremap <F8> :tabe term://pylint --rcfile var/pylintrc %<CR>
+-- noremap <F8> :sp term://pylint --rcfile ~/.pylintrc %<CR>
+-- --rcfile ~/.pylintrc %<CR>
+-- noremap <F9> :sp term:///home/jb/.pyenv/shims/pylint %<CR>
+-- noremap <F9> :!python -m py_compile %<CR>
+-- autocmd FileType js noremap <F11> :!node -c %<CR>
+-- "e    to open file and close the quickfix window
+-- "o    to open (same as enter)
+-- "go   to preview file (open but maintain focus on ag.vim results)
+-- "t    to open in new tab
+-- "T    to open in new tab silently
+-- "h    to open in horizontal split
+-- "H    to open in horizontal split silently
+-- "v    to open in vertical split
+-- "gv   to open in vertical split silently
+-- "q    to close the quickfix window
 
 
-" let perl_fold=1
-let sh_fold_enabled=1
-" let perl_extended_vars=1
-" let perl_sync_dist=250
+-- let perl_fold=1
+--let sh_fold_enabled=1
+-- let perl_extended_vars=1
+-- let perl_sync_dist=250
 
-"map <F3> "jyiw:<C-r>j
-"map <F7> ^"jyf;:! echo '\x \\ '"<C-r>j" \| psql tutsi<CR>
-"map <F8> ^"jyf;:! psql -c "<C-r>j" tutsi<CR>
-"vmap <F7> "jy:! echo '\x \\ '"<C-r>j" \| psql tutsi<CR>
-"vmap <F8> "jy:! psql -c "<C-r>j" tutsi<CR>
+--map <F3> "jyiw:<C-r>j
+--map <F7> ^"jyf;:! echo '\x \\ '"<C-r>j" \| psql tutsi<CR>
+--map <F8> ^"jyf;:! psql -c "<C-r>j" tutsi<CR>
+--vmap <F7> "jy:! echo '\x \\ '"<C-r>j" \| psql tutsi<CR>
+--vmap <F8> "jy:! psql -c "<C-r>j" tutsi<CR>
 
-" <Ctrl-l> redraws the screen and removes any search highlighting.
-nnoremap <silent> <C-l> :nohl<CR><C-l>
+local Plug = vim.fn['plug#']
+vim.call('plug#begin', '~/.vim/plugged')
 
-call plug#begin('~/.vim/plugged')
-"Plug 'altercation/vim-colors-solarized'
-"Plug 'chrisbra/csv.vim'
-"Plug 'henrik/vim-indexed-search'
-"Plug 'luochen1990/rainbow'
-"Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
-"Plug 'msanders/snipmate.vim'
-"Plug 'mileszs/ack.vim'
-"Plug 'xolox/vim-misc'
-"Plug 'xolox/vim-easytags'
-"Plug 'scrooloose/nerdtree'
-"Plug 'jistr/vim-nerdtree-tabs'
-"Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
-"Plug 'mileszs/ack.vim'
+--Plug 'altercation/vim-colors-solarized'
+--Plug 'chrisbra/csv.vim'
+--Plug 'henrik/vim-indexed-search'
+--Plug 'luochen1990/rainbow'
+--Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
+--Plug 'msanders/snipmate.vim'
+--Plug 'mileszs/ack.vim'
+--Plug 'xolox/vim-misc'
+--Plug 'xolox/vim-easytags'
+--Plug 'scrooloose/nerdtree'
+--Plug 'jistr/vim-nerdtree-tabs'
+--Plug 'derekwyatt/vim-fswitch' ".cpp <-> .h
+--Plug 'mileszs/ack.vim'
 
 Plug 'airblade/vim-gitgutter'
-" Plug 'bogado/file-line' " https://github.com/bogado/file-line/issues/56
+-- Plug 'bogado/file-line' " https://github.com/bogado/file-line/issues/56
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
-" Plug 'pjcj/vim-hl-var'
-" Plug 'vim-syntastic/syntastic'
+-- Plug 'pjcj/vim-hl-var'
+-- Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
 Plug 'vim-scripts/genutils'
-Plug 'wincent/command-t', {'do' : 'rake make'}
+Plug('wincent/command-t', { ["do"] = "rake make" })
 Plug 'tpope/vim-commentary'
-" " Plug 'vim-perl/vim-perl'
+-- " Plug 'vim-perl/vim-perl'
 Plug 'ap/vim-css-color'
 Plug 'rking/ag.vim'
 Plug 'leafgarland/typescript-vim'
-" Plug 'jacoborus/tender.vim'
+-- Plug 'jacoborus/tender.vim'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'rust-lang/rust.vim'
 
-" Plug 'nvie/vim-flake8'
-" Plug 'Quramy/tsuquyomi'
-" Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" For async completion
-" Plug 'Shougo/deoplete.nvim'
-" For Denite features
-" Plug 'Shougo/denite.nvim'
-" Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
-call plug#end()
-let g:coc_global_extensions = [ 'coc-tsserver' ]
-" https://github.com/neoclide/coc.nvim/issues/531
-nmap <Esc> :call coc#float#close_all() <CR>
-" Remap keys for applying codeAction to the current line.
-nmap <leader>cc <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>cf <Plug>(coc-fix-current)
-nnoremap <leader><ESC> :call coc#util#float_hide()<CR>
-" Show autocomplete when Tab is pressed
-inoremap <silent><expr> <Tab> coc#refresh()
+-- Plug 'nvie/vim-flake8'
+-- Plug 'Quramy/tsuquyomi'
+-- Plug 'HerringtonDarkholme/yats.vim'
+-- Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+-- For async completion
+-- Plug 'Shougo/deoplete.nvim'
+-- For Denite features
+-- Plug 'Shougo/denite.nvim'
+-- Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug('neoclide/coc.nvim' , { branch = "release" })
+vim.call("plug#end")
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <leader>e <Plug>(coc-diagnostic-next-error)
-nmap <silent> <leader>r <Plug>(coc-diagnostic-next)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+map("n", "<leader>g", ":GitGutterToggle<CR>", {silent=true})
 
-function! s:show_documentation()
+vim.g.coc_global_extensions = { 'coc-tsserver' }
+vim.g.gitgutter_max_signs=500  -- default value
+vim.g.typescript_compiler_options = '--lib es6'
+
+
+-- https://github.com/neoclide/coc.nvim/issues/531
+map("n", "<Esc>", ":call coc#float#close_all()<CR>", {})
+-- Remap keys for applying codeAction to the current line.
+map("n", "<leader>cc", "<Plug>(coc-codeaction)", {})
+
+-- Apply AutoFix to problem on the current line.
+map("n", "<leader>cf","<Plug>(coc-fix-current)", {})
+nnoremap("<leader><ESC>",":call coc#util#float_hide()<CR>", {})
+-- Show autocomplete when Tab is pressed
+map("i", "<Tab>", "coc#refresh", {silent=true, expr=true})
+-- inoremap <silent><expr> <Tab> coc#refresh()
+
+
+-- GoTo code navigation.
+map("n", "gd", "<Plug>(coc-definition)", {silent=true})
+map("n", "gy", "<Plug>(coc-type-definition)", {silent=true})
+map("n", "gi", "<Plug>(coc-implementation)", {silent=true})
+map("n", "gr", "<Plug>(coc-references)", {silent=true})
+map("n", "<leader>e", "<Plug>(coc-diagnostic-next-error)", {silent=true})
+map("n", "<leader>r", "<Plug>(coc-diagnostic-next)", {silent=true})
+
+map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
+
+
+--  autocmd FileType typescript setlocal completeopt-=menu
+
+--  SYNTASTIC
+--  set statusline+=%#warningmsg#
+--  set statusline+=%{SyntasticStatuslineFlag()}
+--  set statusline+=%*
+--  let g:syntastic_aggregate_errors=1
+--  let g:syntastic_always_populate_loc_list = 0
+--  let g:syntastic_auto_loc_list = 0
+--  let g:syntastic_check_on_open = 0
+--  let g:syntastic_check_on_wq = 0
+--  let g:syntastic_enable_signs=0
+--  let g:syntastic_mode="passive"
+--  let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': []}
+--  nnoremap <leader>c :SyntasticCheck<CR> :lopen<CR>
+-- let g:flake8_show_in_file=1
+-- let g:flake8_show_in_gutter=1
+
+--  map <space> \
+
+--  GIT GUTTER
+--  nmap <silent> <leader>s :GitGutterSignsToggle<CR>
+--  nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
+
+-- You can jump between hunks:
+--    jump to next hunk (change): ]c
+--    jump to previous hunk (change): [c.
+
+-- You can stage or revert an individual hunk when your cursor is in it:
+--    stage the hunk with <Leader>hs or
+--    revert it with <Leader>hr.
+
+-- " ----- xolox/vim-easytags settings -----
+-- " Where to look for tags files
+-- set tags=./tags;,~/.vimtags
+-- " Sensible defaults
+-- let g:easytags_events = ['BufReadPost', 'BufWritePost']
+-- let g:easytags_async = 1
+-- let g:easytags_dynamic_files = 2
+-- let g:easytags_resolve_links = 1
+-- let g:easytags_suppress_ctags_warning = 1
+-- 
+-- " ----- majutsushi/tagbar settings -----
+-- " Open/close tagbar with \b
+-- nmap <silent> <leader>b :TagbarToggle<CR>
+-- " Uncomment to open tagbar automatically whenever possible
+-- "autocmd BufEnter * nested :call tagbar#autoopen(0)
+
+
+-- let g:syntastic_error_symbol = '✘'
+-- let g:syntastic_warning_symbol = "▲"
+-- nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
+-- let g:NERDTreeShowHidden=1
+-- let g:nerdtree_tabs_open_on_console_startup=1
+
+-- nmap <silent> <leader>t :CommandT<CR> "default
+
+-- let g:netrw_liststyle = 3
+-- let g:netrw_winsize   = 15
+-- let g:netrw_banner = 0
+-- nmap <silent> <leader>t :Lex<CR>
+-- autocmd VimEnter * Lexplore
+--  colo Monokai
+--  colo tender
+--  let g:neodark#use_256color = 1
+-- hi Normal ctermbg=None
+-- hi NonText ctermfg=DarkGrey
+-- hi CocInfoSign ctermbg=8
+-- colorscheme neodark
+-- 
+-- set cc=100
+-- hi Normal ctermbg=None
+-- hi NonText ctermfg=DarkGrey
+-- hi CocInfoSign ctermbg=8
+-- colorscheme neodark
+-- 
+-- set cc=100
+--  set bg=dark
+
+--  Highlight a column in csv text.
+--  :Csv 1    " highlight first column
+--  :Csv 12   " highlight twelfth column
+--  :Csv 0    " switch off highlight
+-- function! CSVH(colnr)
+--   if a:colnr > 1
+--     let n = a:colnr - 1
+--     execute 'match Keyword /^\([^,]*,\)\{'.n.'}\zs[^,]*/'
+--     execute 'normal! 0'.n.'f,'
+--   elseif a:colnr == 1
+--     match Keyword /^[^,]*/
+--     normal! 0
+--   else
+--     match
+--   endif
+-- endfunction
+-- command! -nargs=1 Csv :call CSVH(<args>)
+
+--  hi TabLine ctermfg=Grey ctermbg=Black
+--  hi TabLineSel ctermfg=Yellow ctermbg=Black
+
+-- highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen  gui=none guifg=bg guibg=DarkGreen
+-- highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed    gui=none guifg=bg guibg=DarkRed
+-- highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
+-- highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
+
+
+-- nnoremap <F3> :make -C build/clang<CR>
+-- inoremap <F3> <ESC>:make -C build/clang<CR>
+-- nnoremap <F4> :make dd<CR>
+-- inoremap <F4> <ESC>:make dd<CR>
+-- nnoremap <F5> :make release<CR>
+-- inoremap <F5> <ESC>:make release<CR>
+-- nnoremap <F6> :make test<CR>
+-- inoremap <F6> <ESC>:make test<CR>
+-- nnoremap <F2> :wa<CR>
+-- inoremap <F2> <ESC>:wa<CR>a
+-- 
+-- nnoremap <F7> :botright cw<CR>:set colorcolumn=0<CR>
+-- inoremap <F7> <ESC>:botright cw<CR>:set colorcolumn=0<CR>
+-- nnoremap <F8> :ccl<CR>
+-- inoremap <F8> <ESC>:ccl<CR>
+-- 
+-- nnoremap <F9> :cprev<CR>
+-- inoremap <F9> <ESC>:cprev<CR>
+-- nnoremap <F10> :cnext<CR>
+-- inoremap <F10> <ESC>:cnext<CR>
+
+--  function! Test() range
+--      echo system('echo '.shellescape(join(getline(a:firstline, a:lastline), "\n")))
+--  endfunction
+
+--  https://sanctum.geek.nz/arabesque/vim-anti-patterns/
+--  noremap <Up> <nop>
+--  noremap <Down> <nop>
+--  noremap <Left> <nop>
+--  noremap <Right> <nop>
+-- 
+--  set directory=~/.vim/swap,/var/tmp
+
+EOF
+hi Normal ctermbg=None
+hi NonText ctermfg=DarkGrey
+hi CocInfoSign ctermbg=8
+colorscheme neodark
+
+
+let g:deoplete#enable_at_startup = 1
+
+function! Show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
@@ -245,151 +451,3 @@ function! s:show_documentation()
 endfunction
 
 let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"
-" autocmd FileType typescript setlocal completeopt-=menu
-
-" SYNTASTIC
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_aggregate_errors=1
-" let g:syntastic_always_populate_loc_list = 0
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_enable_signs=0
-" let g:syntastic_mode="passive"
-" let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': []}
-" nnoremap <leader>c :SyntasticCheck<CR> :lopen<CR>
-let g:flake8_show_in_file=1
-let g:flake8_show_in_gutter=1
-
-" map <space> \
-
-" GIT GUTTER
-nmap <silent> <leader>g :GitGutterToggle<CR>
-" nmap <silent> <leader>s :GitGutterSignsToggle<CR>
-" nmap <silent> <leader>h :GitGutterLineHighlightsToggle<CR>
-
-let g:gitgutter_max_signs=500  " default value
-"You can jump between hunks:
-"   jump to next hunk (change): ]c
-"   jump to previous hunk (change): [c.
-
-"You can stage or revert an individual hunk when your cursor is in it:
-"   stage the hunk with <Leader>hs or
-"   revert it with <Leader>hr.
-
-"" ----- xolox/vim-easytags settings -----
-"" Where to look for tags files
-"set tags=./tags;,~/.vimtags
-"" Sensible defaults
-"let g:easytags_events = ['BufReadPost', 'BufWritePost']
-"let g:easytags_async = 1
-"let g:easytags_dynamic_files = 2
-"let g:easytags_resolve_links = 1
-"let g:easytags_suppress_ctags_warning = 1
-"
-"" ----- majutsushi/tagbar settings -----
-"" Open/close tagbar with \b
-"nmap <silent> <leader>b :TagbarToggle<CR>
-"" Uncomment to open tagbar automatically whenever possible
-""autocmd BufEnter * nested :call tagbar#autoopen(0)
-
-
-"let g:syntastic_error_symbol = '✘'
-"let g:syntastic_warning_symbol = "▲"
-"nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
-"let g:NERDTreeShowHidden=1
-"let g:nerdtree_tabs_open_on_console_startup=1
-
-"nmap <silent> <leader>t :CommandT<CR> "default
-
-"let g:netrw_liststyle = 3
-"let g:netrw_winsize   = 15
-"let g:netrw_banner = 0
-"nmap <silent> <leader>t :Lex<CR>
-"autocmd VimEnter * Lexplore
-" colo Monokai
-" colo tender
-" let g:neodark#use_256color = 1
-hi Normal ctermbg=None
-hi NonText ctermfg=DarkGrey
-hi CocInfoSign ctermbg=8
-colorscheme neodark
-
-set cc=100
-" set bg=dark
-
-" Highlight a column in csv text.
-" :Csv 1    " highlight first column
-" :Csv 12   " highlight twelfth column
-" :Csv 0    " switch off highlight
-function! CSVH(colnr)
-  if a:colnr > 1
-    let n = a:colnr - 1
-    execute 'match Keyword /^\([^,]*,\)\{'.n.'}\zs[^,]*/'
-    execute 'normal! 0'.n.'f,'
-  elseif a:colnr == 1
-    match Keyword /^[^,]*/
-    normal! 0
-  else
-    match
-  endif
-endfunction
-command! -nargs=1 Csv :call CSVH(<args>)
-
-" hi TabLine ctermfg=Grey ctermbg=Black
-" hi TabLineSel ctermfg=Yellow ctermbg=Black
-
-"highlight DiffAdd    cterm=none ctermfg=Black ctermbg=DarkGreen  gui=none guifg=bg guibg=DarkGreen
-"highlight DiffDelete cterm=none ctermfg=Black ctermbg=DarkRed    gui=none guifg=bg guibg=DarkRed
-"highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
-"highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
-
-" set foldmethod=indent,marker
-set foldnestmax=10
-" set nofoldenable
-set foldlevel=2
-autocmd FileType python setlocal foldmethod=indent
-autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}
-
-"nnoremap <F3> :make -C build/clang<CR>
-"inoremap <F3> <ESC>:make -C build/clang<CR>
-"nnoremap <F4> :make dd<CR>
-"inoremap <F4> <ESC>:make dd<CR>
-"nnoremap <F5> :make release<CR>
-"inoremap <F5> <ESC>:make release<CR>
-"nnoremap <F6> :make test<CR>
-"inoremap <F6> <ESC>:make test<CR>
-"nnoremap <F2> :wa<CR>
-"inoremap <F2> <ESC>:wa<CR>a
-"
-"nnoremap <F7> :botright cw<CR>:set colorcolumn=0<CR>
-"inoremap <F7> <ESC>:botright cw<CR>:set colorcolumn=0<CR>
-"nnoremap <F8> :ccl<CR>
-"inoremap <F8> <ESC>:ccl<CR>
-"
-"nnoremap <F9> :cprev<CR>
-"inoremap <F9> <ESC>:cprev<CR>
-"nnoremap <F10> :cnext<CR>
-"inoremap <F10> <ESC>:cnext<CR>
-
-" function! Test() range
-"     echo system('echo '.shellescape(join(getline(a:firstline, a:lastline), "\n")))
-" endfunction
-
-" https://sanctum.geek.nz/arabesque/vim-anti-patterns/
-" noremap <Up> <nop>
-" noremap <Down> <nop>
-" noremap <Left> <nop>
-" noremap <Right> <nop>
-"
-autocmd FileType typescriptreact setlocal filetype=typescript
-autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
-let g:deoplete#enable_at_startup = 1
-
-nnoremap <C-j> :r! ticket -k 2>/dev/null<CR>
-let g:typescript_compiler_options = '--lib es6'
-
-set inccommand=nosplit

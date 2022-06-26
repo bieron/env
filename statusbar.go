@@ -22,7 +22,7 @@ import (
 func getGitState(repo *git.Repository) string {
     head, err := repo.Head()
     if err != nil {
-        panic(err)
+        return ""
     }
     hash := head.Hash().String()[:8]
     if head.Name().IsBranch() {
@@ -32,7 +32,7 @@ func getGitState(repo *git.Repository) string {
 }
 
 func getCriblServerPid() string {
-    cmd := exec.Command("lsof", "-ti", ":9000")
+    cmd := exec.Command("lsof", "-ti", ":9000", "-sTCP:LISTEN")
     out, err := cmd.Output()
     if err != nil {
         return "";
