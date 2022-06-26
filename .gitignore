@@ -1,4 +1,7 @@
+/.config/*
 *~
-/home-env/.vim/plugged/*
-/home-env/.vim/undodir/*
+/nvim/plugged/*
+/nvim/undodir/*
+/nvim/backup/*
 /home-env/.i3/*.log
+go.sum
