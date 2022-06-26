@@ -5,3 +5,4 @@
 /nvim/backup/*
 /home-env/.i3/*.log
 go.sum
+/statusbar

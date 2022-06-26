@@ -11,13 +11,16 @@ for t in `ls -A $dest/home-env`; do
     ln -sf $dest/home-env/$t $t
 done
 
-if [ -z "`ls -A $tmp`" ]; then
-    rmdir $tmp
-else
-    echo saving old env files to `pwd`/$tmp.tgz
-    tar -czf $tmp.tgz $tmp
-    rm -r $tmp
-fi
+#if [ -z "`ls -A $tmp`" ]; then
+#    rmdir $tmp
+#else
+#    echo saving old env files to `pwd`/$tmp.tgz
+#    tar -czf $tmp.tgz $tmp
+#    rm -r $tmp
+#fi
+
+mkdir -p ~/.config
+ln -sf $dest/nvim ~/.config/nvim
 
 cd env
-go build statusbar
+go build statusbar.go

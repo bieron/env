@@ -1,70 +1,71 @@
 lua << EOF
 vim.g.mapleader = " "
+local o = vim.opt
 
-vim.opt.guioptions=cagt
-vim.opt.compatible=false  -- Use Vim defaults (much better!)
-vim.opt.backspace="indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.history=200
-vim.opt.undolevels=400
-vim.opt.backup=true
-vim.opt.backupdir="/var/tmp"
+o.guioptions="cagt"
+o.compatible=false  -- Use Vim defaults (much better!)
+o.backspace="indent,eol,start" -- allow backspacing over everything in insert mode
+o.history=200
+o.undolevels=400
+o.backup=true
+o.backupdir="/var/tmp"
 
-vim.opt.complete=".,w,k,t" -- .currentWin, otherWins, dicKtionary, Tlist
-vim.opt.autoindent=true
-vim.opt.smartindent=true
-vim.opt.cindent=true
+o.complete=".,w,k,t" -- .currentWin, otherWins, dicKtionary, Tlist
+o.autoindent=true
+o.smartindent=true
+o.cindent=true
 
-vim.opt.pastetoggle="<Insert>"
-vim.opt.mouse=a
+o.pastetoggle="<Insert>"
+o.mouse=a
 
-vim.opt.wildmenu=true -- use completion menu
-vim.opt.wildmode="longest:list"
-vim.opt.wildignore="*.bak,*.o,*.e,*~"
-vim.opt.wildignorecase=true
+o.wildmenu=true -- use completion menu
+o.wildmode="longest:list"
+o.wildignore="*.bak,*.o,*.e,*~"
+o.wildignorecase=true
 
-vim.opt.smartcase=true   -- do not ignore case if pattern has mixed case (see ignorecase)
-vim.opt.autowrite=true   -- automatically save before commands like :next and :make
-vim.opt.lazyredraw=false -- update screen while executing macros etc.
-vim.opt.title=true       -- shows the current filename and path in the term title.
-vim.opt.showmatch=true   -- highlight corresponding bracket
-vim.opt.ignorecase=true
-vim.opt.gdefault=true    -- all search /g by default
-vim.opt.hlsearch=true
-vim.opt.incsearch=true
-vim.opt.showmode=true
-vim.opt.cursorline=true  -- highlight line with cursor
+o.smartcase=true   -- do not ignore case if pattern has mixed case (see ignorecase)
+o.autowrite=true   -- automatically save before commands like :next and :make
+o.lazyredraw=false -- update screen while executing macros etc.
+o.title=true       -- shows the current filename and path in the term title.
+o.showmatch=true   -- highlight corresponding bracket
+o.ignorecase=true
+o.gdefault=true    -- all search /g by default
+o.hlsearch=true
+o.incsearch=true
+o.showmode=true
+o.cursorline=true  -- highlight line with cursor
 
-vim.opt.undofile=true -- Maintain undo history between sessions
-vim.opt.undodir="~/.vim/undodir"
+o.undofile=true -- Maintain undo history between sessions
 
-vim.opt.nu=true
-vim.opt.ruler=true
-vim.opt.list=true
+o.nu=true
+o.ruler=true
+o.list=true
 
-vim.opt.laststatus=2 -- always show status
+o.laststatus=2 -- always show status
 
-vim.opt.foldenable=true
--- vim.opt.foldmethod=marker
--- vim.opt.foldmethod=syntax
--- vim.opt.foldlevelstart=1
-vim.opt.shiftwidth=4
-vim.opt.shiftround=true
-vim.opt.expandtab=true
-vim.opt.smarttab=true
-vim.opt.tabstop=4
-vim.opt.wrap=false
-vim.opt.virtualedit=all
+o.foldenable=true
+-- o.foldmethod=marker
+-- o.foldmethod=syntax
+-- o.foldlevelstart=1
+o.shiftwidth=2
+o.shiftround=true
+o.expandtab=true
+o.smarttab=true
+o.tabstop=2
+o.wrap=false
+o.virtualedit="all"
 
-vim.opt.splitbelow=true
-vim.opt.splitright=true
+o.splitbelow=true
+o.splitright=true
 
--- vim.opt.foldmethod=indent,marker
-vim.opt.foldnestmax=10
--- vim.opt.nofoldenable
-vim.opt.foldlevel=2
-vim.opt.inccommand=nosplit
+-- o.foldmethod=indent,marker
+o.foldnestmax=10
+-- o.nofoldenable
+o.foldlevel=2
+o.inccommand="nosplit"
+o.cc="100"
 
-vim.opt.statusline= "%-3.3n " ..    -- buffer number
+o.statusline= "%-3.3n " ..    -- buffer number
   "%f " ..
   "%h%m%r%w" ..
   "[%{strlen(&ft)?&ft:'none'}, " .. -- filetype
@@ -76,7 +77,6 @@ vim.opt.statusline= "%-3.3n " ..    -- buffer number
   "%v," ..
   "%(%l/%L%)"
 
-vim.opt.cc="100"
 
 local map = vim.api.nvim_set_keymap
 
@@ -87,8 +87,8 @@ nnoremap("<leader>s", ":mksession<cr>")
 -- With these mappings, if 'smartcase' is on and you press * while on the word "The",
 --  you will only find "The" (case sensitive),
 --  but if you press * while on the word "the", the search will not be case sensitive.
-nnoremap("*", "/<<C-R>=expand('<cword>')<CR>><CR>")
-nnoremap("#", "?<<C-R>=expand('<cword>')<CR>><CR>")
+--nnoremap("*", "/<<C-R>=expand('<cword>')<CR>><CR>")
+--nnoremap("#", "?<<C-R>=expand('<cword>')<CR>><CR>")
 nnoremap("<F12>", ":set nu!<CR>")
 nnoremap("<C-j>", ":r! ticket -k 2>/dev/null<CR>")
 
@@ -116,45 +116,9 @@ map("n", "<leader>a", ":Ag<space>", {silent=true})
 map("", "<C-s>", ":%s/\\s\\+$//e<CR>", {silent=true}) -- trim whitespaces
 
 -- <Ctrl-l> redraws the screen and removes any search highlighting.
-map("n", "<C-l>", ":nohl<CR><C-l", {silent=true, noremap=true})
+map("n", "<C-l>", ":nohl<CR><C-l>", {silent=true, noremap=true})
 
 local cmd = vim.api.nvim_command
-
---local function autocmd(this, event, spec)
---    print("this", this)
---    print("event", event)
---    print("spec", spec)
---   local is_table = type(spec) == 'table'
---    local pattern = is_table and spec[1] or '*'
---    local action = is_table and spec[2] or spec
---    if type(action) == 'function' then
---        action = this.set(action)
---    end
---    local e = type(event) == 'table' and table.concat(event, ',') or event
---    print('autocmd ' .. e .. ' ' .. pattern .. ' ' .. action)
---   -- cmd('autocmd ' .. e .. ' ' .. pattern .. ' ' .. action)
---end
-cmd("autocmd BufNewFile * call functions#NewFile()")
-
-cmd("autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}")
-cmd("autocmd FileType javascript setlocal shiftwidth=2 tabstop=2")
-cmd("autocmd FileType perl iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i")
-cmd("autocmd FileType perl iab ddw warn pp;<LEFT>")
-cmd("autocmd FileType perl map <buffer> <F7> :!perlcritic -3 %<CR>")
-cmd("autocmd FileType perl noremap <F5> :!perl -cIlib %<CR>")
-cmd("autocmd FileType python iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i")
-cmd("autocmd FileType python noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>")
-cmd("autocmd FileType python noremap <F11> :!python3 -m py_compile %<CR>")
-cmd("autocmd FileType python noremap <F8> :sp term://python3 -mpyflakes %<CR>")
-cmd("autocmd FileType python noremap <buffer> <F7> :call flake8#Flake8()<CR>")
-cmd("autocmd FileType python setlocal foldmethod=indent")
-cmd("autocmd FileType typescript iab aw await")
-cmd("autocmd FileType typescript iab ddd this.dLogger.warn(<ESC>F%s:call getchar()")
-cmd("autocmd FileType typescript inoreab ins console.log(inspect(  , false, 42, true));")
-cmd("autocmd FileType typescript inoreab insp import {inspect} from 'util';")
-cmd("autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>")
-cmd("autocmd FileType typescript setlocal shiftwidth=2 tabstop=2")
-cmd("autocmd FileType typescriptreact setlocal filetype=typescript")
 
 --move to next physical line, do not get fooled by wraps
 --nnoremap <C-e> $
@@ -177,11 +141,11 @@ cmd("autocmd FileType typescriptreact setlocal filetype=typescript")
 --noremap! ( ()<LEFT>
 --noremap! " ""<LEFT>
 --noremap! ' ''<LEFT>
-map("", "[", "[]<LEFT>",{noremap=true})
-map("", "{", "{}<LEFT>",{noremap=true})
-map("", "(", "()<LEFT>",{noremap=true})
-map("", '"', '""<LEFT>',{noremap=true})
-map("", "'", "''<LEFT>",{noremap=true})
+map("i", "[", "[]<LEFT>",{noremap=true})
+map("i", "{", "{}<LEFT>",{noremap=true})
+map("i", "(", "()<LEFT>",{noremap=true})
+map("i", '"', '""<LEFT>',{noremap=true})
+map("i", "'", "''<LEFT>",{noremap=true})
 
 -- noremap <F6> :!perlcritic -3 %<CR>
 -- noremap <F7> :!perl -Ilib %<CR>
@@ -359,18 +323,6 @@ map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
 --  colo Monokai
 --  colo tender
 --  let g:neodark#use_256color = 1
--- hi Normal ctermbg=None
--- hi NonText ctermfg=DarkGrey
--- hi CocInfoSign ctermbg=8
--- colorscheme neodark
--- 
--- set cc=100
--- hi Normal ctermbg=None
--- hi NonText ctermfg=DarkGrey
--- hi CocInfoSign ctermbg=8
--- colorscheme neodark
--- 
--- set cc=100
 --  set bg=dark
 
 --  Highlight a column in csv text.
@@ -434,6 +386,28 @@ map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
 --  set directory=~/.vim/swap,/var/tmp
 
 EOF
+autocmd BufNewFile * call functions#NewFile()
+
+autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}
+autocmd FileType perl iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i
+autocmd FileType perl iab ddw warn pp;<LEFT>
+autocmd FileType perl map <buffer> <F7> :!perlcritic -3 %<CR>
+autocmd FileType perl noremap <F5> :!perl -cIlib %<CR>
+autocmd FileType python iab ww from warnings import warn<CR>from pprint import pformat<CR>warn(pformat(<ESC>F%s<C-o>:call getchar()<CR><ESC>i
+autocmd FileType python noremap <F10> :sp term://python3 -mpylint --rcfile ~/.pylintrc %<CR>
+autocmd FileType python noremap <F11> :!python3 -m py_compile %<CR>
+autocmd FileType python noremap <F8> :sp term://python3 -mpyflakes %<CR>
+autocmd FileType python noremap <buffer> <F7> :call flake8#Flake8()<CR>
+autocmd FileType python setlocal foldmethod=indent
+autocmd FileType typescript iab asy async
+autocmd FileType typescript iab aw await
+autocmd FileType typescript iab ddd this.dLogger.warn(<ESC>F%s:call getchar()
+autocmd FileType typescript inoreab ins console.log(inspect(  , false, 42, true));
+autocmd FileType typescript inoreab insp import {inspect} from 'util';
+autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>
+autocmd FileType typescriptreact setlocal filetype=typescript
+
+
 hi Normal ctermbg=None
 hi NonText ctermfg=DarkGrey
 hi CocInfoSign ctermbg=8
