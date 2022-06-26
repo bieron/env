@@ -199,6 +199,7 @@ Plug 'airblade/vim-gitgutter'
 -- Plug 'bogado/file-line' " https://github.com/bogado/file-line/issues/56
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
+Plug 'christoomey/vim-system-copy'
 -- Plug 'pjcj/vim-hl-var'
 -- Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'

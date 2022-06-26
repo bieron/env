@@ -1,0 +1,8 @@
+#!/bin/bash
+
+f=/sys/class/backlight/intel_backlight/brightness
+if [ -z $1 ]; then
+    echo $(<$f) / $(</sys/class/backlight/intel_backlight/max_brightness)
+else
+    echo $1 | sudo tee $f
+fi
