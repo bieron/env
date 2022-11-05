@@ -1,0 +1,3 @@
+#!/bin/sh
+tag=${1:-8.2.2}
+docker run --name splawn --network host -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD=admin123 splunk/splunk:$tag

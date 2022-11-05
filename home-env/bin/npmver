@@ -1,0 +1,2 @@
+#!/bin/sh
+jq < node_modules/$1/package.json .version

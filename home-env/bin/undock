@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# unpack cribl bundle from a docker image
+# (leaves the docker image on disk as a side effect)
+#
+# Example:
+# ./undock 3.5.4 ~/unpack/here
+
+tag=${1:-next-nightly}
+if [ -z "$2" ]; then
+  dir=`mktemp -d`
+else
+  dir=$2
+fi
+img=cribl/cribl:$tag
+docker pull $img
+con=`docker run -d --rm --entrypoint sleep $img 42`
+docker cp $con:/opt/cribl $dir
+docker rm -f $con >/dev/null
+echo $dir

@@ -1,0 +1,4 @@
+#!/bin/sh
+# hail - head and tail
+# show first and last line of stdin
+sed -e 1b -e '$!d' <&0

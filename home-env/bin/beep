@@ -1,0 +1,3 @@
+#!/bin/sh
+(speaker-test -t sine >/dev/null)& pid=$!; sleep 0.4; kill -9 $pid
+

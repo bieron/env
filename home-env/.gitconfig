@@ -29,7 +29,8 @@
   l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
   #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
   lg = log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
-  mm=merge --no-ff --no-edit
+  mu=merge @{u}
+  mm=merge --no-ff --no-edit -X patience -X ignore-all-space
   mt=mergetool
   null=!git push origin :`git branch --show-current`
   pru=!git branch -d `git branch --merged master| grep -vw master| grep -v releases/3.x`
@@ -51,7 +52,7 @@
 
   unpushed=log --branches --not --remotes --no-walk --decorate --oneline
   whodunit=!git shortlog -sb `git diff origin/master... --name-only`|sort -rn
-  dorig = !find -name '*.orig' -delete
+  dorig = !rm `git status --porcelain -- '*.orig'|awk '{print $2}'`
 [core]
   editor=nvim
   #whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
@@ -72,3 +73,5 @@
   instructionFormat=(%an) %s
 [color "diff"]
   meta=blue
+[safe]
+	directory = /var/nfs

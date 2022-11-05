@@ -1,8 +1,14 @@
 lua << EOF
-vim.g.mapleader = " "
-local o = vim.opt
 
-o.guioptions="cagt"
+local map = vim.api.nvim_set_keymap
+local cmd = vim.api.nvim_command
+local o = vim.opt
+local g = vim.g
+
+g.CommandTPreferredImplementation='ruby'
+g.mapleader = " "
+
+o.guioptions=cagt
 o.compatible=false  -- Use Vim defaults (much better!)
 o.backspace="indent,eol,start" -- allow backspacing over everything in insert mode
 o.history=200
@@ -16,7 +22,7 @@ o.smartindent=true
 o.cindent=true
 
 o.pastetoggle="<Insert>"
-o.mouse=a
+o.mouse='a'
 
 o.wildmenu=true -- use completion menu
 o.wildmode="longest:list"
@@ -77,9 +83,6 @@ o.statusline= "%-3.3n " ..    -- buffer number
   "%v," ..
   "%(%l/%L%)"
 
-
-local map = vim.api.nvim_set_keymap
-
 function nnoremap(from, to) map("n", from, to, {noremap=true}) end
 
 nnoremap("<leader>w", ":w<cr>")
@@ -90,7 +93,7 @@ nnoremap("<leader>s", ":mksession<cr>")
 --nnoremap("*", "/<<C-R>=expand('<cword>')<CR>><CR>")
 --nnoremap("#", "?<<C-R>=expand('<cword>')<CR>><CR>")
 nnoremap("<F12>", ":set nu!<CR>")
-nnoremap("<C-j>", ":r! ticket -k 2>/dev/null<CR>")
+nnoremap("<C-j>", ":r! kk<CR>")
 
 nnoremap("j", "gj")
 nnoremap("k", "gk")
@@ -117,8 +120,6 @@ map("", "<C-s>", ":%s/\\s\\+$//e<CR>", {silent=true}) -- trim whitespaces
 
 -- <Ctrl-l> redraws the screen and removes any search highlighting.
 map("n", "<C-l>", ":nohl<CR><C-l>", {silent=true, noremap=true})
-
-local cmd = vim.api.nvim_command
 
 --move to next physical line, do not get fooled by wraps
 --nnoremap <C-e> $
@@ -179,7 +180,7 @@ map("i", "'", "''<LEFT>",{noremap=true})
 --vmap <F8> "jy:! psql -c "<C-r>j" tutsi<CR>
 
 local Plug = vim.fn['plug#']
-vim.call('plug#begin', '~/.vim/plugged')
+vim.call('plug#begin', '~/.config/nvim/plugged')
 
 --Plug 'altercation/vim-colors-solarized'
 --Plug 'chrisbra/csv.vim'
@@ -196,17 +197,20 @@ vim.call('plug#begin', '~/.vim/plugged')
 --Plug 'mileszs/ack.vim'
 
 Plug 'airblade/vim-gitgutter'
+g.gitgutter_max_signs=500  -- default value
 -- Plug 'bogado/file-line' " https://github.com/bogado/file-line/issues/56
 Plug 'tpope/vim-repeat'
 Plug 'majutsushi/tagbar'
 Plug 'christoomey/vim-system-copy'
+g['system_copy#copy_command'] = 'xclip -sel clipboard'
+g['system_copy#paste_command'] = 'xclip -sel clipboard -o'
 -- Plug 'pjcj/vim-hl-var'
 -- Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
 Plug 'vim-scripts/genutils'
-Plug('wincent/command-t', { ["do"] = "rake make" })
+Plug('wincent/command-t') -- , { ["do"] = "rake make" })
 Plug 'tpope/vim-commentary'
 -- " Plug 'vim-perl/vim-perl'
 Plug 'ap/vim-css-color'
@@ -222,6 +226,7 @@ Plug 'rust-lang/rust.vim'
 -- Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 -- For async completion
 -- Plug 'Shougo/deoplete.nvim'
+-- g['deoplete#enable_at_startup'] = 1
 -- For Denite features
 -- Plug 'Shougo/denite.nvim'
 -- Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
@@ -230,10 +235,8 @@ vim.call("plug#end")
 
 map("n", "<leader>g", ":GitGutterToggle<CR>", {silent=true})
 
-vim.g.coc_global_extensions = { 'coc-tsserver' }
-vim.g.gitgutter_max_signs=500  -- default value
-vim.g.typescript_compiler_options = '--lib es6'
-
+g.coc_global_extensions = { 'coc-tsserver' }
+g.typescript_compiler_options = '--lib es6'
 
 -- https://github.com/neoclide/coc.nvim/issues/531
 map("n", "<Esc>", ":call coc#float#close_all()<CR>", {})
@@ -247,7 +250,6 @@ nnoremap("<leader><ESC>",":call coc#util#float_hide()<CR>", {})
 map("i", "<Tab>", "coc#refresh", {silent=true, expr=true})
 -- inoremap <silent><expr> <Tab> coc#refresh()
 
-
 -- GoTo code navigation.
 map("n", "gd", "<Plug>(coc-definition)", {silent=true})
 map("n", "gy", "<Plug>(coc-type-definition)", {silent=true})
@@ -257,7 +259,6 @@ map("n", "<leader>e", "<Plug>(coc-diagnostic-next-error)", {silent=true})
 map("n", "<leader>r", "<Plug>(coc-diagnostic-next)", {silent=true})
 
 map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
-
 
 --  autocmd FileType typescript setlocal completeopt-=menu
 
@@ -387,6 +388,26 @@ map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
 --  set directory=~/.vim/swap,/var/tmp
 
 EOF
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ <SID>CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+
 autocmd BufNewFile * call functions#NewFile()
 
 autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}
@@ -414,8 +435,6 @@ hi NonText ctermfg=DarkGrey
 hi CocInfoSign ctermbg=8
 colorscheme neodark
 
-
-let g:deoplete#enable_at_startup = 1
 
 function! Show_documentation()
   if (index(['vim','help'], &filetype) >= 0)

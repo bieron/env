@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+input=$1
+output=$2
+
+function rtfm() {
+  echo `basename $0` INPUT OUTPUT [-s START] [-t DURATION] [-m]
+  echo ' -m mute'
+  exit $1
+}
+
+[ -z $output ] && rtfm 1
+
+shift; shift # skip positional args for getopts to work
+while getopts "hms:t:" opt; do
+  case $opt in
+    s) start="-ss $OPTARG";;
+    t) duration="-t $OPTARG";;
+    m) mute=-an;;
+    h) rtfm 0;;
+  esac
+done
+
+set -x
+ffmpeg $start $duration -i $input $mute -c:v libx264 -c:a copy $output

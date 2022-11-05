@@ -1,39 +1,58 @@
 #!/bin/sh
-if [ "$1" = "-x" ]; then
-    set -x
-    shift
-fi
+# crul: Cribl curl
+# Allows quick access to Cribl server REST API.
+# Examples:
+#   # calls GET http://localhost:19000/api/v1/health
+#   crul -p 19000 health
+#
+#   # other methods are supported
+#   crul system/redis-cache-limits PATCH '{"keyTTLSecs":667}'
+#
+#   # check health of every config helper at the same time
+#   for g in `crul master/groups|jq .items[].id -r`; do crul m/$g/health & done
+#
+# Requires curl and jq.
+# Performs login - does not require CRIBL_NOAUTH
 
 port=9000
 user=admin
 pass=admin
+curlopts=
 
-while getopts hxp: opt; do
+while getopts hxp:o:c: opt; do
   case $opt in
     h) echo $0: talks to cribl server HTTP API
-       echo "-p	server port, default is $port"
-       echo "-c	credentials in form user:password, default is $user:$pass"
-       echo '-x	set -x'
-       exit;;
+      echo 'Options (must come before positional arguments):'
+      echo "-p	server port, default is $port"
+      echo "-c	credentials in form user:password, default is $user:$pass"
+      echo '-x	set -x (stdout every line)'
+      echo '-o	passes the arg to curl'
+      exit;;
     x) set -x
-        shift
-       break;;
+      shift
+      break;;
+    o) curlopts="$OPTARG"
+      shift; shift
+      break;;
     p) port=$OPTARG
-        shift; shift
-       break;;
-    c) user=$OPTARG; pass=$OPTARG
-        shift; shift
-       break;;
+      shift; shift
+      break;;
+    c) user=${OPTARG%%:*} pass=${OPTARG##*:}
+      shift; shift
+      break;;
   esac
 done
 
-echo $port $user $pass $1
+fail() {
+  >&2 echo $@
+  exit 1
+}
+
+type curl >/dev/null || fail curl is required but not in PATH
+type jq >/dev/null   || fail jq is required but not in PATH
 
 path=$1
-if [ -z "$path" ]; then
-  2>&1 echo Usage: $0 PATH [METHOD] [JSON]
-  exit 2
-fi
+[ -z "$path" ] && fail Usage: $0 [OPTIONS] PATH [METHOD] [JSON]
 
 method=${2:-GET}
 if [ -n "$3" ]; then
@@ -43,31 +62,17 @@ fi
 token=`curl -X POST http://localhost:$port/api/v1/auth/login \
   -H 'Content-Type: application/json' -H 'accept: application/json' \
   -d '{"username":"'$user'","password":"'$pass'"}' -s| jq .token -r`
-  # -d '{"username":"noob","password":"123123123"}' -s| jq .token -r`
-  # -d '{"username":"loser","password":"dupadupa"}' -s| jq .token -r`
 
-if [ $? != 0 ]; then
-  2>&1 echo Error logging in
-  exit 1
-fi
+[ $? != 0 ] && fail Error logging in
 
-# curl -X $method http://localhost:$CRIBL_PORT/api/v1/$path \
-#   -H 'Content-Type: application/json' -H 'accept: application/json' \
-#   -H "Authorization: Bearer $token" $json -o pack.crbl
-# exit
-
-out=`curl -X $method "http://localhost:$port/api/v1/$path" \
+  # -H "accept: application/tar+gzip" \
+out=`curl $curlopts -X $method "http://localhost:$port/api/v1/$path" \
   -H 'Content-Type: application/json' \
   -H 'accept: application/json' \
-  -H "Authorization: Bearer $token" $json #\
-  # -w "%{http_code}" `
-  # -H "Authorization: Bearer $token" $json -o brave.tgz`
+  -H "Authorization: Bearer $token" $json`
 
-
-# echo "$out"
-# echo -----
-if [ -t 1 ] ; then
-  echo "$out"|jq || echo "$out"
+if [ -t 1 ]; then
+  echo "$out"|jq
 else
   echo "$out"
 fi

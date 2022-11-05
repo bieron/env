@@ -8,6 +8,9 @@ alias l='ls -l'
 
 alias a=ag
 alias aa='ag --nonumbers --nofilename'
+T=--ignore-dir=__tests__
+alias agt='ag --ignore-dir __tests__'
+alias aat='ag --nonumbers --nofilename --ignore-dir __tests__'
 alias j=jq
 alias s='ssh -A'
 alias v='nvim -p'
@@ -135,8 +138,6 @@ alias pbpaste='xclip -selection clipboard -o'''
 alias encrypt='openssl enc -aes-256-cbc -salt -in'
 alias decrypt='openssl enc -d -aes-256-cbc -salt -in'
 
-export PATH=$PATH:~/bin:~/dev/ticket/scripts
-
 # eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
 export PYTHONSTARTUP=~/.pystartup
@@ -162,7 +163,7 @@ function vsh {
   v `git sh --name-only --pretty= "$@"`
 }
 
-PATH=/home/jb/perl5/bin:$PATH:/home/jb/go/bin; export PATH;
+export PATH=$PATH:~/bin:~/dev/ticket/scripts:~jb/go/bin
 PERL5LIB="/home/jb/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/jb/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/jb/perl5\""; export PERL_MB_OPT;

@@ -1,0 +1,5 @@
+#$!/bin/sh
+# get address or browse the master instance of codecept tests
+port=`docker ps|ag '\d+(?=->9000)' -o|tail -n1`
+address=http://localhost:$port
+[ -z "$1" ] && firefox $address

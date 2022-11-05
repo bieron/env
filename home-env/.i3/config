@@ -43,8 +43,8 @@ bindsym $mod+Shift+q kill
 
 # bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 14"
 bindsym $mod+d exec rofi -show run -lines 10
-bindsym $mod+g exec google-chrome
-bindsym $mod+m exec javaws ~/Downloads/sidoma_kl.jnlp
+bindsym $mod+g exec firefox
+bindsym $mod+m exec javaws ~/win/Downloads/sidoma_kl.jnlp
 
 # change focus
 bindsym $mod+$left focus left
@@ -221,9 +221,14 @@ workspace 1 output HDMI2
 # workspace 1 output HDMI-A-2
 workspace 2 output eDP1
 # workspace 2 output eDP-1
-exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/google-chrome'
+exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/firefox
 #input "type:keyboard" {
 #  xkb_layout "pl"
 #  xkb_options "grp:win_space_toggle"
 #}
 exec --no-startup-id picom -b
+#floating_minimum_size 75 x 50
+#floating_maximum_size 400 x 300
+for_window [class="Google-chrome"] floating disable
+for_window [class="Firefox"] floating disable
+for_window [class="Kazam"] floating enable

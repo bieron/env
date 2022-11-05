@@ -1,0 +1,16 @@
+#!/bin/bash
+project=${1:-CRIBL}
+pattern="($project-[0-9]+)"
+
+ticketFromText() {
+  if [[ "$1" =~ $pattern ]]; then
+    echo ${BASH_REMATCH[1]}
+    exit 0
+  fi
+}
+
+# get JIRA ticket from branch name
+ticketFromText `git rev-parse --abbrev-ref HEAD`
+# get JIRA ticket from HEAD message
+ticketFromText `git log -1 --format=%B`
+exit 1
