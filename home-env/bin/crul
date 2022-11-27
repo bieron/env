@@ -66,7 +66,8 @@ token=`curl -X POST http://localhost:$port/api/v1/auth/login \
 [ $? != 0 ] && fail Error logging in
 
   # -H "accept: application/tar+gzip" \
-out=`curl $curlopts -X $method "http://localhost:$port/api/v1/$path" \
+out=`curl -s $curlopts -X $method "http://localhost:$port/api/v1/$path" \
+  -w "%{http_code}" \
   -H 'Content-Type: application/json' \
   -H 'accept: application/json' \
   -H "Authorization: Bearer $token" $json`

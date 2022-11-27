@@ -25,6 +25,7 @@ alias add='paste -s -d+|bc'
 alias m='PAGER=most man'
 alias fin='tail -n1'
 alias hed='head -n1'
+alias pf='pgrep -fal'
 
 [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 alias d=docker

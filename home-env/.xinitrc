@@ -20,11 +20,11 @@ bin/fehbg
 eval `ssh-agent`
 ssh-add
 
-which blueman-applet &>/dev/null && blueman-applet &
+#which blueman-applet &>/dev/null && blueman-applet &
 
 # rotate i3 logs
-mv .i3/i3.out{,.1} 2>/dev/null
-mv .i3/i3.err{,.1} 2>/dev/null
+#mv .i3/i3.out{,.1} 2>/dev/null
+#mv .i3/i3.err{,.1} 2>/dev/null
 
 # exec sway -c .i3/config >.i3/sway.out 2>.i3/sway.err
-exec i3 -c .i3/config >.i3/i3.out 2>.i3/i3.err
+exec i3 -c .i3/config >.i3/out.log 2>.i3/err.log

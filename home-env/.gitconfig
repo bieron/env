@@ -1,58 +1,59 @@
 [user]
-  email = jbieron+github@gmail.com
-  name = Jan Bieron
+  email=jbieron+github@gmail.com
+  name=Jan Bieron
 
 [pull]
-  rebase = true
+  rebase=true
 
 [alias]
-  b = branch --sort=-committerdate
+  b=branch --sort=-committerdate
   back=reset --hard HEAD^
-  bc = branch --show-current
-  br = branch -r --sort=-committerdate
+  bc=branch --show-current
+  br=branch -r --sort=-committerdate
+  #gone=!git branch -v|awk "'/\[gone\]/{print $1}'"
 
-  c = !git checkout `git branch --sort=-committerdate|peco`
-  cam = commit --amend
-  ci = commit
-  co = checkout
+  c=!git checkout `git branch --sort=-committerdate|peco`
+  cam=commit --amend
+  ci=commit
+  co=checkout
   cp=cherry-pick
-  cr = !git checkout `git branch -r --sort=-committerdate|peco`
+  cr=!git checkout `git branch -r --sort=-committerdate|peco`
 
-  d = diff --ignore-all-space
-  dc = diff --ignore-all-space --cached
-  di = diff --ignore-all-space --word-diff=color --word-diff-regex=.
-  dic = diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
+  d=diff --ignore-all-space
+  dc=diff --ignore-all-space --cached
+  di=diff --ignore-all-space --word-diff=color --word-diff-regex=.
+  dic=diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
 
-  f = fetch -p
-  #fpr = !sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
+  f=fetch -p
+  #fpr=!sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -
 
-  l = log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
-  #l = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
-  lg = log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
+  l=log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
+  #l=log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
+  lg=log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
   mu=merge @{u}
   mm=merge --no-ff --no-edit -X patience -X ignore-all-space
   mt=mergetool
   null=!git push origin :`git branch --show-current`
-  pru=!git branch -d `git branch --merged master| grep -vw master| grep -v releases/3.x`
+  pru=!git branch -d `git branch --merged master| grep -vw master| grep -v releases/[1-9].x`
 
-  p  = pull --rebase
+  p=pull --rebase
   pb=!git push origin --set-upstream `git branch --show-current`
   ph=!git push http --set-upstream `git branch --show-current`
-  pul = pull
+  pu=pull
 
   rebor=rebase --abort
   recon=rebase --continue
   resup=reset --hard @{u}
 
-  s = status -sb
+  s=status -sb
   sh=show --ignore-all-space
-  sss = stash
-  st = status
+  ss=stash
+  st=status
   sub=submodule update --init --recursive
 
   unpushed=log --branches --not --remotes --no-walk --decorate --oneline
   whodunit=!git shortlog -sb `git diff origin/master... --name-only`|sort -rn
-  dorig = !rm `git status --porcelain -- '*.orig'|awk '{print $2}'`
+  dorig=!rm `git status --porcelain -- '*.orig'|awk '{print $2}'`
 [core]
   editor=nvim
   #whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
@@ -74,4 +75,4 @@
 [color "diff"]
   meta=blue
 [safe]
-	directory = /var/nfs
+  directory=/var/nfs
