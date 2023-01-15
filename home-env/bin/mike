@@ -1,0 +1,4 @@
+#!/bin/sh
+# toggles mike muteness, tells i3status to refresh
+pamixer --default-source -t
+pkill -USR1 i3status

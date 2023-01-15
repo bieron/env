@@ -76,6 +76,17 @@ func getCriblVersion(pid string) string {
     return string(out[idx:len(out)-1])
 }
 
+func getMike() string {
+  cmd := exec.Command("pamixer", "--default-source", "--get-volume-human")
+  out, err := cmd.Output()
+  if err != nil {
+    return "";
+    panic(err)
+  }
+  // except terminal newline
+  return string(out[0:len(out)-1])
+}
+
 func main() {
     scanner := bufio.NewScanner(os.Stdin)
     scanner.Scan()
@@ -138,6 +149,21 @@ func main() {
             data = append([]map[string]string{criblVersion}, data...)
         }
         // end cribl version
+
+        // get mic vol & muteness
+        mike := getMike()
+        if len(mike) > 0 {
+          mikeData := make(map[string]string);
+          if mike=="muted" {
+            mikeData["color"] = "#FF0000"
+            mikeData["full_text"] = "♬"
+          } else {
+            mikeData["full_text"] = "♬ " + mike
+          }
+          length := len(data)
+          data = append(data[:length-1], mikeData, data[length-1])
+        }
+        // end get mic
 
         bytes, err = json.Marshal(data)
         if err != nil {

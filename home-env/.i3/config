@@ -44,7 +44,8 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 14"
 bindsym $mod+d exec rofi -show run -lines 10
 bindsym $mod+g exec firefox
-bindsym $mod+m exec javaws ~/win/Downloads/sidoma_kl.jnlp
+bindsym $mod+o exec javaws ~/win/Downloads/sidoma_kl.jnlp
+bindsym $mod+m exec --no-startup-id ~/bin/mike
 
 # change focus
 bindsym $mod+$left focus left
