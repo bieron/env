@@ -8,6 +8,7 @@ package main
 //     status_command i3status | path/to/executable
 
 import (
+    "io"
     "bufio"
     "bytes"
     "strings"
@@ -84,11 +85,52 @@ func getMike() string {
     panic(err)
   }
   // except terminal newline
-  return string(out[0:len(out)-1])
+  return string(out[:len(out)-1])
 }
 
+func getChildStream() io.ReadCloser {
+  cmd := exec.Command("i3status")
+  stdout, err := cmd.StdoutPipe()
+  check(err)
+  err = cmd.Start()
+  check(err)
+  return stdout
+}
+
+
+func check(e error) {
+  if e != nil { panic(e) }
+}
+
+func reactToClicks() {
+  events := bufio.NewScanner(os.Stdin)
+
+  for events.Scan() {
+    bytes := []byte(events.Text())
+    if bytes[0] == '[' { continue }
+    if bytes[0] == ',' {
+      bytes = bytes[1:]
+    }
+    var data map[string]any
+    err := json.Unmarshal(bytes, &data)
+    check(err)
+    switch data["name"] {
+    case "mic":
+      cmd := exec.Command("/home/jb/bin/mike")
+      err = cmd.Start()
+      check(err)
+    case "volume":
+      cmd := exec.Command("pamixer", "-t")
+      err = cmd.Start()
+      check(err)
+    }
+  }
+}
+
+
 func main() {
-    scanner := bufio.NewScanner(os.Stdin)
+    stdout := getChildStream()
+    scanner := bufio.NewScanner(stdout)
     scanner.Scan()
     fmt.Println("{\"version\":1,\"click_events\":true}")
     // pass the second line, the start of infinite array
@@ -97,9 +139,7 @@ func main() {
 
     path := "/home/jb/dev/cribl"
     repo, err := git.PlainOpen(path)
-    if err != nil {
-        panic(err)
-    }
+    check(err)
 
     path += "/.git/HEAD"
     gitState := make(map[string]string)
@@ -110,6 +150,8 @@ func main() {
     criblVersion := make(map[string]string)
     criblVersion["full_text"] = getCriblVersion(lastPid)
 
+    go reactToClicks()
+
     var prefix string
     for scanner.Scan() {
         bytes := []byte(scanner.Text())
@@ -119,16 +161,12 @@ func main() {
         }
         var data []map[string]string
         err = json.Unmarshal(bytes, &data)
-        if err != nil {
-            panic(err)
-        }
+        check(err)
 
         // git branch
         var fi os.FileInfo
         fi, err = os.Stat(path)
-        if err != nil {
-            panic(err)
-        }
+        check(err)
         modTime := fi.ModTime()
         if modTime.After(lastModTime) {
             lastModTime = modTime
@@ -154,6 +192,7 @@ func main() {
         mike := getMike()
         if len(mike) > 0 {
           mikeData := make(map[string]string);
+          mikeData["name"] = "mic"
           if mike=="muted" {
             mikeData["color"] = "#FF0000"
             mikeData["full_text"] = "♬"
@@ -166,9 +205,7 @@ func main() {
         // end get mic
 
         bytes, err = json.Marshal(data)
-        if err != nil {
-            panic(err)
-        }
+        check(err)
 
         fmt.Println(prefix + string(bytes))
     }
