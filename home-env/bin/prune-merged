@@ -1,15 +1,15 @@
 #!/bin/bash
-s=''
+s=
 for x in `git branch -r --merged origin/master`; do
-  if [[ "$x" == origin/releases/* ]]; then
+  if [[ "$x" == origin/releases/* || "$x" == origin/master ]]; then
     continue;
   fi
-  if [ "$x" == origin/master ]; then
-    continue;
-  fi
-  c=`git l -1 --since 4.week $x`;
+  c=`git l -1 --since 8.week $x`;
   if [ -z "$c" ]; then
     s="$s :${x#origin/}"
   fi
 done
-[ -n "$s" ] && git push origin $s
+if [ -n "$s" ]; then
+  set -x
+  git push origin $s
+fi

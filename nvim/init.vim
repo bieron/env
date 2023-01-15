@@ -6,6 +6,7 @@ local o = vim.opt
 local g = vim.g
 
 g.CommandTPreferredImplementation='ruby'
+g.CommandTFileScanner='git'
 g.mapleader = " "
 
 o.guioptions=cagt
