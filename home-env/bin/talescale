@@ -1,0 +1,26 @@
+#!/bin/sh
+set -e
+# wrapper for tailscale client
+# $ talescale in   # login
+# $ talescale out  # logout
+# $ talescale      # status
+
+if tailscale ip >/dev/null 2>/dev/null; then
+  if [ "$1" = in ]; then
+    >&2 echo already logged in
+    exit 1
+  elif [ "$1" = out ]; then
+    sudo tailscale logout
+    exit
+  fi
+  echo logged in
+else 
+  if [ "$1" = in ]; then
+    sudo tailscale login --accept-routes --accept-dns
+    exit
+  elif [ "$1" = out ]; then
+    >&2 echo already logged out
+    exit 1
+  fi
+  echo logged out
+fi
