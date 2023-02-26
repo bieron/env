@@ -5,8 +5,14 @@ local cmd = vim.api.nvim_command
 local o = vim.opt
 local g = vim.g
 
+o.wildmenu=true -- use completion menu
+o.wildmode="longest:list"
+o.wildignore="*.bak,*.o,*.e,*~"
+o.wildignorecase=true
+
 g.CommandTPreferredImplementation='ruby'
 g.CommandTFileScanner='git'
+g.CommandTWildIgnore=o.wildignore + ",*/node_modules/*,*/tmp/*"
 g.mapleader = " "
 
 o.guioptions=cagt
@@ -24,11 +30,6 @@ o.cindent=true
 
 o.pastetoggle="<Insert>"
 o.mouse='a'
-
-o.wildmenu=true -- use completion menu
-o.wildmode="longest:list"
-o.wildignore="*.bak,*.o,*.e,*~"
-o.wildignorecase=true
 
 o.smartcase=true   -- do not ignore case if pattern has mixed case (see ignorecase)
 o.autowrite=true   -- automatically save before commands like :next and :make
@@ -408,9 +409,7 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-
 autocmd BufNewFile * call functions#NewFile()
-
 autocmd FileType cpp setlocal foldmethod=marker foldmarker={,}
 autocmd FileType perl iab ddd use Data::Dump q/pp/;<ESC>F%s<C-o>:call getchar()<CR><ESC>i
 autocmd FileType perl iab ddw warn pp;<LEFT>
@@ -444,5 +443,3 @@ function! Show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-let g:CommandTWildIgnore=&wildignore . ",*/node_modules/*,*/tmp/*"

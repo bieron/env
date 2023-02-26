@@ -23,6 +23,7 @@
   dc=diff --ignore-all-space --cached
   di=diff --ignore-all-space --word-diff=color --word-diff-regex=.
   dic=diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
+  du=diff --name-only --diff-filter=U
 
   f=fetch -p
   #fpr=!sh -c \"git fetch origin pull-requests/$1/from:pr/$1\" -

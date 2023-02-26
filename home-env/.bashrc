@@ -52,9 +52,6 @@ alias pe=perl
 alias py=python3
 alias p=python3
 alias n=node
-# alias hin='sudo hamachi login'
-# alias hout='sudo hamachi logout'
-# alias hh='for s in stop start; do sudo /etc/init.d/logmein-hamachi $s; done; sleep 1; hout; sleep 1; hin'
 alias rslv='getent hosts'
 
 # arch / centos
@@ -155,13 +152,13 @@ function vd {
   v `git diff ${1:-origin/master}... --name-only --diff-filter=RAM`
 }
 function va {
-  v `ag -wl $@`
+  v `ag -wl "'$@'"`
 }
 function vag {
-  v `ag -l "$@"`
+  v `ag -l "'$@'"`
 }
 function vsh {
-  v `git sh --name-only --pretty= "$@"`
+  v `git sh --name-only --pretty= "'$@'"`
 }
 
 export PATH=$PATH:~/bin:~/dev/ticket/scripts:~jb/go/bin
