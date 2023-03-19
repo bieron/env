@@ -1,5 +1,4 @@
 lua << EOF
-
 local map = vim.api.nvim_set_keymap
 local cmd = vim.api.nvim_command
 local o = vim.opt
@@ -10,10 +9,10 @@ o.wildmode="longest:list"
 o.wildignore="*.bak,*.o,*.e,*~"
 o.wildignorecase=true
 
-g.CommandTPreferredImplementation='ruby'
 g.CommandTFileScanner='git'
 g.CommandTWildIgnore=o.wildignore + ",*/node_modules/*,*/tmp/*"
 g.mapleader = " "
+g.CommandTPreferredImplementation='lua'
 
 o.guioptions=cagt
 o.compatible=false  -- Use Vim defaults (much better!)
@@ -31,17 +30,17 @@ o.cindent=true
 o.pastetoggle="<Insert>"
 o.mouse='a'
 
-o.smartcase=true   -- do not ignore case if pattern has mixed case (see ignorecase)
-o.autowrite=true   -- automatically save before commands like :next and :make
-o.lazyredraw=false -- update screen while executing macros etc.
-o.title=true       -- shows the current filename and path in the term title.
-o.showmatch=true   -- highlight corresponding bracket
+o.smartcase=true  -- do not ignore case if pattern has mixed case (see ignorecase)
+o.autowrite=true  -- automatically save before commands like :next and :make
+o.lazyredraw=true -- update screen while executing macros etc.
+o.title=true      -- shows the current filename and path in the term title.
+o.showmatch=true  -- highlight corresponding bracket
 o.ignorecase=true
-o.gdefault=true    -- all search /g by default
+o.gdefault=true   -- all search /g by default
 o.hlsearch=true
 o.incsearch=true
 o.showmode=true
-o.cursorline=true  -- highlight line with cursor
+o.cursorline=true -- highlight line with cursor
 
 o.undofile=true -- Maintain undo history between sessions
 
@@ -103,8 +102,7 @@ nnoremap("<C-a>", "^")
 nnoremap("+","<C-a>h") -- increment/decrement done sensibly
 nnoremap("-","<C-x>")
 
--- search using visually selected text
-map("n", "//", "y/<C-R>\"<CR>",{})
+map("n", "//", "y/<C-R>\"<CR>",{}) -- search using visually selected text
 
 -- copy/paste to system clipboard
 map("v", "<Leader>y", "\"+y", {})
@@ -118,6 +116,7 @@ map("", "<F4>", ":Git blame", {noremap=true})
 map("", "Y", "y$", {noremap=true})
 
 map("n", "<leader>a", ":Ag<space>", {silent=true})
+map("n", "<C-f>", ":Ag <cword><CR>", {silent=true}) -- search
 map("", "<C-s>", ":%s/\\s\\+$//e<CR>", {silent=true}) -- trim whitespaces
 
 -- <Ctrl-l> redraws the screen and removes any search highlighting.
@@ -134,7 +133,6 @@ map("n", "<C-l>", ":nohl<CR><C-l>", {silent=true, noremap=true})
 --nnoremap <C-Right> <C-W><RIGHT>
 --nnoremap <C-Down> <C-W><DOWN>
 --nnoremap <C-Up> <C-W><UP>
-
 
 -------------------------------------------------------------
 --abbreviations
@@ -169,7 +167,6 @@ map("i", "'", "''<LEFT>",{noremap=true})
 -- "gv   to open in vertical split silently
 -- "q    to close the quickfix window
 
-
 -- let perl_fold=1
 --let sh_fold_enabled=1
 -- let perl_extended_vars=1
@@ -190,7 +187,6 @@ vim.call('plug#begin', '~/.config/nvim/plugged')
 --Plug 'luochen1990/rainbow'
 --Plug 'Valloric/YouCompleteMe', {'do' : './install.sh --clang-completer'}
 --Plug 'msanders/snipmate.vim'
---Plug 'mileszs/ack.vim'
 --Plug 'xolox/vim-misc'
 --Plug 'xolox/vim-easytags'
 --Plug 'scrooloose/nerdtree'
@@ -212,11 +208,13 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
 Plug 'vim-scripts/genutils'
-Plug('wincent/command-t') -- , { ["do"] = "rake make" })
+Plug 'wincent/command-t' -- , { ["do"] = "rake make" })
 Plug 'tpope/vim-commentary'
--- " Plug 'vim-perl/vim-perl'
 Plug 'ap/vim-css-color'
 Plug 'rking/ag.vim'
+-- Plug 'numkil/ag.nvim'
+g.ag_working_path_mode="r"
+
 Plug 'leafgarland/typescript-vim'
 -- Plug 'jacoborus/tender.vim'
 Plug 'KeitaNakamura/neodark.vim'
@@ -262,6 +260,8 @@ map("n", "<leader>r", "<Plug>(coc-diagnostic-next)", {silent=true})
 
 map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
 
+map("n","<leader>t", ":CommandTGit<CR>", {silent=true,noremap=true})
+
 --  autocmd FileType typescript setlocal completeopt-=menu
 
 --  SYNTASTIC
@@ -303,21 +303,18 @@ map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
 -- let g:easytags_dynamic_files = 2
 -- let g:easytags_resolve_links = 1
 -- let g:easytags_suppress_ctags_warning = 1
--- 
+
 -- " ----- majutsushi/tagbar settings -----
 -- " Open/close tagbar with \b
 -- nmap <silent> <leader>b :TagbarToggle<CR>
 -- " Uncomment to open tagbar automatically whenever possible
 -- "autocmd BufEnter * nested :call tagbar#autoopen(0)
 
-
 -- let g:syntastic_error_symbol = '✘'
 -- let g:syntastic_warning_symbol = "▲"
 -- nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
 -- let g:NERDTreeShowHidden=1
 -- let g:nerdtree_tabs_open_on_console_startup=1
-
--- nmap <silent> <leader>t :CommandT<CR> "default
 
 -- let g:netrw_liststyle = 3
 -- let g:netrw_winsize   = 15
@@ -355,7 +352,6 @@ map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
 -- highlight DiffChange cterm=none ctermfg=Black ctermbg=DarkYellow gui=none guifg=bg guibg=Yellow
 -- highlight DiffText   cterm=none ctermfg=Black ctermbg=LightBlue  gui=none guifg=bg guibg=Magenta
 
-
 -- nnoremap <F3> :make -C build/clang<CR>
 -- inoremap <F3> <ESC>:make -C build/clang<CR>
 -- nnoremap <F4> :make dd<CR>
@@ -388,12 +384,12 @@ map("n","K", ":call Show_documentation()<CR>", {silent=true,noremap=true})
 --  noremap <Right> <nop>
 -- 
 --  set directory=~/.vim/swap,/var/tmp
-
 EOF
+
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1):
-      \ <SID>CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+  \ coc#pum#visible() ? coc#pum#next(1):
+  \ <SID>CheckBackspace() ? "\<Tab>" :
+  \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
@@ -429,12 +425,10 @@ autocmd FileType typescript inoreab insp import {inspect} from 'util';
 autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>
 autocmd FileType typescriptreact setlocal filetype=typescript
 
-
 hi Normal ctermbg=None
 hi NonText ctermfg=DarkGrey
 hi CocInfoSign ctermbg=8
 colorscheme neodark
-
 
 function! Show_documentation()
   if (index(['vim','help'], &filetype) >= 0)

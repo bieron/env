@@ -16,8 +16,8 @@ if tailscale ip >/dev/null 2>/dev/null; then
   echo logged in
 else
   if [ "$1" = in ]; then
-    url=`sudo tailscale login --accept-routes --accept-dns 2>&1|tee|grep https`
-    xdg-open $url
+    sudo tailscale login --accept-routes --accept-dns
+    # xdg-open $url
     exit
   elif [ "$1" = out ]; then
     >&2 echo already logged out
