@@ -11,9 +11,9 @@ fi
 
 export TZ=`cat /etc/timezone`
 
-sudo loadkeys pl
-sudo setfont Ubuntu -m 8859-2
-sudo localectl set-x11-keymap pl
+sudo -n loadkeys pl
+sudo -n setfont Ubuntu -m 8859-2
+sudo -n localectl set-x11-keymap pl
 
 bin/fehbg
 [ -f .Xresources ] && xrdb .Xresources
