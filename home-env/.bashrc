@@ -101,8 +101,7 @@ shopt -s histappend
 #     export TERM='xterm-color'
 # fi
 
-HOST_BASHRC=~/.`hostname`.bashrc
-[ -f $HOST_BASHRC ] && . $HOST_BASHRC
+[ -f .cribl.bashrc ] && . .cribl.bashrc
 
 if [ $UID -eq 0 ]; then
    export PS1='\w# '

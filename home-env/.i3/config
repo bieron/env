@@ -217,6 +217,7 @@ exec --no-startup-id xrdb -merge .Xresources
 # exec --no-startup-id sudo localectl set-x11-keymap pl
 # exec --no-startup-id swaybg -i Pictures/wallpapers/IMG_20220305_151823.jpg &
 bindsym $mod+p move workspace to output right
+bindsym $mod+F11 exec --no-startup-id urxvt -e htop -F cribl.bundle.js --user=jb
 # exec --no-startup-id 'wlr-randr --output HDMI-A-2 --preferred --pos 0,0 --output eDP-1 --preferred --pos 1920,0'
 workspace 1 output HDMI2
 # workspace 1 output HDMI-A-2
@@ -227,7 +228,6 @@ exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/firefox
 #  xkb_layout "pl"
 #  xkb_options "grp:win_space_toggle"
 #}
-exec --no-startup-id picom -b
 #floating_minimum_size 75 x 50
 #floating_maximum_size 400 x 300
 for_window [class="Google-chrome"] floating disable
