@@ -1,7 +1,7 @@
 #!/bin/bash
 s=
-for x in `git branch -r --merged origin/master`; do
-  if [[ "$x" == origin/releases/* || "$x" == origin/master ]]; then
+for x in `git branch -r --merged origin/dev | grep -v '\->'`; do
+  if [[ "$x" = origin/releases/[1-4].x || "$x" = origin/dev || $x = origin/stage || $x = origin/prod || "$x" = origin/master ]]; then
     continue;
   fi
   c=`git l -1 --since 8.week $x`;

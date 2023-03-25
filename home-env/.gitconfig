@@ -35,7 +35,7 @@
   mm=merge --no-ff --no-edit -X patience -X ignore-all-space
   mt=mergetool
   null=!git push origin :`git branch --show-current`
-  pru=!git branch -d `git branch --merged master| grep -vw master| grep -v releases/[1-9].x`
+  pru=!git branch -d `git branch --merged dev| grep -wEv 'dev|stage'`
 
   p=pull --rebase
   pb=!git push origin --set-upstream `git branch --show-current`
