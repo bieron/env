@@ -17,8 +17,8 @@ URxvt.*toolBar:false
 URxvt.*scrollBar:false
 
 URxvt.allow_bold:	true
-URxvt.font:xft:Ubuntu Mono:size=9
-URxvt.boldFont:xft:Ubuntu Mono:bold:size=9
+URxvt.font:xft:Ubuntu Mono:size=13
+URxvt.boldFont:xft:Ubuntu Mono:bold:size=13
 
 Xft.dpi:       128
 ! Type of subpixel antialiasing (none, rgb, bgr, vrgb or vbgr)
