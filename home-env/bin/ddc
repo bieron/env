@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -n "$1" ]; then
+  CRIBL_IMAGE=cribl/cribl:$1
+fi
+export CRIBL_IMAGE=${CRIBL_IMAGE:-cribl-dev}
+docker-compose -f scripts/distributed/docker-compose.yml up --build --scale edgies=0

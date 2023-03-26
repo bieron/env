@@ -1,0 +1,10 @@
+#!/bin/bash
+
+i=0
+while true; do
+  npx mocha $1 || break
+  i=$((i+1))
+  echo $i
+done
+echo $i
+beep
