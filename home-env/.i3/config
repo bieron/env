@@ -7,7 +7,7 @@
 # layout, use the i3-config-wizard
 #
 # font pango:DejaVu Sans Mono 8
-font pango:Ubuntu Mono 12
+font pango:Ubuntu Mono 10
 #
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient

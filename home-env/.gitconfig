@@ -12,12 +12,12 @@
   br=branch -r --sort=-committerdate
   #gone=!git branch -v|awk "'/\[gone\]/{print $1}'"
 
-  c=!git checkout `git branch --sort=-committerdate|peco`
+  c=!git checkout `git branch --sort=-committerdate|fzf`
   cam=commit --amend
   ci=commit
   co=checkout
   cp=cherry-pick
-  cr=!git checkout `git branch -r --sort=-committerdate|peco`
+  cr=!git checkout `git branch -r --sort=-committerdate|fzf`
 
   d=diff --ignore-all-space
   dc=diff --ignore-all-space --cached

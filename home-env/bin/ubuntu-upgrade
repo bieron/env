@@ -1,10 +1,18 @@
 #!/bin/bash
 
-if [ -z $2 ]; then
-  >&2 echo USAGE: $0 OLD NEW
+if [ -z $1 ]; then
+  >&2 echo USAGE: $0 [OLD] NEW
   >&2 echo example: $0 karmic bionic
   exit 1
 fi
 set -ex
+if [ -n "$2" ]; then
+  from=$1
+  to=$2
+else
+  . /etc/os-release
+  from=$VERSION_CODENAME
+  to=$1
+fi
 
-sudo perl -i -pe "s/$1/$2/g" /etc/apt/sources.list /etc/apt/sources.list.d/*
+sudo perl -i -pe "s/$from/$to/g" /etc/apt/sources.list /etc/apt/sources.list.d/*

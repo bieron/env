@@ -64,16 +64,16 @@ if [ -n "$3" ]; then
   json="-d $3"
 fi
 
-if [ -f $tokenCache ] && find $tokenCache -mmin -60 >/dev/null; then
+recent=`find ~ -maxdepth 0 -name .crul -mmin -60 >/dev/null`
+if [ -n "$recent" ]; then
   token=`cat $tokenCache`
 else
   token=`curl -X POST http://localhost:$port/api/v1/auth/login \
     -H 'Content-Type: application/json' -H 'accept: application/json' \
     -d '{"username":"'$user'","password":"'$pass'"}' -s| jq .token -r`
+  [ $? != 0 ] && fail Error logging in
   echo $token > $tokenCache
 fi
-
-[ $? != 0 ] && fail Error logging in
 
   # -H "accept: application/tar+gzip" \
 out=`curl -s $curlopts -X $method "http://localhost:$port/api/v1/$path" \
