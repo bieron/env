@@ -126,7 +126,7 @@ func reactToClicks() {
       fmt.Fprintf(os.Stderr, "Unsupported click on region:%s, button:%d\n", data["name"], button)
       continue
     }
-    err = cmd.Start()
+    err = cmd.Run()
     check(err)
   }
 }

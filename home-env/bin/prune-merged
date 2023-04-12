@@ -1,10 +1,15 @@
 #!/bin/bash
+set -e
+# remove branches accessible from $root that are older than $interval
+root=origin/dev
+interval=8.week
+
 s=
-for x in `git branch -r --merged origin/dev | grep -v '\->'`; do
-  if [[ "$x" = origin/releases/[1-4].x || "$x" = origin/dev || $x = origin/stage || $x = origin/prod || "$x" = origin/master ]]; then
+for x in `git branch -r --merged $root | grep -v '\->'`; do
+  if [[ "$x" = origin/releases/[1-4].x || "$x" = $root || "$x" = origin/stage || "$x" = origin/prod || "$x" = origin/master ]]; then
     continue;
   fi
-  c=`git l -1 --since 8.week $x`;
+  c=`git l -1 --since $interval $x`;
   if [ -z "$c" ]; then
     s="$s :${x#origin/}"
   fi
