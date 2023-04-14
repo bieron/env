@@ -1,8 +1,0 @@
-#!/bin/sh
-# adjusts mic source and tells i3status to refresh
-# with arg $1, passess it to mic source
-# without $1, toggles mic muteness
-
-arg=${1:--t}
-pamixer --default-source $arg
-pkill -USR1 i3status

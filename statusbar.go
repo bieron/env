@@ -11,6 +11,7 @@ import (
   "io"
   "bufio"
   "bytes"
+  "syscall"
   "strings"
   "fmt"
   "os"
@@ -80,12 +81,13 @@ func getMike() string {
   return string(out[:len(out)-1])
 }
 
+var statusProc *os.Process
 func getChildStream() io.ReadCloser {
   cmd := exec.Command("i3status")
   stdout, err := cmd.StdoutPipe()
   check(err)
-  err = cmd.Start()
-  check(err)
+  check(cmd.Start())
+  statusProc = cmd.Process
   return stdout
 }
 
@@ -110,25 +112,47 @@ func reactToClicks() {
       bytes = bytes[1:]
     }
     var data map[string]any
-    err := json.Unmarshal(bytes, &data)
-    check(err)
+    check(json.Unmarshal(bytes, &data))
     button := int(data["button"].(float64))
     if button != USCROLL && button != DSCROLL && button != LCLICK {
       continue
     }
     var cmd *exec.Cmd
+    spankChild := false
     switch data["name"] {
+    case "wireless":
+      if button == LCLICK {
+        cmd = toggleWireless()
+        spankChild = true
+      }
     case "mic":
-      cmd = exec.Command("/home/jb/bin/mike", click2VolumeAction(button))
+      cmd = exec.Command("pamixer", "--default-source", click2VolumeAction(button))
+      spankChild = true
     case "volume":
       cmd = exec.Command("pamixer", click2VolumeAction(button))
-    default:
-      fmt.Fprintf(os.Stderr, "Unsupported click on region:%s, button:%d\n", data["name"], button)
-      continue
     }
-    err = cmd.Run()
-    check(err)
+    if cmd != nil {
+      check(cmd.Run())
+      if spankChild {
+        check(statusProc.Signal(syscall.SIGUSR1))
+      }
+    } else {
+      fmt.Fprintf(os.Stderr, "Unsupported click on region:%s, button:%d\n", data["name"], button)
+    }
   }
+}
+
+func toggleWireless() *exec.Cmd {
+  cmd := exec.Command("ip", "link", "show", "wlp0s20f3");
+  out, err := cmd.Output()
+  check(err)
+  var toggle string
+  if bytes.Index(out, []byte{'U','P'}) > -1 {
+    toggle = "down"
+  } else {
+    toggle = "up"
+  }
+  return exec.Command("sudo", "ip", "link", "set", "wlp0s20f3", toggle)
 }
 
 func click2VolumeAction(button int) string {
@@ -173,8 +197,7 @@ func main() {
       prefix = ","
     }
     var data []map[string]string
-    err = json.Unmarshal(bytes, &data)
-    check(err)
+    check(json.Unmarshal(bytes, &data))
 
     // git branch
     var fi os.FileInfo
