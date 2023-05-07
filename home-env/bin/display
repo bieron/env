@@ -9,25 +9,7 @@ monitors=`xrandr |grep -v '^ '|grep -v disconnected|grep -v ^Screen|awk '{print 
 # TODO better scaling
 
 read m1 m2 < <(echo $monitors)
-xrandr --output $m1 --mode 1920x1200
 if [ -n $m2 ]; then
-  xrandr --output $m2 --left-of $m1
+  xrandr --output $m2 --auto --left-of $m1
 fi
-exit
-
-while read -s _ _ dims id; do
-  line=$id
-  res=${dims%%/*}
-  if [ $res -gt 1920 ]; then
-    line="$line --mode 1920x1200"
-  fi
-  if [ -z "$str" ]; then
-    line="--left-of $line"
-  else
-    line="--output $line"
-  fi
-  str="$line $str"
-done < <(echo "$monitors")
-
-set -x
-xrandr $str
+xrandr --output $m1 --mode 1920x1200

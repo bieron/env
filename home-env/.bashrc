@@ -39,7 +39,6 @@ alias k=kill
 
 alias mk='mkdir'
 alias mkd='mkdir -pv' #creates dir
-#alias diff='colordiff'
 alias ..='cd ..'
 alias wget='wget -c' #resume last download
 function ports() {
@@ -47,15 +46,11 @@ function ports() {
   sudo ss -HlnpO src :$1 | awk '{print $NF}'|tr , '\t'|tr = ' '
 }
 
-# alias perlsyn='for f in `git diff --name-only|grep pm$`; do echo; echo $f; perl -cIlib $f; done'
 alias pe=perl
 alias py=python3
 alias p=python3
 alias n=node
 alias rslv='getent hosts'
-
-# arch / centos
-# alias pms='sudo pm-suspend --quirks-dpms-on'
 
 # ubuntu
 alias sus='systemctl suspend'
@@ -95,19 +90,13 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 
 shopt -s histappend
 
-# if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-#     export TERM='xterm-256color'
-# else
-#     export TERM='xterm-color'
-# fi
-
-[ -f .cribl.bashrc ] && . .cribl.bashrc
+[ -f ~/.cribl.bashrc ] && . ~/.cribl.bashrc
 
 if [ $UID -eq 0 ]; then
    export PS1='\w# '
    ps1=$PS1
 fi
-if [ $DISPLAY ]; then
+if [ -n "$DISPLAY" ]; then
   __prompt_command() {
     local rc="$?"
     if [ $rc != 0 ]; then
@@ -148,7 +137,7 @@ f() {
 alias vs='v $(g status -suno --porcelain|awk "{print \$2}")'
 
 function vd {
-  v `git diff ${1:-origin/master}... --name-only --diff-filter=RAM`
+  v `git diff ${1:-origin/dev}... --name-only --diff-filter=RAM`
 }
 function va {
   v `ag -wl "'$@'"`
@@ -160,11 +149,7 @@ function vsh {
   v `git sh --name-only --pretty= "'$@'"`
 }
 
-export PATH=$PATH:~/bin:~/dev/ticket/scripts:~jb/go/bin
-PERL5LIB="/home/jb/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/jb/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/jb/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/jb/perl5"; export PERL_MM_OPT;
+export PATH=$PATH:~/bin:~/dev/ticket/scripts
 
 [ -e .dircolors ] && eval `dircolors .dircolors`
 alias fd=fdfind
@@ -202,7 +187,20 @@ alias :o='echo "⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿�
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿"'
 
 function tmp() {
-    dir=`mktemp -d /tmp/${1}_XXXX`
-    echo $dir
-    cd $dir
+  dir=`mktemp -d /tmp/${1}_XXXX`
+  echo $dir
+  cd $dir
 }
+
+alias ff='xdg-settings set default-web-browser firefox.desktop'
+alias bb='xdg-settings set default-web-browser brave-browser.desktop'
+
+alias drm='d rm -f `d ps -qa`; d volume prune -f; d network prune -f'
+alias todo="jql 'assignee=currentUser() and resolution is empty and status in (open,\"to do\")'"
+function mine() {
+  jql 'assignee=currentUser()' $@ |tac
+}
+function reported() {
+  jql 'reporter=currentUser()' $@ |tac
+}
+prog="status='in progress'"

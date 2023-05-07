@@ -1,0 +1,39 @@
+#!/bin/bash
+
+img=cribl/cribl
+ip=`hostname -I|awk '{print $1}'`
+mode=worker
+
+while getopts hidext:g: opt; do
+  case $opt in
+    h) echo $0: spawn a managed cribl instance
+      echo Options:
+      echo '-d      	run container in background (detach)'
+      echo '-e      	managed-edge'
+      echo '-i IMAGE	docker image'
+      echo '-g GROUP	group/fleet for the worker to belong to'
+      echo '-t TAG  	specify cribl/cribl:$tag'
+      echo '-x      	set -x (stdout every line)'
+      exit;;
+    x) set -x
+      shift
+      ;;
+    e) mode=managed-edge
+      shift;
+      ;;
+    g) params=group=$OPTARG
+      shift; shift
+      ;;
+    i) img=$OPTARG
+      shift; shift
+      ;;
+    t) img=$img:$OPTARG
+      shift; shift
+      ;;
+    d) args="$args -d"
+      shift;
+      ;;
+  esac
+done
+
+docker run $args -e CRIBL_DIST_MODE=$mode -e CRIBL_DIST_MASTER_URL=tcp://criblmaster@$ip:4200?$params $img

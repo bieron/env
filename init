@@ -1,26 +1,20 @@
 #!/bin/sh
-
 dest=`realpath $0`
 dest=${dest%/*}
 
 cd
 tmp=`mktemp -d env-XXXX.bak`
+echo saving old env files to `pwd`/$tmp.tgz
 
 for t in `ls -A $dest/home-env`; do
     mv $t $tmp 2>/dev/null
     ln -sf $dest/home-env/$t $t
 done
 
-#if [ -z "`ls -A $tmp`" ]; then
-#    rmdir $tmp
-#else
-#    echo saving old env files to `pwd`/$tmp.tgz
-#    tar -czf $tmp.tgz $tmp
-#    rm -r $tmp
-#fi
-
+echo copying .config/urations
 mkdir -p ~/.config
 ln -sf $dest/nvim ~/.config/nvim
 
+echo compiling goodies
 cd env
 go build statusbar.go

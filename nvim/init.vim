@@ -51,7 +51,6 @@ o.list=true
 o.laststatus=2 -- always show status
 
 o.foldenable=true
--- o.foldmethod=marker
 -- o.foldmethod=syntax
 -- o.foldlevelstart=1
 o.shiftwidth=2
@@ -423,7 +422,7 @@ autocmd FileType typescript iab ddd this.dLogger.warn(<ESC>F%s:call getchar()
 autocmd FileType typescript inoreab ins console.log(inspect(  , false, 42, true));
 autocmd FileType typescript inoreab insp import {inspect} from 'util';
 autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>
-autocmd FileType typescriptreact setlocal filetype=typescript
+"autocmd FileType typescriptreact setlocal filetype=typescript
 
 hi Normal ctermbg=None
 hi NonText ctermfg=DarkGrey

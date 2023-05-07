@@ -2,7 +2,7 @@
 
 i=0
 while true; do
-  npx mocha $1 || break
+  npx mocha $@ || break
   i=$((i+1))
   echo $i
 done

@@ -34,8 +34,8 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 6
 bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 5
 bindsym XF86AudioMute        exec --no-startup-id pamixer -t
 
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 4
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo xbacklight -inc 4
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo xbacklight -dec 5
 bindsym --release $mod+q exec --no-startup-id scrot -s --overwrite /tmp/ss.png && xclip -t image/png -selection clipboard /tmp/ss.png
 
 # kill focused window
@@ -45,7 +45,6 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec rofi -show run -lines 10
 bindsym $mod+g exec firefox
 bindsym $mod+o exec javaws ~/win/Downloads/sidoma_kl.jnlp
-bindsym $mod+m exec --no-startup-id ~/bin/mike
 
 # change focus
 bindsym $mod+$left focus left

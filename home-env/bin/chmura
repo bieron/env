@@ -1,0 +1,15 @@
+#!/bin/bash
+# awscli keeps collecting tokens and dev-deploy tries to read them all instead of the latest one
+if [ $1 -eq borg ]; then
+  account=393281372085
+  tenant=heuristic-borg-eaqpcyf
+else
+  account=147302883699
+  tenant=trusting-haibt-xi3l154
+fi
+
+cd ~/.aws/sso/cache
+files=`ls -tr|head -n -1`
+[ -n "$files" ] && rm -r $files
+cd -
+npx bleat dev-deploy -a $account -t $tenant
