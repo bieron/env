@@ -82,8 +82,14 @@ out=`curl -s $curlopts -X $method "http://localhost:$port/api/v1/$path" \
   -H 'accept: application/json' \
   -H "Authorization: Bearer $token" $json`
 
+parsed=`echo "$out"|jq`
+if [ $? != 0 ]; then
+  echo "$out"
+  exit 1
+fi
+
 if [ -t 1 ]; then
-  echo "$out"|jq
+  echo "$parsed"
 else
   echo "$out"
 fi

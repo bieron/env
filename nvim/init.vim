@@ -383,6 +383,14 @@ map("n","<leader>t", ":CommandTGit<CR>", {silent=true,noremap=true})
 --  noremap <Right> <nop>
 -- 
 --  set directory=~/.vim/swap,/var/tmp
+-- windows to close with "q"
+
+--local a = vim.api
+--a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ iab asy async ]]})
+--a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ iab aw await ]]})
+--a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ inoreab ins console.log(inspect( , false, 42, true)) ]]})
+--a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ inoreab insp import {inspect} from 'util';]]})
+--a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ noremap <F11> :!tsc -m commonjs -t ES2019 %<CR> ]]})
 EOF
 
 inoremap <silent><expr> <TAB>

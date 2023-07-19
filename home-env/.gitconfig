@@ -13,7 +13,7 @@
   back=reset --hard HEAD^
   bc=branch --show-current
   br=branch -r --sort=-committerdate
-  #gone=!git branch -v|awk "'/\[gone\]/{print $1}'"
+  gone=!git branch -v|awk '/\\[gone\\]/{print $1}'|grep -v '*'
 
   c=!git checkout `git branch --sort=-committerdate|fzf`
   cam=commit --amend

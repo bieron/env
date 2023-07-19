@@ -8,7 +8,7 @@ alias l='ls -l'
 
 alias a=ag
 alias aa='ag --nonumbers --nofilename'
-T=--ignore-dir=__tests__
+T='--ignore-dir=__tests__ --ignore-dir=__legacy__'
 alias agt='ag --ignore-dir __tests__'
 alias aat='ag --nonumbers --nofilename --ignore-dir __tests__'
 alias j=jq
@@ -21,7 +21,7 @@ alias dps='docker ps -a'
 alias dr="docker run --rm -ti"
 alias dl="docker ps -lq"
 alias cal='ncal -b'
-alias add='paste -s -d+|bc'
+alias add='grep -v ^$|paste -s -d+|bc'
 alias m='PAGER=most man'
 alias fin='tail -n1'
 alias hed='head -n1'

@@ -5,11 +5,11 @@ set -x
 
 # monitors=`xrandr --listactivemonitors|tail -n+2`
 # monitors=`xrandr |grep -v disconnected`
-monitors=`xrandr |grep -v '^ '|grep -v disconnected|grep -v ^Screen|awk '{print $1}'`
+monitors=`xrandr |grep -w connected|awk '{print $1}'`
 # TODO better scaling
 
 read m1 m2 < <(echo $monitors)
 if [ -n $m2 ]; then
-  xrandr --output $m2 --auto --left-of $m1
+  xrandr --output $m2 --mode 1920x1080 --left-of $m1
 fi
 xrandr --output $m1 --mode 1920x1200
