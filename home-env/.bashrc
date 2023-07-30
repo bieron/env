@@ -26,6 +26,9 @@ alias m='PAGER=most man'
 alias fin='tail -n1'
 alias hed='head -n1'
 alias pf='pgrep -fal'
+yqmerge() {
+  yq ea '. as $i ireduce ({}; . * $i)' $@
+}
 
 [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 alias d=docker
@@ -41,7 +44,7 @@ alias mk='mkdir'
 alias mkd='mkdir -pv' #creates dir
 alias ..='cd ..'
 alias wget='wget -c' #resume last download
-function ports() {
+ports() {
   # sudo netstat -tulanp | grep ${1:-''}
   sudo ss -HlnpO src :$1 | awk '{print $NF}'|tr , '\t'|tr = ' '
 }
@@ -59,15 +62,15 @@ alias apg='sudo apt upgrade'
 alias api='sudo apt install'
 alias apr='sudo apt remove'
 alias apu='sudo apt autoremove'
-function aps {
+aps() {
   apt show $@ 2>/dev/null|perl -ne '/Description/ .. /^$/ and print'
 }
 
 #grep for files
-function gf {
+gf() {
   find ${2:-.} -ipath "*$1*"
 }
-function inplace {
+inplace() {
   perl -i -pe "s/$1/$2/g" `ag -l "$1"`
 }
 
@@ -114,10 +117,10 @@ alias tt=ticket
 alias T='tput reset'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'''
-# function din {
+# din() {
 #     docker exec -it $1 ${2:-/bin/bash}
 # }
-# function did {
+# did() {
 #     docker ps -a | ag ${1:-' '} | cut -f1 -d' '
 # }
 
@@ -136,16 +139,16 @@ f() {
 
 alias vs='v $(g status -suno --porcelain|awk "{print \$2}")'
 
-function vd {
+vd() {
   v `git diff ${1:-origin/dev}... --name-only --diff-filter=RAM`
 }
-function va {
+va() {
   v `ag -wl "'$@'"`
 }
-function vag {
+vag() {
   v `ag -l "'$@'"`
 }
-function vsh {
+vsh() {
   v `git sh --name-only --pretty= "'$@'"`
 }
 
@@ -156,7 +159,7 @@ alias fd=fdfind
 alias c=cd
 alias r='rm -r'
 
-function blamer {
+blamer() {
   grep $@ -R --line-number 2>/dev/null|cut -d: -f1,2|tr ':' ' ' \
     |while read f l; do
       git blame $f -L$l,$l --porcelain 2>/dev/null|sed -n 's/^author //p';
@@ -164,7 +167,7 @@ function blamer {
 }
 
 alias napi='napi.sh scan -Cutf-8 -L PL'
-function pogoda {
+pogoda() {
   curl v2.wttr.in/$1
 }
 
@@ -186,7 +189,7 @@ alias :o='echo "⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿�
 ⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿"'
 
-function tmp() {
+tmp() {
   dir=`mktemp -d /tmp/${1}_XXXX`
   echo $dir
   cd $dir
@@ -197,10 +200,10 @@ alias bb='xdg-settings set default-web-browser brave-browser.desktop'
 
 alias drm='d rm -f `d ps -qa`; d volume prune -f; d network prune -f'
 alias todo="jql 'assignee=currentUser() and resolution is empty and status in (open,\"to do\")'"
-function mine() {
+mine() {
   jql 'assignee=currentUser()' $@ |tac
 }
-function reported() {
+reported() {
   jql 'reporter=currentUser()' $@ |tac
 }
 prog="status='in progress'"

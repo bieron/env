@@ -14,7 +14,7 @@ g.CommandTWildIgnore=o.wildignore + ",*/node_modules/*,*/tmp/*"
 g.mapleader = " "
 g.CommandTPreferredImplementation='lua'
 
-o.guioptions=cagt
+-- o.guioptions=cagt
 o.compatible=false  -- Use Vim defaults (much better!)
 o.backspace="indent,eol,start" -- allow backspacing over everything in insert mode
 o.history=200
@@ -27,7 +27,7 @@ o.autoindent=true
 o.smartindent=true
 o.cindent=true
 
-o.pastetoggle="<Insert>"
+-- o.pastetoggle="<Insert>"
 o.mouse='a'
 
 o.smartcase=true  -- do not ignore case if pattern has mixed case (see ignorecase)
