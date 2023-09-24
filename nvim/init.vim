@@ -230,6 +230,10 @@ Plug 'rust-lang/rust.vim'
 -- Plug 'Shougo/denite.nvim'
 -- Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
 Plug('neoclide/coc.nvim' , { branch = "release" })
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'MunifTanjim/eslint.nvim'
 vim.call("plug#end")
 
 map("n", "<leader>g", ":GitGutterToggle<CR>", {silent=true})

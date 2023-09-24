@@ -85,6 +85,7 @@ if [ -f /usr/share/bash-completion/completions/git ]; then
 fi
 j="--author $USER"
 export n=--name-status
+export N=--name-only
 
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000

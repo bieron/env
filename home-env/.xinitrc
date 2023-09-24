@@ -14,7 +14,6 @@ sudo -n loadkeys pl
 sudo -n setfont Ubuntu -m 8859-2
 sudo -n localectl set-x11-keymap pl
 
-bin/fehbg
 [ -f .Xresources ] && xrdb .Xresources
 eval `ssh-agent`
 ssh-add
@@ -24,6 +23,7 @@ ssh-add
 #mv .i3/i3.err{,.1} 2>/dev/null
 
 bin/display
+bin/fehbg
 
 # exec sway -c .i3/config >.i3/sway.out 2>.i3/sway.err
 exec i3 -c .i3/config >.i3/out.log 2>.i3/err.log

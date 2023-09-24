@@ -16,6 +16,14 @@ set $down k
 set $left j
 set $right semicolon
 
+# Set Zoom notification window to floating with no focus
+for_window [title="^zoom\s?$"] floating enable
+no_focus [title="^zoom\s?$"]
+
+# For meetings that you have joined via a link
+for_window [title="^join\?action=join.*$"] floating enable
+no_focus [title="^join\?action=join.*$"]
+
 # Mod1 L alt
 # Mod4 win
 set $mod Mod1
