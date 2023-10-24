@@ -92,6 +92,10 @@ HISTSIZE=10000
 HISTFILESIZE=20000
 HISTTIMEFORMAT="%d/%m/%y %T "
 
+ap() { # awk print
+  awk '{print $'${1:-1}'}'
+}
+
 shopt -s histappend
 
 [ -f ~/.cribl.bashrc ] && . ~/.cribl.bashrc
