@@ -10,6 +10,7 @@ monitors=`xrandr |grep -w connected|awk '{print $1}'`
 
 read m1 m2 < <(echo $monitors)
 if [ -n $m2 ]; then
-  xrandr --output $m2 --mode 1920x1080 --left-of $m1
+  xrandr --output $m2 --mode 3840x2160 --left-of $m1
+  # xrandr --output $m2 --mode 1920x1080 --left-of $m1
 fi
 xrandr --output $m1 --mode 1920x1200

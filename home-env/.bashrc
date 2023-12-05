@@ -148,13 +148,13 @@ vd() {
   v `git diff ${1:-origin/dev}... --name-only --diff-filter=RAM`
 }
 va() {
-  v `ag -wl "'$@'"`
+  v `ag -wl $@`
 }
 vag() {
-  v `ag -l "'$@'"`
+  v `ag -l $@`
 }
 vsh() {
-  v `git sh --name-only --pretty= "'$@'"`
+  v `git sh $N --pretty= $@`
 }
 
 export PATH=$PATH:~/bin:~/dev/ticket/scripts

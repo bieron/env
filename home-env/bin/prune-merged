@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 # remove branches accessible from $root that are older than $interval
-root=origin/dev
-interval=8.week
+root=${1:-origin/dev}
+interval=@{2:-8.week}
 
 s=
 for ox in `git branch -r --merged $root | grep -v '\->'`; do
