@@ -200,8 +200,8 @@ tmp() {
   cd $dir
 }
 
-alias ff='xdg-settings set default-web-browser firefox.desktop'
-alias bb='xdg-settings set default-web-browser brave-browser.desktop'
+#alias ff='xdg-settings set default-web-browser firefox.desktop'
+#alias bb='xdg-settings set default-web-browser brave-browser.desktop'
 
 alias drm='d rm -f `d ps -qa`; d volume prune -f; d network prune -f'
 alias todo="jql 'assignee=currentUser() and resolution is empty and status in (open,\"to do\")'"
@@ -212,3 +212,4 @@ reported() {
   jql 'reporter=currentUser()' $@ |tac
 }
 prog="status='in progress'"
+. "$HOME/.cargo/env"

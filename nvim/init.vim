@@ -1,6 +1,5 @@
 lua << EOF
 local map = vim.api.nvim_set_keymap
-local cmd = vim.api.nvim_command
 local o = vim.opt
 local g = vim.g
 
@@ -203,6 +202,7 @@ g['system_copy#copy_command'] = 'xclip -sel clipboard'
 g['system_copy#paste_command'] = 'xclip -sel clipboard -o'
 -- Plug 'pjcj/vim-hl-var'
 -- Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/SelectBuf'
@@ -217,7 +217,8 @@ g.ag_working_path_mode="r"
 Plug 'leafgarland/typescript-vim'
 -- Plug 'jacoborus/tender.vim'
 Plug 'KeitaNakamura/neodark.vim'
-Plug 'rust-lang/rust.vim'
+-- Plug 'rust-lang/rust.vim'
+Plug 'simrat39/rust-tools.nvim'
 
 -- Plug 'nvie/vim-flake8'
 -- Plug 'Quramy/tsuquyomi'
@@ -395,7 +396,11 @@ map("n","<leader>t", ":CommandTGit<CR>", {silent=true,noremap=true})
 --a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ inoreab ins console.log(inspect( , false, 42, true)) ]]})
 --a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ inoreab insp import {inspect} from 'util';]]})
 --a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ noremap <F11> :!tsc -m commonjs -t ES2019 %<CR> ]]})
+
+vim.cmd.colorscheme('neodark')
 EOF
+filetype plugin indent on
+hi ColorColumn ctermbg=235
 
 inoremap <silent><expr> <TAB>
   \ coc#pum#visible() ? coc#pum#next(1):
@@ -435,11 +440,6 @@ autocmd FileType typescript inoreab ins console.log(inspect(  , false, 42, true)
 autocmd FileType typescript inoreab insp import {inspect} from 'util';
 autocmd FileType typescript noremap <F11> :!tsc -m commonjs -t ES2019 %<CR>
 "autocmd FileType typescriptreact setlocal filetype=typescript
-
-hi Normal ctermbg=None
-hi NonText ctermfg=DarkGrey
-hi CocInfoSign ctermbg=8
-colorscheme neodark
 
 function! Show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
