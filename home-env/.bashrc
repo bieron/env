@@ -213,3 +213,5 @@ reported() {
 }
 prog="status='in progress'"
 . "$HOME/.cargo/env"
+
+alias x='xclip -o -selection clipboard'

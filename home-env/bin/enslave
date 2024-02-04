@@ -16,22 +16,19 @@ while getopts hidext:g: opt; do
       echo '-x      	set -x (stdout every line)'
       exit;;
     x) set -x
-      shift
       ;;
     e) mode=managed-edge
-      shift;
       ;;
     g) params=group=$OPTARG
-      shift; shift
+      shift;
       ;;
     i) img=$OPTARG
-      shift; shift
+      shift;
       ;;
     t) img=$img:$OPTARG
-      shift; shift
+      shift;
       ;;
     d) args="$args -d"
-      shift;
       ;;
   esac
 done

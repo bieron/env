@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # crul: Cribl curl
 # Allows quick access to Cribl server REST API.
 # Examples:
@@ -18,8 +18,9 @@ port=9000
 user=admin
 pass=admin
 curlopts=
+proto=http
 
-while getopts hxp:o:c:C: opt; do
+while getopts shxp:o:c:C: opt; do
   case $opt in
     h) echo $0: talks to cribl server HTTP API
       echo 'Options (must come before positional arguments):'
@@ -29,6 +30,10 @@ while getopts hxp:o:c:C: opt; do
       echo '-x	set -x (stdout every line)'
       echo '-o	passes the arg to curl'
       exit;;
+    s) proto=https
+      echo yo $proto
+      shift
+      ;;
     x) set -x
       shift
       ;;

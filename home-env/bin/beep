@@ -1,3 +1,6 @@
 #!/bin/sh
+bleat=/home/jb/dev/cribl/packages/bleat/bleat.wav
+if [ -e $bleat ]; then
+  exec aplay $bleat 2>/dev/null
+fi
 (speaker-test -t sine >/dev/null)& pid=$!; sleep 0.4; kill -9 $pid
-

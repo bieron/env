@@ -231,12 +231,14 @@ Plug 'simrat39/rust-tools.nvim'
 -- Plug 'Shougo/denite.nvim'
 -- Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
 Plug('neoclide/coc.nvim' , { branch = "release" })
+Plug('heavenshell/vim-jsdoc', { ["for"] = {'javascript','javascript.jsx','typescript'}, ["do"] = 'make install' })
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'MunifTanjim/eslint.nvim'
 vim.call("plug#end")
 
+map("n", "<leader>l", "<Plug>(jsdoc)", {noremap=true})
 map("n", "<leader>g", ":GitGutterToggle<CR>", {silent=true})
 
 g.coc_global_extensions = { 'coc-tsserver' }
@@ -400,7 +402,7 @@ map("n","<leader>t", ":CommandTGit<CR>", {silent=true,noremap=true})
 vim.cmd.colorscheme('neodark')
 EOF
 filetype plugin indent on
-hi ColorColumn ctermbg=235
+hi ColorColumn ctermbg=235 ctermfg=237
 
 inoremap <silent><expr> <TAB>
   \ coc#pum#visible() ? coc#pum#next(1):

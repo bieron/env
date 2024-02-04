@@ -1,0 +1,10 @@
+#!/bin/bash
+# list descendant processes of a process
+unprocessed_pids=( $1 )
+while (( ${#unprocessed_pids[@]} > 0 )); do
+    pid=${unprocessed_pids[0]}                      # Get first elem.
+    echo $pid
+    unprocessed_pids=( "${unprocessed_pids[@]:1}" ) # Remove first elem.
+    unprocessed_pids+=( $(pgrep -P $pid) )          # Add child pids
+done
+exit 0

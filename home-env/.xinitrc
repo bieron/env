@@ -25,5 +25,7 @@ ssh-add
 bin/display
 bin/fehbg
 
+type dunst >/dev/null && dunst >.i3/dunst.out.log 2>.i3/dunst.err.log &
+
 # exec sway -c .i3/config >.i3/sway.out 2>.i3/sway.err
 exec i3 -c .i3/config >.i3/out.log 2>.i3/err.log
