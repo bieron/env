@@ -1,80 +1,84 @@
 [user]
-  email=jbieron+github@gmail.com
-  name=Jan Bieron
+	email=jbieron+github@gmail.com
+	name=Jan Bieron
 
 [pull]
-  rebase=true
+	rebase=true
 
 [rebase]
-  instructionFormat=(%an) %s
+	instructionFormat=(%an) %s
 
 [alias]
-  b=branch --sort=-committerdate
-  back=reset --hard HEAD^
-  bc=branch --show-current
-  br=branch -r --sort=-committerdate
-  gone=!git branch -v|awk '/\\[gone\\]/{print $1}'|grep -v '*'
+	back=reset --hard HEAD^
+	bc=branch --show-current
+	b=branch
+	br=branch -r
+	gone=!git branch -v|awk '/\\[gone\\]/{print $1}'|grep -v '*'
 
-  c=!git checkout `git branch --sort=-committerdate|fzf`
-  cam=commit --amend
-  ci=commit
-  co=checkout
-  cp=cherry-pick
-  cr=!git checkout `git branch -r --sort=-committerdate|fzf`
+	c=!git checkout `git branch|fzf`
+	cam=commit --amend
+	ci=commit
+	co=checkout
+	cp=cherry-pick
+	cr=!git checkout `git branch -r|fzf`
 
-  d=diff --ignore-all-space
-  dc=diff --ignore-all-space --cached
-  di=diff --ignore-all-space --word-diff=color --word-diff-regex=.
-  dic=diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
-  du=diff --name-only --diff-filter=U
+	d=diff --ignore-all-space
+	dc=diff --ignore-all-space --cached
+	di=diff --ignore-all-space --word-diff=color --word-diff-regex=.
+	dic=diff --ignore-all-space --word-diff=color --word-diff-regex=. --cached
+	du=diff --name-only --diff-filter=U
 
-  f=fetch -p
+	f=fetch -p
 
-  l=log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
-  #l=log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %C(dim green)(%an, %cr)%Creset%b'
-  lg=log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
-  mu=merge @{u}
-  mm=merge --no-ff --no-edit -X patience -X ignore-all-space
-  mt=mergetool
-  null=!git push origin :`git branch --show-current`
-  pru=!git branch -d `git branch --merged dev| grep -wEv 'dev|stage'`
+	l=log --pretty=format:'%Cred%h %C(yellow)%d %C(dim white)%s %C(dim green)(%an, %cr)'
+	lg=log --graph --pretty=format:'%Cred%h %C(yellow)%d%C(dim white) %s %C(dim)(%an, %cr)'
+	mu=merge @{u}
+	mm=merge --no-ff --no-edit -X patience -X ignore-all-space
+	mt=mergetool
+	null=!git push origin :`git branch --show-current`
+	pru=!git branch -d `git branch --merged dev| grep -wEv 'dev|stage'`
 
-  p=pull --rebase
-  pb=!git push origin --set-upstream `git branch --show-current`
-  ph=!git push http --set-upstream `git branch --show-current`
-  pu=pull
+	p=pull --rebase
+	pb=!git push origin --set-upstream `git branch --show-current`
+	ph=!git push http --set-upstream `git branch --show-current`
+	pf=git push --force-with-lease
+	pu=pull
 
-  rebor=rebase --abort
-  recon=rebase --continue
-  resup=reset --hard @{u}
+	rebor=rebase --abort
+	recon=rebase --continue
+	resup=reset --hard @{u}
 
-  s=status -sb
-  sh=show --ignore-all-space
-  ss=stash
-  st=status
-  sub=submodule update --init --recursive
+	s=status -sb
+	sh=show --ignore-all-space
+	ss=stash
+	st=status
+	sub=submodule update --init --recursive
 
-  unpushed=log --branches --not --remotes --no-walk --decorate --oneline
-  whodunit=!git shortlog -sb `git diff origin/dev... --name-only`|sort -rn
-  dorig=!rm `git status --porcelain -- '*.orig'|awk '{print $2}'`
-  pull = pull -p
-  bran=!git for-each-ref --sort=committerdate --format='%(align:20)%(authorname)%(end) %(committerdate) %(refname)' 'refs/remotes/**/*'| sed 's@refs/remotes/origin/@@'
+	unpushed=log --branches --not --remotes --no-walk --decorate --oneline
+	whodunit=!git shortlog -sb `git diff origin/dev... --name-only`|sort -rn
+	dorig=!rm `git status --porcelain -- '*.orig'|awk '{print $2}'`
+	pull = pull -p
+	bran=!git for-each-ref --sort=committerdate --format='%(align:20)%(authorname)%(end) %(committerdate) %(refname)' 'refs/remotes/**/*'| sed 's@refs/remotes/origin/@@'
 [core]
-  editor=nvim
-  #whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	editor=nvim
+	#whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [push]
-  default=simple
+	default=simple
 [diff]
-  noprefix=true
+	noprefix=true
 [merge]
-  tool=vimdiff
+	tool=vimdiff
 [mergetool.vimdiff]
-  path=nvim
+	path=nvim
 [log]
-  mailmap=true
+	mailmap=true
 [rerere]
-  enabled=true
+	enabled=true
 [color "diff"]
-  meta=blue
+	meta=blue
 [safe]
-  directory=/var/nfs
+	directory=/var/nfs
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
