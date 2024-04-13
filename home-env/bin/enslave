@@ -33,4 +33,4 @@ while getopts hidext:g: opt; do
   esac
 done
 
-docker run $args -e CRIBL_DIST_MODE=$mode -e CRIBL_DIST_MASTER_URL=tcp://criblmaster@$ip:4200?$params $img
+docker run $args -e CRIBL_INSTALL_TYPE= -e CRIBL_DIST_MODE=$mode -e CRIBL_DIST_MASTER_URL=tcp://criblmaster@$ip:4200?$params $img

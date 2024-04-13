@@ -68,6 +68,7 @@
 	noprefix=true
 [merge]
 	tool=vimdiff
+	conflictStyle = zdiff3
 [mergetool.vimdiff]
 	path=nvim
 [log]
@@ -82,3 +83,5 @@
 	ui = auto
 [branch]
 	sort = -committerdate
+[maintenance]
+	repo = /home/jb/dev/cribl
