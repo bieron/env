@@ -2,6 +2,7 @@
 
 org=${1:-jb}
 set -x
+workspace=main
 
 # awscli keeps collecting tokens and dev-deploy tries to read them all instead of the latest one
 if [ $1 -eq borg ]; then
@@ -12,4 +13,4 @@ else
   exit 1;
 fi
 
-exec npx bleat dev-deploy -a $account -t $tenant
+exec npx bleat dev-deploy -t $tenant -w $workspace

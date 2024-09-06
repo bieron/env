@@ -217,6 +217,7 @@ g.ag_working_path_mode="r"
 Plug 'leafgarland/typescript-vim'
 -- Plug 'jacoborus/tender.vim'
 Plug 'KeitaNakamura/neodark.vim'
+Plug 'folke/tokyonight.nvim'
 -- Plug 'rust-lang/rust.vim'
 Plug 'simrat39/rust-tools.nvim'
 
@@ -327,8 +328,6 @@ map("n","<leader>t", ":CommandTGit<CR>", {silent=true,noremap=true})
 -- let g:netrw_banner = 0
 -- nmap <silent> <leader>t :Lex<CR>
 -- autocmd VimEnter * Lexplore
---  colo Monokai
---  colo tender
 --  let g:neodark#use_256color = 1
 --  set bg=dark
 
@@ -399,7 +398,8 @@ map("n","<leader>t", ":CommandTGit<CR>", {silent=true,noremap=true})
 --a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ inoreab insp import {inspect} from 'util';]]})
 --a.nvim_create_autocmd("FileType", {pattern="typescript",command=[[ noremap <F11> :!tsc -m commonjs -t ES2019 %<CR> ]]})
 
-vim.cmd.colorscheme('neodark')
+-- vim.cmd.colorscheme('neodark')
+vim.cmd.colorscheme('tokyonight-storm')
 EOF
 filetype plugin indent on
 hi ColorColumn ctermbg=235 ctermfg=237

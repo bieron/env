@@ -1,0 +1,8 @@
+#!/bin/bash
+sum=0
+packs=`aws s3 ls upload-pack-dispensary42-prod/uploads/ |awk '{print $2}'`
+for p in $packs; do
+  count=`aws s3 ls upload-pack-dispensary42-prod/uploads/$p | grep -v .json| wc -l`
+  sum=$((sum + count))
+  echo $sum $count
+done

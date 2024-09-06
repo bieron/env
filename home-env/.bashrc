@@ -49,7 +49,7 @@ ports() {
   sudo ss -HlnpO src :$1 | awk '{print $NF}'|tr , '\t'|tr = ' '
 }
 
-alias pe=perl
+#alias pe=perl
 alias py=python3
 alias p=python3
 alias n=node
@@ -203,7 +203,7 @@ tmp() {
 #alias ff='xdg-settings set default-web-browser firefox.desktop'
 #alias bb='xdg-settings set default-web-browser brave-browser.desktop'
 
-alias drm="d rm -f `d ps -a|tail -n+2|grep -v buildx|awk '{print $1}'`; d volume prune -f; d network prune -f"
+alias drm='d rm -f `d ps -q`; d volume prune -f; d network prune -f'
 alias todo="jql 'assignee=currentUser() and resolution is empty and status in (open,\"to do\")'"
 mine() {
   jql 'assignee=currentUser()' $@ |tac
