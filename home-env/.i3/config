@@ -1,12 +1,9 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
-#
-# This config file uses keycodes (bindsym) and was written for the QWERTY
-# layout.
+# This config file uses keycodes (bindsym) and was written for the QWERTY layout.
 #
 # To get a config file with the same key positions, but for your current
 # layout, use the i3-config-wizard
 #
-# font pango:DejaVu Sans Mono 8
 font pango:Ubuntu Mono 10
 #
 # use these keys for focus, movement, and resize directions when reaching for
@@ -19,6 +16,7 @@ set $right semicolon
 # Set Zoom notification window to floating with no focus
 for_window [title="^zoom\s?$"] floating enable
 no_focus [title="^zoom\s?$"]
+no_focus [title="^Meeting$"]
 
 # For meetings that you have joined via a link
 for_window [title="^join\?action=join.*$"] floating enable
@@ -41,6 +39,7 @@ bindsym $mod+Escape exec i3lock -c000000
 bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 6
 bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 5
 bindsym XF86AudioMute        exec --no-startup-id pamixer -t
+bindsym XF86AudioMicMute     exec --no-startup-id pamixer --default-source -t
 
 bindsym XF86MonBrightnessUp exec --no-startup-id sudo xbacklight -inc 4
 bindsym XF86MonBrightnessDown exec --no-startup-id sudo xbacklight -dec 5
@@ -82,13 +81,15 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+# bindsym $mod+v split v (interferes with zoom)
+bindsym $mod+Shift+v split
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+# bindsym $mod+s layout stacking (interferes with zoom)
+bindsym $mod+Shift+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 

@@ -16,7 +16,7 @@ sudo -n localectl set-x11-keymap pl
 
 [ -f .Xresources ] && xrdb .Xresources
 eval `ssh-agent`
-ssh-add
+#ssh-add
 
 # rotate i3 logs
 #mv .i3/i3.out{,.1} 2>/dev/null
