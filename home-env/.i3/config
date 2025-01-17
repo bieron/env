@@ -1,4 +1,4 @@
-# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+# Please see https://i4wm.org/docs/userguide.html for a complete reference!
 # This config file uses keycodes (bindsym) and was written for the QWERTY layout.
 #
 # To get a config file with the same key positions, but for your current
@@ -82,7 +82,7 @@ bindsym $mod+h split h
 
 # split in vertical orientation
 # bindsym $mod+v split v (interferes with zoom)
-bindsym $mod+Shift+v split
+bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -223,10 +223,11 @@ bindsym $mod+p move workspace to output right
 bindsym $mod+F11 exec --no-startup-id urxvt -e htop -F cribl.bundle.js --user=jb
 # exec --no-startup-id 'wlr-randr --output HDMI-A-2 --preferred --pos 0,0 --output eDP-1 --preferred --pos 1920,0'
 #workspace 1 output HDMI2
-workspace 1 output HDMI-1-2
+# workspace 1 output HDMI-1-2
 #workspace 2 output eDP1
-workspace 2 output eDP-1
+# workspace 2 output eDP-1
 exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/firefox'
+exec --no-startup-id picom -b
 #input "type:keyboard" {
 #  xkb_layout "pl"
 #  xkb_options "grp:win_space_toggle"

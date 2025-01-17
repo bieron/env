@@ -3,8 +3,11 @@
 img=cribl/cribl
 ip=`hostname -I|awk '{print $1}'`
 mode=worker
+token=criblmaster
+# ip=fd7a:115c:a1e0:ab12:4843:cd96:6275:4d15
 
-while getopts hidext:g: opt; do
+while getopts hidet:a:xg: opt; do
+  echo $opt , $@
   case $opt in
     h) echo $0: spawn a managed cribl instance
       echo Options:
@@ -13,6 +16,7 @@ while getopts hidext:g: opt; do
       echo '-i IMAGE	docker image'
       echo '-g GROUP	group/fleet for the worker to belong to'
       echo '-t TAG  	specify cribl/cribl:$tag'
+      echo '-a TOKEN	specify dist authtoken'
       echo '-x      	set -x (stdout every line)'
       exit;;
     x) set -x
@@ -20,18 +24,17 @@ while getopts hidext:g: opt; do
     e) mode=managed-edge
       ;;
     g) params=group=$OPTARG
-      shift;
       ;;
     i) img=$OPTARG
-      shift;
       ;;
     t) img=$img:$OPTARG
-      shift;
       ;;
     d) args="$args -d"
+      ;;
+    a) token=$OPTARG
       ;;
   esac
 done
 
-token=criblmaster
+set -x
 docker run $args -e CRIBL_INSTALL_TYPE= -e CRIBL_DIST_MODE=$mode -e CRIBL_DIST_MASTER_URL="tcp://$token@$ip:4200?$params" $img
